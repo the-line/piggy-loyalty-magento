@@ -1,0 +1,60 @@
+<?php
+/**
+ * Leat Balance Widget Template
+ *
+ * @var \Leat\LoyaltyFrontend\Block\Widget\Balance $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+// Get initial points value from the server side
+$initialPoints = $block->getPointsBalance();
+$initialBalance = $block->getPrepaidBalance() / 100;
+?>
+
+<?php if ($block->shouldShowPoints()) : ?>
+    <section class="<?= $block->getWidgetCssClass() ?>" id="<?= $block->getWidgetId() ?>" data-bind="scope: 'leatPointsBalance'">
+        <?php if ($block->isHeaderVisible()) : ?>
+        <header class="leat-section-header">
+            <h2><?= $escaper->escapeHtml($block->getWidgetHeading() ?: __('Your Balance')) ?></h2>
+        </header>
+        <?php endif; ?>
+        <div class="leat-rewards-points-balance">
+            <div class="leat-simple-balance">
+                <?= $escaper->escapeHtml(__('You have')) ?>
+                <span class="leat-rewards-points-value">
+                    <!-- Initial server-rendered value, will be replaced by KO -->
+                    <span class="leat-initial-points"><?= $escaper->escapeHtml((string)$initialPoints) ?></span>
+                    <!-- KO template is hidden initially -->
+                    <span class="leat-ko-points" style="display: none;" data-bind="text: displayPoints(), style: {display: 'inline'}"></span>
+                </span>
+                <?= $escaper->escapeHtml($block->getCreditName()) ?>
+            </div>
+            <div class="leat-simple-balance">
+                <?= $escaper->escapeHtml(__('You have')) ?>
+                <span class="leat-rewards-points-value">
+                    <!-- Initial server-rendered value, will be replaced by KO -->
+                    <span class="leat-initial-points"><?= $escaper->escapeHtml(number_format($initialBalance)) ?></span>
+                    <!-- KO template is hidden initially -->
+                    <span class="leat-ko-points" style="display: none;" data-bind="text: displayBalance(), style: {display: 'inline'}"></span>
+                </span>
+                <?= $escaper->escapeHtml($block->getPrepaidBalanceName()) ?>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/x-magento-init">
+    {
+        ".<?= $block->getWidgetCssClass() ?>": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "leatPointsBalance": {
+                        "component": "Leat_LoyaltyFrontend/js/view/leat-points-balance",
+                        "initialPoints": <?= (int)$initialPoints ?>,
+                        "initialBalance": <?= (float)$initialBalance ?>
+                    }
+                }
+            }
+        }
+    }
+    </script>
+<?php endif; ?>

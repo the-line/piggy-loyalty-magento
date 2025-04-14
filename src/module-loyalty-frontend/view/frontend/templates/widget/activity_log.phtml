@@ -1,0 +1,76 @@
+<?php
+/**
+ * Activity Log Widget template
+ *
+ * @var \Leat\LoyaltyFrontend\Block\Widget\ActivityLog $block
+ */
+?>
+<?php if ($block->show()) : ?>
+<section class="<?= $block->getWidgetCssClass() ?>" id="<?= $block->getWidgetId() ?>" data-bind="scope: 'leatActivityLog'">
+    <header class="leat-section-header">
+        <h2><?= $block->escapeHtml($block->getWidgetHeading()) ?></h2>
+    </header>
+
+    <div class="leat-activity-log-container">
+        <div class="leat-activity-log-box">
+            <div class="leat-activity-log-content">
+                <table class="leat-activity-log-table">
+                    <thead>
+                        <tr>
+                            <th><?= $block->escapeHtml(__('Action')) ?></th>
+                            <th><?= $block->escapeHtml($block->getCreditName() ?? __('Points')) ?></th>
+                            <th><?= $block->escapeHtml(__('Date')) ?></th>
+                            <th><?= $block->escapeHtml(__('Order #')) ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Initial server-rendered transactions, will be replaced by KO -->
+                        <?php foreach ($block->getCustomerTransactions() as $transaction) : ?>
+                        <tr class="leat-initial-transaction">
+                            <td><?= $block->escapeHtml($transaction['action']) ?></td>
+                            <td class="leat-activity-log-points"><?= $block->escapeHtml($block->formatPoints($transaction['points'])) ?></td>
+                            <td><?= $block->escapeHtml($transaction['date']) ?></td>
+                            <td><?= $transaction['order_id'] ? $block->escapeHtml('#' . $transaction['order_id']) : '-' ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+
+                        <!-- KO template, initially hidden -->
+                        <!-- ko if: transactions().length > 0 -->
+                        <!-- ko foreach: transactions -->
+                        <tr class="leat-ko-transaction" style="display: none;" data-bind="style: {display: 'table-row'}">
+                            <td data-bind="text: action"></td>
+                            <td class="leat-activity-log-points" data-bind="text: formattedPoints"></td>
+                            <td data-bind="text: date"></td>
+                            <td data-bind="html: orderId"></td>
+                        </tr>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+
+                <!-- No transactions message -->
+                <!-- ko if: transactions().length === 0 && initialTransactionsCount === 0 -->
+                <div class="leat-activity-log-empty">
+                    <p><?= $block->escapeHtml(__('You don\'t have any activity yet.')) ?></p>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/x-magento-init">
+{
+    ".<?= $block->getWidgetCssClass() ?>": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "leatActivityLog": {
+                    "component": "Leat_LoyaltyFrontend/js/view/leat-activity-log",
+                    "initialTransactionsCount": <?= count($block->getCustomerTransactions()) ?>
+                }
+            }
+        }
+    }
+}
+</script>
+<?php endif; ?>

@@ -1,0 +1,21 @@
+<?php
+/**
+ * Configuration banner template - shows when Leat is enabled but not properly configured
+ *
+ * @var Leat\LoyaltyFrontend\Block\ConfigurationBanner $block
+ * @var Magento\Framework\Escaper $escaper
+ */
+?>
+<?php if ($block->showBanner()): ?>
+<div class="leat-config-banner">
+    <div class="leat-config-banner-content">
+        <div class="leat-config-banner-icon">
+            <span class="leat-config-icon">⚠️</span>
+        </div>
+        <div class="leat-config-banner-message">
+            <strong><?= $escaper->escapeHtml(__('Leat Module Configuration Required')) ?></strong>
+            <p><?= $escaper->escapeHtml(__('The Leat Loyalty module is enabled but not correctly configured. Please complete the configuration to enable loyalty features.')) ?></p>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

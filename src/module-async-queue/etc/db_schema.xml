@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="async_queue_job" resource="default" engine="innodb" comment="async_queue_job Table">
+        <column xsi:type="int" name="job_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="job_id"/>
+        </constraint>
+        <column name="relation_id" nullable="true" xsi:type="varchar" comment="relation_id belongs to the id of the object being acted upon"/>
+        <column name="source_id" nullable="true" xsi:type="varchar" comment="source_id to be able to identify multiple streams of connectors"/>
+        <column name="store_id" nullable="true" xsi:type="smallint" comment="store_id"/>
+        <column name="completed" nullable="true" xsi:type="boolean" comment="completed" default="0"/>
+        <column name="created_at" nullable="true" xsi:type="timestamp" comment="created_at" default="CURRENT_TIMESTAMP"/>
+        <column name="updated_at" nullable="true" xsi:type="timestamp" comment="updated_at" default="CURRENT_TIMESTAMP" on_update="true"/>
+    </table>
+    <table name="async_queue_request" resource="default" engine="innodb" comment="async_queue_request Table">
+		<column xsi:type="int" name="request_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="request_id"/>
+        </constraint>
+		<column xsi:type="int" name="job_id" padding="10" unsigned="true" nullable="false" comment="Job Id"/>
+        <column xsi:type="varchar" name="type_code" nullable="false" comment="Request type id"/>
+		<column name="payload" nullable="true" xsi:type="mediumtext" comment="payload"/>
+		<column name="created_at" nullable="true" xsi:type="timestamp" comment="created_at" default="CURRENT_TIMESTAMP"/>
+        <column name="updated_at" nullable="true" xsi:type="timestamp" comment="updated_at" default="CURRENT_TIMESTAMP" on_update="true"/>
+        <column name="is_synced" nullable="false" default="0" xsi:type="tinyint" comment="Is synced"/>
+        <column name="attempt" nullable="false" default="0" xsi:type="tinyint" comment="Amount of attempts to sync"/>
+        <column name="latest_fail_reason" nullable="true" xsi:type="mediumtext" comment="Latest reason why sync failed"/>
+        <column name="result" nullable="true" xsi:type="mediumtext" comment="Contains the potential result of the request upon successful execution"/>
+        <index referenceId="ASYNC_QUEUE_REQUEST_TYPE_CODE" indexType="btree">
+            <column name="type_code"/>
+        </index>
+        <index referenceId="ASYNC_QUEUE_REQUEST_IS_SYNCED" indexType="btree">
+            <column name="is_synced"/>
+        </index>
+        <index referenceId="ASYNC_QUEUE_REQUEST_CREATED_AT" indexType="btree">
+            <column name="created_at"/>
+        </index>
+        <constraint xsi:type="foreign"
+            referenceId="ASYNC_QUEUE_REQUEST_JOB_ID_ASYNC_QUEUE_JOB_JOB_ID"
+            table="async_queue_request"
+            column="job_id"
+            referenceTable="async_queue_job"
+            referenceColumn="job_id"
+            onDelete="CASCADE"
+        />
+    </table>
+</schema>

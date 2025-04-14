@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="leat_async_queue">
+        <!-- Queue Management -->
+        <job name="leat_asyncqueue_queue_cleanup" instance="Leat\AsyncQueue\Cron\QueueManagement\QueueCleanup"
+             method="execute">
+            <!--      First day of the month at 00:00      -->
+            <schedule>0 0 1 * *</schedule>
+        </job>
+        <job name="leat_asyncqueue_queue_alert" instance="Leat\AsyncQueue\Cron\QueueManagement\QueueAlert"
+             method="execute">
+            <!--      At 10:00 on mondays      -->
+            <schedule>0 10 * * 1</schedule>
+        </job>
+        <job name="leat_asyncqueue_process_jobs" instance="Leat\AsyncQueue\Cron\QueueManagement\ProcessJobs"
+             method="execute">
+            <!--      Every minute     -->
+            <schedule>*/1 * * * *</schedule>
+        </job>
+    </group>
+</config>

@@ -1,0 +1,1369 @@
+& when (@media-common = true) {
+    // Progress Button Styles
+    .progress {
+        height: 4px;
+        margin-top: 5px;
+        overflow: hidden;
+        background-color: #f5f5f5;
+        border-radius: 2px;
+        position: relative;
+        width: 100%;
+    }
+
+    .progress-bar {
+        position: absolute;
+        width: 0;
+        height: 100%;
+        background-color: #1979c3;
+        transition: width 0.3s ease;
+    }
+
+    button.success .progress-bar {
+        background-color: #4caf50;
+    }
+
+    button.error .progress-bar {
+        background-color: #e02b27;
+    }
+
+    // Default progress button style
+    button.progress-button {
+        background-color: #ffffff;
+        border-color: #cccccc;
+        color: #333333;
+
+        &:hover {
+            background-color: #f5f5f5;
+            border-color: #bbbbbb;
+        }
+
+        &:active,
+        &:focus {
+            background-color: #eeeeee;
+            border-color: #aaaaaa;
+        }
+
+        .progress-bar {
+            background-color: #1979c3;
+        }
+    }
+
+    // Toggled button state (Remove from cart)
+    button.toggled {
+        background-color: #e02b27;
+        border-color: #e02b27;
+        color: #ffffff;
+
+        &:hover {
+            background-color: darken(#e02b27, 10%);
+            border-color: darken(#e02b27, 10%);
+        }
+
+        &:active,
+        &:focus {
+            background-color: darken(#e02b27, 15%);
+            border-color: darken(#e02b27, 15%);
+        }
+
+        .progress-bar {
+            background-color: #c02020;
+        }
+    }
+
+    // Leat Balance Slider Styles
+    .leat-balance-container {
+        margin: 0 0 20px 0;
+
+        .leat-balance-content {
+            padding: 10px 0;
+        }
+
+        .leat-balance-available {
+            margin-bottom: 15px;
+            font-size: 14px;
+
+            strong {
+                font-weight: 600;
+                color: #ff6b6b;
+            }
+        }
+
+        .leat-balance-slider-container {
+            margin-bottom: 15px;
+        }
+
+        .leat-balance-slider {
+            margin-bottom: 10px;
+
+            input[type="range"] {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 8px;
+                border-radius: 4px;
+                background: #f1f1f1;
+                outline: none;
+                margin: 15px 0;
+
+                &::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
+                    background: #ff6b6b;
+                    cursor: pointer;
+                    border: 2px solid #fff;
+                    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+                }
+
+                &::-moz-range-thumb {
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 50%;
+                    background: #ff6b6b;
+                    cursor: pointer;
+                    border: 2px solid #fff;
+                    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+
+                    &::-webkit-slider-thumb {
+                        background: #ccc;
+                    }
+
+                    &::-moz-range-thumb {
+                        background: #ccc;
+                    }
+                }
+            }
+
+            .slider-labels {
+                display: flex;
+                justify-content: space-between;
+                font-size: 12px;
+                color: #666;
+            }
+        }
+
+        .leat-balance-amount {
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            .amount-indicator {
+                position: absolute;
+                top: -30px;
+                padding: 5px 10px;
+                background: #ff6b6b;
+                color: #fff;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: 600;
+                left: 50%;
+                transform: translateX(-50%);
+                white-space: nowrap;
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: #ff6b6b transparent transparent transparent;
+                }
+            }
+
+            .manual-input-field {
+                display: flex;
+                width: 100%;
+
+                .control {
+                    display: flex;
+                    width: 100%;
+
+                    input {
+                        flex: 1;
+                        margin-right: 10px;
+                        padding-right: 30px;
+                        text-align: right;
+                    }
+
+                    .actions-toolbar {
+                        min-width: 80px;
+
+                        .action-apply {
+                            width: 100%;
+                            background: #ff6b6b;
+                            border-color: #ff6b6b;
+                            color: #fff;
+
+                            &:hover {
+                                background: darken(#ff6b6b, 10%);
+                                border-color: darken(#ff6b6b, 10%);
+                            }
+
+                            &:disabled {
+                                background: #ccc;
+                                border-color: #bbb;
+                                color: #888;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .leat-balance-applied {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f8f8;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 3px solid #ff6b6b;
+
+            .applied-text {
+                font-size: 14px;
+
+                strong {
+                    color: #ff6b6b;
+                    font-weight: 600;
+                    margin-left: 5px;
+                }
+            }
+
+            .action-cancel {
+                background: transparent;
+                border: 1px solid #ccc;
+                padding: 5px 10px;
+                font-size: 12px;
+
+                &:hover {
+                    background: #f1f1f1;
+                }
+            }
+        }
+
+        .leat-balance-error {
+            margin: 10px 0;
+            font-size: 13px;
+            color: #e02b27;
+        }
+
+        .leat-balance-loading {
+            text-align: center;
+            padding: 10px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .leat-balance-info {
+            margin: 15px 0 0;
+            font-size: 12px;
+            color: #666;
+        }
+    }
+
+    // Referral Modal Styles - using Magento UI modal
+    .leat-referral-modal-container {
+        // Custom modal container styles
+        .modal-inner-wrap {
+            max-width: 500px;
+        }
+    }
+
+    .leat-referral-popup {
+        &-content {
+            padding: 0;
+            position: relative;
+        }
+
+        &-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 25px 20px 0;
+            position: relative;
+        }
+
+        &-icon {
+            margin-bottom: 15px;
+
+            svg {
+                width: 48px;
+                height: 48px;
+                color: #ff6b6b;
+            }
+        }
+
+        &-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: @color-black;
+            margin: 0 0 10px;
+            padding: 0;
+            line-height: 1.2;
+        }
+
+        &-body {
+            text-align: center;
+            padding: 0 30px 30px;
+        }
+
+        &-subtitle {
+            font-size: 18px;
+            color: @text__color;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        &-message {
+            font-size: 14px;
+            color: @text__color;
+            margin-bottom: 20px;
+        }
+
+        &-form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        &-form-field {
+            margin-bottom: 15px;
+        }
+
+        &-input {
+            &:focus {
+                border-color: #ff6b6b;
+                box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+            }
+        }
+
+        &-button {
+            background-color: #ff6b6b !important;
+            border-color: #ff6b6b !important;
+
+            &:hover, &:focus, &:active {
+                background-color: darken(#ff6b6b, 10%) !important;
+                border-color: darken(#ff6b6b, 10%) !important;
+            }
+
+            &.loading {
+                position: relative;
+                padding-right: 40px;
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    right: 15px;
+                    top: 50%;
+                    margin-top: -7px;
+                    width: 14px;
+                    height: 14px;
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-top-color: @color-white;
+                    border-radius: 50%;
+                    animation: spin 0.8s linear infinite;
+                }
+            }
+        }
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    // Loyalty page header
+    .leat-loyalty-header {
+        margin: 20px 0 40px;
+        text-align: center;
+
+        .leat-rewards-points-balance {
+            margin: 20px auto;
+            max-width: 100%;
+
+            .leat-simple-balance {
+                font-size: 18px;
+                color: #333;
+                padding: 10px 0;
+
+                .leat-rewards-points-value {
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: #ff6b6b;
+                    padding: 0 5px;
+                }
+            }
+        }
+    }
+
+    // Rewards Widget Styles
+    .leat-rewards-container {
+        padding: 20px;
+
+        .leat-rewards-points-balance {
+            margin: 20px auto;
+            max-width: 200px;
+
+            .leat-rewards-points-balance-inner {
+                background-color: #f9f9f9;
+                border-radius: 50px;
+                padding: 15px 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                border: 2px solid #ff6b6b;
+
+                .leat-rewards-points-value {
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: #ff6b6b;
+                    line-height: 1;
+                    margin-bottom: 5px;
+                }
+
+                .leat-rewards-points-label {
+                    font-size: 14px;
+                    color: #666;
+                }
+            }
+        }
+
+        .leat-rewards-empty {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 20px 0;
+        }
+
+        .leat-rewards-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .leat-reward-item {
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .leat-reward-image {
+                height: 180px;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                &:hover img {
+                    transform: scale(1.05);
+                }
+            }
+
+            .leat-reward-content {
+                padding: 20px;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                background-color: #ffffff;
+            }
+
+            .leat-reward-title {
+                font-size: 20px;
+                font-weight: 600;
+                margin-bottom: 12px;
+                color: #333;
+                line-height: 1.3;
+            }
+
+            .leat-reward-description {
+                font-size: 14px;
+                color: #666;
+                margin-bottom: 15px;
+                flex-grow: 1;
+                line-height: 1.5;
+            }
+
+            .leat-reward-points {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+
+                .leat-reward-points-value {
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: #ff6b6b;
+                    margin-right: 5px;
+                }
+
+                .leat-reward-points-label {
+                    font-size: 14px;
+                    color: #666;
+                }
+            }
+
+            .leat-reward-actions {
+                .leat-reward-redeem {
+                    width: 100%;
+                    background-color: #ffffff;
+                    border-color: #cccccc;
+                    border-radius: 4px;
+                    padding: 12px 15px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    color: #333333;
+
+                    &:hover {
+                        background-color: #f5f5f5;
+                        border-color: #bbbbbb;
+                    }
+
+                    &:active,
+                    &:focus {
+                        background-color: #eeeeee;
+                        border-color: #aaaaaa;
+                    }
+
+                    &.success {
+                        background-color: #4caf50;
+                        border-color: #4caf50;
+                        color: #ffffff;
+                    }
+
+                    &.toggled {
+                        background-color: #e02b27;
+                        border-color: #e02b27;
+                        color: #ffffff;
+
+                        &:hover {
+                            background-color: darken(#e02b27, 10%);
+                            border-color: darken(#e02b27, 10%);
+                        }
+
+                        &:active,
+                        &:focus {
+                            background-color: darken(#e02b27, 15%);
+                            border-color: darken(#e02b27, 15%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Your Coupons Widget Styles (Leat Styled)
+    .leat-coupons-container {
+        padding: 20px;
+
+        .leat-coupons-empty {
+            text-align: center;
+            color: #666;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 20px 0;
+
+            .leat-coupons-empty-message {
+                margin-top: 10px;
+                font-size: 14px;
+                color: #888;
+            }
+        }
+
+        .leat-coupons-list {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 25px;
+        }
+
+        .leat-coupon-item {
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .leat-coupon-header {
+                background-color: #ffffff;
+                padding: 12px 15px;
+                border-bottom: 1px solid #eeeeee;
+
+                .leat-coupon-image {
+                    margin: -12px -15px 10px;
+                    height: 180px;
+                    overflow: hidden;
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        transition: transform 0.5s ease;
+                    }
+
+                    &:hover img {
+                        transform: scale(1.05);
+                    }
+                }
+
+                .leat-coupon-title {
+                    font-size: 20px;
+                    font-weight: 600;
+                    color: #333333;
+                    line-height: 1.3;
+                }
+            }
+
+            .leat-coupon-content {
+                padding: 20px;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                background-color: #ffffff;
+
+                .leat-coupon-description {
+                    font-size: 14px;
+                    color: #666;
+                    margin-bottom: 15px;
+                    flex-grow: 1;
+                    line-height: 1.5;
+                }
+
+                .leat-coupon-code,
+                .leat-coupon-expiry {
+                    margin-bottom: 10px;
+                    font-size: 14px;
+                    display: flex;
+                    align-items: center;
+                    border-radius: 4px;
+
+                    .leat-coupon-label {
+                        font-weight: 600;
+                        color: #333;
+                        margin-right: 5px;
+                    }
+
+                    .leat-coupon-value {
+                        color: #666;
+                        padding: 3px 6px;
+                        border-radius: 3px;
+                        font-family: monospace;
+                    }
+                }
+
+                .leat-coupon-actions {
+                    margin-top: 15px;
+
+                    .leat-coupon-collect {
+                        width: 100%;
+                        background-color: #ffffff;
+                        border-color: #cccccc;
+                        border-radius: 4px;
+                        padding: 12px 15px;
+                        font-size: 16px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        color: #333333;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #f5f5f5;
+                            border-color: #bbbbbb;
+                        }
+
+                        &:active,
+                        &:focus {
+                            background-color: #eeeeee;
+                            border-color: #aaaaaa;
+                        }
+
+                        &.success {
+                            background-color: #4caf50;
+                            border-color: #4caf50;
+                            color: #ffffff;
+                        }
+
+                        &.toggled {
+                            background-color: #e02b27;
+                            border-color: #e02b27;
+                            color: #ffffff;
+
+                            &:hover {
+                                background-color: darken(#e02b27, 10%);
+                                border-color: darken(#e02b27, 10%);
+                            }
+
+                            &:active,
+                            &:focus {
+                                background-color: darken(#e02b27, 15%);
+                                border-color: darken(#e02b27, 15%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+// Responsive styles for different screen sizes
+//
+
+// Extra large screens (default from above): 5 coupons per row at 1440px and above
+// Already defined in the main class as grid-template-columns: repeat(5, 1fr);
+
+// 4 coupons per row - Starting from 1280px
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = 1280px) {
+    .leat-coupons-container {
+        .leat-coupons-list {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}
+
+// 3 coupons per row - Starting from 1024px
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = 1024px) {
+    .leat-coupons-container {
+        .leat-coupons-list {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+    }
+}
+
+// Small tablets: 2 coupons per row
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    // Mobile navigation styles
+    .leat-loyalty-nav {
+        padding: 6px 0;
+        margin-bottom: 20px;
+        width: max-content;
+        min-width: 250px;
+        max-width: 92%;
+        margin-left: auto;
+        margin-right: auto;
+
+        &.is-sticky {
+            position: fixed;
+            bottom: 10px;
+            width: max-content;
+            min-width: 250px;
+            max-width: 92%;
+            padding: 5px 0;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            z-index: 100; // Only apply z-index when sticky
+        }
+
+        .leat-nav-list {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            justify-content: center;
+            padding: 0 5px;
+            -webkit-overflow-scrolling: touch;
+
+            /* Hide scrollbar */
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .leat-nav-item {
+            flex: 0 0 auto;
+
+            &:not(:last-child):after {
+                display: none;
+            }
+        }
+
+        .leat-nav-icon {
+            height: 24px; // Increased by 50% (16px * 1.5)
+            width: 24px; // Increased by 50% (16px * 1.5)
+            margin-bottom: 2px;
+        }
+
+        .leat-nav-link {
+            padding: 5px 8px;
+            font-size: 11px;
+            white-space: nowrap;
+
+            span {
+                margin-top: 2px;
+            }
+        }
+    }
+
+    // Mobile section header styles
+    .leat-section-header {
+        margin-bottom: 20px;
+
+        h2 {
+            font-size: 20px;
+            padding: 0 15px;
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+
+            &::before,
+            &::after {
+                width: 150px; /* Shorter lines on mobile */
+            }
+        }
+    }
+
+    // Referral Popup Mobile Styles
+    .leat-referral-modal-container {
+        .modal-inner-wrap {
+            margin: 20px;
+            max-width: calc(100% - 40px);
+        }
+    }
+
+    .leat-referral-popup {
+        &-header {
+            padding: 20px 15px 0;
+        }
+
+        &-body {
+            padding: 0 20px 20px;
+        }
+
+        &-icon {
+            svg {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        &-title {
+            font-size: 20px;
+        }
+
+        &-subtitle {
+            font-size: 16px;
+        }
+    }
+
+    .leat-loyalty-header {
+        margin: 10px 0 30px;
+
+        .leat-rewards-points-balance {
+            .leat-simple-balance {
+                font-size: 16px;
+
+                .leat-rewards-points-value {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+
+    .leat-rewards-container {
+        padding: 15px;
+
+        .leat-rewards-header {
+            h2 {
+                font-size: 24px;
+            }
+
+            .leat-rewards-points-balance {
+                .leat-rewards-points-balance-inner {
+                    padding: 10px 15px;
+
+                    .leat-rewards-points-value {
+                        font-size: 28px;
+                    }
+                }
+            }
+        }
+
+        .leat-rewards-list {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .leat-reward-item {
+            .leat-reward-image {
+                height: 150px;
+            }
+
+            .leat-reward-content {
+                padding: 15px;
+            }
+
+            .leat-reward-title {
+                font-size: 18px;
+            }
+        }
+    }
+
+    .leat-coupons-container {
+        padding: 15px;
+
+        .leat-coupons-header {
+            h2 {
+                font-size: 24px;
+            }
+        }
+
+        .leat-coupons-list {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .leat-coupon-item {
+            .leat-coupon-header {
+                padding: 10px 15px;
+
+                .leat-coupon-image {
+                    margin: -10px -15px 8px;
+                    height: 150px;
+                }
+
+                .leat-coupon-title {
+                    font-size: 18px;
+                }
+            }
+
+            .leat-coupon-content {
+                padding: 15px;
+
+                .leat-coupon-description {
+                    font-size: 13px;
+                }
+
+                .leat-coupon-actions {
+                    .leat-coupon-collect {
+                        padding: 10px 12px;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+& when (@media-common = true) {
+    .leat-refer-a-friend {
+        font-family: @font-family__base;
+
+        &-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        &-box {
+            border: 1px solid @color-gray80;
+            border-radius: 5px;
+            background-color: @color-white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        &-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        &-input-section {
+            flex: 1 1 100%;
+            padding-right: 0;
+            border-right: none;
+            border-bottom: 1px solid @color-gray80;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        &-text {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        &-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+
+        &-subtitle {
+            font-size: 14px;
+            color: @color-gray60;
+            margin: 0;
+        }
+
+        &-input-wrapper {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        &-input {
+            width: 100%;
+            height: 40px;
+            padding: 8px 12px;
+            border: 1px solid @color-gray80;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: @color-gray-light0;
+        }
+
+        &-social-section {
+            flex: 1 1 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        &-icon,
+        &-icon-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: @color-gray-light0;
+            transition: all 0.2s ease;
+            cursor: pointer;
+
+            &:hover {
+                background-color: @color-gray-light1;
+            }
+
+            svg {
+                color: @color-gray68;
+            }
+        }
+    }
+
+    // Success message for copy action
+    .leat-copy-success {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px;
+        background: @color-dark-green1;
+        color: @color-white;
+        border-radius: 4px;
+        z-index: 9999;
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .leat-refer-a-friend {
+        &-content {
+            flex-direction: row;
+        }
+
+        &-input-section {
+            flex: 1 1 50%;
+            box-sizing: border-box;
+            padding-right: 20px;
+            border-right: 1px solid @color-gray80;
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        &-social-section {
+            flex: 1 1 50%;
+            box-sizing: border-box;
+            padding: 0 20px;
+
+        }
+    }
+
+    // Activity Log Table for desktop - show all columns
+    .leat-activity-log-table {
+        th, td {
+            &:nth-child(3), // Date column
+            &:nth-child(4) { // Order # column
+                display: table-cell;
+            }
+        }
+    }
+}
+
+// Common spacing for all widgets in the loyalty section
+& when (@media-common = true) {
+    .leat-rewards-container,
+    .leat-coupons-container,
+    .leat-refer-a-friend,
+    .leat-activity-log {
+        margin: 60px 0;
+        scroll-margin-top: 120px; // Add scroll margin for smooth scrolling
+    }
+
+    // Loyalty navigation bar
+    .leat-loyalty-nav {
+        // Size variants based on number of items
+        &.items-1 { max-width: 180px; }
+        &.items-2 { max-width: 320px; }
+        &.items-3 { max-width: 460px; }
+        &.items-4 { max-width: 600px; }
+        &.items-5 { max-width: 740px; }
+        position: relative;
+        background-color: #fff;
+        padding: 8px 0;
+        margin-bottom: 30px;
+        transition: all 0.3s ease;
+        width: max-content;
+        min-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+
+        &.is-sticky {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            margin-bottom: 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            max-width: 96%;
+            width: max-content;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 5px 20px;
+            z-index: 100; // Only apply z-index when sticky
+        }
+
+        .leat-nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+        }
+
+        .leat-nav-item {
+            margin: 0;
+            position: relative;
+
+            &:not(:last-child):after {
+                content: "";
+                position: absolute;
+                right: 0;
+                top: 50%;
+                height: 16px;
+                width: 1px;
+                background-color: #e0e0e0;
+                transform: translateY(-50%);
+            }
+        }
+
+        .leat-nav-icon {
+            display: block;
+            margin: 0 auto 3px;
+            height: 27px; // Increased by 50% (18px * 1.5)
+            width: 27px; // Increased by 50% (18px * 1.5)
+            transition: transform 0.2s ease;
+            opacity: 0.85;
+        }
+
+        .leat-nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 8px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            transition: color 0.3s ease;
+
+            span {
+                margin-top: 5px;
+            }
+
+            &:hover {
+                color: #ff6b6b;
+
+                .leat-nav-icon {
+                    transform: translateY(-2px);
+                    opacity: 1;
+                }
+            }
+
+            &.active {
+                color: #ff6b6b;
+                position: relative;
+
+                .leat-nav-icon {
+                    color: #ff6b6b;
+                    opacity: 1;
+                }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    bottom: 0;
+                    left: 10px;
+                    right: 10px;
+                    height: 2px;
+                    background-color: #ff6b6b;
+                }
+            }
+        }
+    }
+
+    // Generic header class with decorative lines
+    .leat-section-header {
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden; /* Important to prevent horizontal scrolling due to 100vw width */
+
+        h2 {
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #333;
+            text-align: center;
+            letter-spacing: 0.5px;
+            padding-bottom: 5px;
+
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                height: 1px;
+                width: 1000px; /* Fixed width instead of 100vw to prevent overflow issues */
+                background: linear-gradient(90deg, rgba(255,107,107,0.1) 0%, rgba(200,200,200,1) 50%, rgba(255,107,107,0.1) 100%);
+                transform: translateY(-50%);
+                opacity: 1;
+            }
+
+            &::before {
+                right: 100%;
+            }
+
+            &::after {
+                left: 100%;
+            }
+        }
+    }
+}
+
+// Activity Log Widget Styles
+& when (@media-common = true) {
+    .leat-activity-log {
+        font-family: @font-family__base;
+
+        &-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        &-box {
+            border: 1px solid @color-gray80;
+            border-radius: 5px;
+            background-color: @color-white;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        &-table {
+            width: 100%;
+            border-collapse: collapse;
+
+            th {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 2px solid @color-gray-light2;
+                font-weight: 600;
+                color: @color-gray68;
+            }
+
+            td {
+                padding: 12px 15px;
+                border-bottom: 1px solid @color-gray-light3;
+            }
+
+            tr:last-child td {
+                border-bottom: none;
+            }
+
+            // Responsive adjustments for mobile
+            th, td {
+                &:nth-child(3), // Date column
+                &:nth-child(4) { // Order # column
+                    display: none;
+                }
+            }
+        }
+
+        &-points {
+            font-weight: 600;
+            position: relative;
+            padding-left: 15px;
+
+            &:before {
+                content: "";
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+            }
+        }
+
+        &-empty {
+            text-align: center;
+            padding: 30px 0;
+            color: @color-gray60;
+        }
+    }
+}

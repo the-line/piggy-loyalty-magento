@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Leat\AsyncQueue\Api\RequestRepositoryInterface" type="Leat\AsyncQueue\Model\RequestRepository"/>
+    <preference for="Leat\AsyncQueue\Api\Data\RequestInterface" type="Leat\AsyncQueue\Model\Request"/>
+    <preference for="Leat\AsyncQueue\Api\Data\RequestSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+
+    <preference for="Leat\AsyncQueue\Api\JobRepositoryInterface" type="Leat\AsyncQueue\Model\JobRepository"/>
+    <preference for="Leat\AsyncQueue\Api\Data\JobInterface" type="Leat\AsyncQueue\Model\Job"/>
+    <preference for="Leat\AsyncQueue\Api\Data\JobSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <type name="Leat\AsyncQueue\Model\Queue\Request\RequestTypePool">
+        <arguments>
+            <argument name="requestType" xsi:type="array">
+                <!--<item name="example" xsi:type="object">Leat\AsyncQueue\Model\Type\ExampleRequest</item>-->
+            </argument>
+        </arguments>
+    </type>
+    <type name="Leat\AsyncQueue\Model\Connector\ConnectorPool">
+        <arguments>
+            <argument name="connector" xsi:type="array">
+                <!--<item name="example" xsi:type="object">Leat\AsyncQueue\Model\Connector\ExampleConnector</item>-->
+            </argument>
+        </arguments>
+    </type>
+</config>

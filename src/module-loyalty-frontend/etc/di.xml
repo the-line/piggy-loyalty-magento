@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Plugins -->
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="leat_loyalty_order_repository" type="Leat\LoyaltyFrontend\Plugin\Sales\OrderRepository" sortOrder="10" />
+    </type>
+
+    <type name="Magento\Sales\Api\OrderManagementInterface">
+        <plugin name="leat_loyalty_order_management" type="Leat\LoyaltyFrontend\Plugin\Sales\OrderManagement" sortOrder="10" />
+    </type>
+</config>

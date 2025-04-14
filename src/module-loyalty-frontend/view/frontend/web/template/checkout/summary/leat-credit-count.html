@@ -1,0 +1,16 @@
+<!-- ko if: isDisplayed() -->
+<tr class="totals leat-credits incl">
+    <th class="mark" scope="row">
+        <span class="label">
+            <span class="tooltip wrapper upper-right"><span translate="'You receive'"></span>
+            </span>
+        </span>
+    </th>
+    <td class="amount">
+        <span class="price credit-amount" data-bind="
+            text: getValue(),
+            attr: {'data-th': title},
+            css: { 'leat-credits-present': isCoinCountPresent() }"></span>
+    </td>
+</tr>
+<!-- /ko -->

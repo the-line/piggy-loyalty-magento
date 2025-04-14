@@ -1,0 +1,94 @@
+<?php
+/**
+ * Refer A Friend Widget template
+ *
+ * @var \Leat\LoyaltyFrontend\Block\Widget\ReferAFriend $block
+ */
+?>
+<?php if ($block->show()) : ?>
+<section class="<?= $block->getWidgetCssClass() ?>" id="<?= $block->getWidgetId() ?>">
+    <header class="leat-section-header">
+        <h2><?= $block->escapeHtml($block->getWidgetHeading()) ?></h2>
+    </header>
+    <div class="leat-refer-a-friend-container">
+        <div class="leat-refer-a-friend-box">
+            <div class="leat-refer-a-friend-content">
+                <div class="leat-refer-a-friend-input-section">
+                    <div class="leat-refer-a-friend-text">
+                        <h3 class="leat-refer-a-friend-title"><?= $block->escapeHtml($block->getSectionTitle()) ?></h3>
+                        <p class="leat-refer-a-friend-subtitle"><?= $block->escapeHtml($block->getSectionSubtitle()) ?></p>
+                    </div>
+                    <div class="leat-refer-a-friend-input-wrapper">
+                        <input
+                            type="text"
+                            class="leat-refer-a-friend-input"
+                            id="leat-referral-link"
+                            readonly
+                            value="<?= $block->escapeHtmlAttr($block->getReferralUrl()) ?>"
+                        >
+                    </div>
+                </div>
+
+                <div class="leat-refer-a-friend-social-section">
+                    <!-- Copy Link Icon -->
+                    <?php if ($block->isIconEnabled('copy')) : ?>
+                    <div class="leat-refer-a-friend-icon leat-refer-copy-btn" data-mage-init='{"leatReferCopy":{}}'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"></path>
+                            <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"></path>
+                        </svg>
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- Twitter/X Icon -->
+                    <?php if ($block->isIconEnabled('twitter')) : ?>
+                    <a href="https://twitter.com/intent/tweet?url=<?= $block->escapeUrl($block->getEncodedReferralUrl()) ?>&text=<?= $block->escapeUrl($block->getEncodedShareMessage()) ?>"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="leat-refer-a-friend-icon-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                        </svg>
+                    </a>
+                    <?php endif; ?>
+
+                    <!-- WhatsApp Icon -->
+                    <?php if ($block->isIconEnabled('whatsapp')) : ?>
+                    <a href="https://api.whatsapp.com/send?text=<?= $block->escapeUrl($block->getEncodedShareMessage()) ?>%0A%0A<?= $block->escapeUrl($block->getEncodedReferralUrl()) ?>"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="leat-refer-a-friend-icon-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path>
+                            <path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path>
+                        </svg>
+                    </a>
+                    <?php endif; ?>
+
+                    <!-- Email Icon -->
+                    <?php if ($block->isIconEnabled('email')) : ?>
+                    <a href="mailto:?body=<?= $block->escapeUrl($block->getEncodedShareMessage()) ?>%0A%0A<?= $block->escapeUrl($block->getEncodedReferralUrl()) ?>&subject=<?= $block->escapeUrl($block->getEmailSubject()) ?>"
+                       class="leat-refer-a-friend-icon-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path>
+                            <path d="M3 7l9 6l9 -6"></path>
+                        </svg>
+                    </a>
+                    <?php endif; ?>
+
+                    <!-- SMS Icon -->
+                    <?php if ($block->isIconEnabled('sms')) : ?>
+                    <a href="sms:?body=<?= $block->escapeUrl($block->getEncodedShareMessage()) ?>%0A%0A<?= $block->escapeUrl($block->getEncodedReferralUrl()) ?>"
+                       class="leat-refer-a-friend-icon-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1"></path>
+                        </svg>
+                    </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php endif; ?>

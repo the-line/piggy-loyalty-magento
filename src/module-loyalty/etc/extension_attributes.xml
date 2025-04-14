@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Customer\Api\Data\CustomerInterface">
+        <attribute code="contact_uuid" type="string"/>
+    </extension_attributes>
+    <extension_attributes for="Magento\Quote\Api\Data\CartInterface">
+        <attribute code="leat_loyalty_credit_count" type="int" />
+        <attribute code="leat_loyalty_balance_amount" type="float" />
+    </extension_attributes>
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="leat_loyalty_balance_amount" type="float" />
+    </extension_attributes>
+    <extension_attributes for="Magento\SalesRule\Api\Data\RuleInterface">
+        <attribute code="reward_uuid" type="string" />
+        <attribute code="gift_skus" type="string" />
+    </extension_attributes>
+    <extension_attributes for="Magento\Quote\Api\Data\CartItemInterface">
+        <attribute code="is_gift" type="boolean" />
+        <attribute code="gift_rule_id" type="integer" />
+        <attribute code="original_product_sku" type="string" />
+    </extension_attributes>
+</config>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="leat_loyalty_add_balance_to_order"
+                  instance="Leat\Loyalty\Observer\AddLeatBalanceToOrder"/>
+    </event>
+    <event name="sales_order_place_after">
+        <observer name="leat_loyalty_create_prepaid_transaction"
+                  instance="Leat\Loyalty\Observer\CreatePrepaidTransaction"/>
+    </event>
+    <event name="order_cancel_after">
+        <observer name="leat_loyalty_cancel_prepaid_transaction"
+                  instance="Leat\Loyalty\Observer\CancelPrepaidTransaction"/>
+    </event>
+    <event name="sales_order_creditmemo_refund">
+        <observer name="leat_loyalty_refund_prepaid_transaction"
+                  instance="Leat\Loyalty\Observer\RefundPrepaidTransaction"/>
+    </event>
+
+    <!-- Gift product rule events -->
+    <event name="salesrule_rule_save_before">
+        <observer name="leat_loyalty_add_gift_product_fields"
+                  instance="Leat\Loyalty\Observer\AddGiftProductFieldsToRule" />
+    </event>
+    <event name="sales_quote_collect_totals_after">
+        <observer name="leat_loyalty_remove_invalid_gift_products"
+                  instance="Leat\Loyalty\Observer\RemoveInvalidGiftProductsFromQuote" />
+    </event>
+    <event name="salesrule_rule_collection_load_after">
+        <observer name="leat_loyalty_load_rule_extension_attributes"
+                  instance="Leat\Loyalty\Observer\SalesRule\LoadExtensionAttributesObserver" />
+    </event>
+    <event name="sales_quote_save_after">
+        <observer name="leat_loyalty_save_quote_item_extension_attributes"
+                  instance="Leat\Loyalty\Observer\SaveQuoteItemExtensionAttributes" />
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="leet-loyalty-process-rewards" instance="Leat\Loyalty\Observer\ProcessRewards"/>
+    </event>
+</config>

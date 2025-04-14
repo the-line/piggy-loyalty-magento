@@ -1,0 +1,49 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ */
+$referralCode = $block->getReferralCode();
+$popupTitle = $block->getData('popup_title');
+$popupSubtitle = $block->getData('popup_subtitle');
+$popupMessage = $block->getData('popup_message');
+$popupButtonText = $block->getData('popup_button_text');
+?>
+<div class="leat-referral-popup-content">
+    <div class="leat-referral-popup-header">
+        <div class="leat-referral-popup-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h2"></path><path d="M5 4v2"></path><path d="M11.5 4l-.5 2"></path><path d="M18 5h2"></path><path d="M19 4v2"></path><path d="M15 9l-1 1"></path><path d="M18 13l2 -.5"></path><path d="M18 19h2"></path><path d="M19 18v2"></path><path d="M14 16.518l-6.518 -6.518l-4.39 9.58a1 1 0 0 0 1.329 1.329l9.579 -4.39z"></path></svg>
+        </div>
+        <h2 class="leat-referral-popup-title"><?= $block->escapeHtml($popupTitle) ?></h2>
+    </div>
+    <div class="leat-referral-popup-body">
+        <p class="leat-referral-popup-subtitle"><?= $block->escapeHtml($popupSubtitle) ?></p>
+        <p class="leat-referral-popup-message"><?= $block->escapeHtml($popupMessage) ?></p>
+
+        <div class="leat-referral-popup-success message success" style="display:none;"></div>
+        <div class="leat-referral-popup-error message error" style="display:none;"></div>
+
+        <form id="leat-referral-form" class="leat-referral-popup-form">
+            <?= $block->getBlockHtml('formkey') ?>
+            <div class="leat-referral-popup-form-field field">
+                <div class="control">
+                    <input
+                        type="email"
+                        name="email"
+                        class="leat-referral-popup-input input-text"
+                        placeholder="<?= $block->escapeHtmlAttr(__('Enter your email address')) ?>"
+                        required
+                        aria-label="<?= $block->escapeHtmlAttr(__('Email')) ?>"
+                    >
+                </div>
+            </div>
+            <input type="hidden" name="referral_code" value="<?= $block->escapeHtmlAttr($referralCode) ?>">
+            <div class="leat-referral-popup-form-actions actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="leat-referral-popup-button action primary">
+                        <span><?= $block->escapeHtml($popupButtonText) ?></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

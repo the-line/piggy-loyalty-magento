@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <leat>
+            <connection>
+                <personal_access_token backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+            </connection>
+            <queue>
+                <calls_per_second>5</calls_per_second>
+            </queue>
+            <credits>
+                <label>Credits</label>
+            </credits>
+            <prepaid_balance>
+                <enabled>1</enabled>
+                <title>Use Your Prepaid Balance</title>
+                <refund_priority>balance_first</refund_priority>
+            </prepaid_balance>
+        </leat>
+    </default>
+</config>

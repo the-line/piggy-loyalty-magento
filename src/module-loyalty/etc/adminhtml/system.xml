@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="leat_loyalty" translate="label" sortOrder="200">
+            <label>Leat Loyalty</label>
+        </tab>
+        <section id="leat" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Leat Loyalty</label>
+            <tab>leat_loyalty</tab>
+            <resource>Leat_Loyalty::config</resource>
+            <group id="sync_settings" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="0">
+                <label>Sync</label>
+                <field id="sync_data" translate="label,comment" type="button" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sync Leat Data</label>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\Sync</frontend_model>
+                    <comment>Synchronize data with Leat (attributes, etc.)</comment>
+                </field>
+                <field id="sync_status" translate="label,comment" type="label" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sync Status</label>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\SyncStatus</frontend_model>
+                </field>
+            </group>
+            <group id="general" translate="label" type="text" showInDefault="1" sortOrder="10">
+                <label>General Configuration</label>
+                <field id="is_enabled" translate="label" type="select" showInDefault="1">
+                    <label>Enable Leat Connection</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="customer_group_mapping" translate="label,comment" type="multiselect" showInDefault="1">
+                    <label>Enable for customers in groups:</label>
+                    <comment>
+                        <![CDATA[<b>Customer Groups must be configured.</b></br>Not configuring groups is effectively the same as disabling the Leat Integration.</br>]]></comment>
+                    <source_model>Magento\Customer\Model\Config\Source\Group\Multiselect</source_model>
+                </field>
+                <field id="add_on_create" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add on Create</label>
+                    <comment>
+                        <![CDATA[<b>Add customer to Leat upon account creation</b></br>If this option is disabled, customers will only be added upon their first purchase.]]>
+                    </comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="connection" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                <label>Connection</label>
+                <field id="personal_access_token" translate="label,comment" type="obscure" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Personal Access Token</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment>
+                        <![CDATA[Can be found under:</br><i>Navbar "Apps" > Integrations > Personal Access Token</i></br><b>Make sure to copy the token as it will not be shown again.</b></br><a href="https://docs.piggy.eu/v3/oauth/authorization">More Info about Personal Access Tokens</a>]]>
+                    </comment>
+                </field>
+                <field id="shop_uuid" translate="label,comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shop Uuid</label>
+                    <comment>
+                        <![CDATA[Can be found under:</br><i>Settings > Management > Profiles > [Select Shop] > Information > Uuid</i>]]>
+                    </comment>
+                </field>
+                <field id="test_connection" translate="label,comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Test Connection</label>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\TestConnection</frontend_model>
+                    <comment>Please save the configuration before testing connection.</comment>
+                </field>
+                <field id="ping_state" translate="label" type="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Current state</label>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\PingStatus</frontend_model>
+                </field>
+            </group>
+            <group id="credits" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                <label>Credits Display</label>
+                <field id="label" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Custom credit name</label>
+                    <comment>Click the button to fetch data from the API.</comment>
+                    <frontend_model>Leat\Loyalty\Block\Adminhtml\Form\Field\FetchCreditNameButton</frontend_model>
+                </field>
+                <field id="show_on_cart_page" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+                    <label>Show credits on Cart Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_on_checkout_success_page" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                    <label>Show credits on Checkout success Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="order" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+                <label>Order Configuration</label>
+                <field id="order_export_enabled" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Order Export</label>
+                    <comment>
+                        <![CDATA[<b>Enabling order export makes customers eligible to earn points.</b></br> If this option is disabled, customers will not earn points for their purchases.</br>Customers will still be added to Leat upon their first purchase.</br></br>]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_pending" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label,comment" type="multiselect">
+                    <label>Allow export as Pending</label>
+                    <comment>
+                        <![CDATA[<b>There are instances where payment method doesn't change the status of an order to processing.</b></br>For these circumstances, the payment method can be configured here and be marked as 'allowed for export to Leat'</br>despite being stuck on 'pending'.</br>]]></comment>
+                    <source_model>Leat\Loyalty\Model\Config\Source\PaymentMethods</source_model>
+                </field>
+            </group>
+            <group id="queue" translate="label" type="text" showInDefault="1" sortOrder="50">
+                <label>Queue</label>
+                <field id="alert_to" translate="label,comment" type="text" showInDefault="1">
+                    <label>Send error email(s) to:</label>
+                    <comment>Comma seperated list of emails</comment>
+                </field>
+                <field id="calls_per_second" translate="label,comment" type="text" showInDefault="1">
+                    <label>Calls per second</label>
+                    <comment>Rate limit for Leat Job Digestion</comment>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+            </group>
+            <group id="prepaid_balance" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
+                <label>Prepaid Balance</label>
+                <field id="enabled" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Prepaid Balance in Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable slider for applying prepaid balance during checkout</comment>
+                </field>
+                <field id="title" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Section Title</label>
+                    <comment>Title to display for the prepaid balance section in checkout</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="refer_a_friend" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="80">
+                <label>Refer a Friend</label>
+                <field id="enabled" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="widget_heading" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Widget Heading</label>
+                    <comment >Default heading for the Refer a Friend widget</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="section_title" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Section Title</label>
+                    <comment>Default title for the Refer a Friend section</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="section_subtitle" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Section Subtitle</label>
+                    <comment>Default subtitle for the Refer a Friend section</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="share_message" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Share Message</label>
+                    <comment>Default message to be shared via social media</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="email_subject" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Subject</label>
+                    <comment>Default subject line for email sharing</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="enabled_icons" type="multiselect" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled Social Icons</label>
+                    <comment>Default selection of social sharing icons to display</comment>
+                    <source_model>Leat\LoyaltyFrontend\Model\Config\Source\SocialIcons</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <!-- Referral Popup Configuration -->
+                <field id="popup_title" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Popup Title</label>
+                    <comment>The title displayed in the referral popup</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="popup_subtitle" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Popup Subtitle</label>
+                    <comment>The subtitle displayed in the referral popup</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="popup_message" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Popup Message</label>
+                    <comment>The instructional message displayed in the referral popup</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="popup_button_text" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Popup Button Text</label>
+                    <comment>The text displayed on the submit button in the referral popup</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="popup_success_message" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Success Message</label>
+                    <comment>The message displayed after successful email submission</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="popup_discount_amount" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Discount Amount</label>
+                    <comment>The discount amount displayed in the popup (e.g., "50% off")</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

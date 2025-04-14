@@ -1,0 +1,37 @@
+{
+    "async_queue_job": {
+        "column": {
+            "job_id": true,
+            "relation_id": true,
+            "completed": true,
+            "created_at": true,
+            "updated_at": true,
+            "contact_uuid": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "async_queue_request": {
+        "column": {
+            "request_id": true,
+            "job_id": true,
+            "type_code": true,
+            "payload": true,
+            "created_at": true,
+            "updated_at": true,
+            "is_synced": true,
+            "attempt": true,
+            "latest_fail_reason": true
+        },
+        "index": {
+            "ASYNC_QUEUE_REQUEST_TYPE_CODE": true,
+            "ASYNC_QUEUE_REQUEST_IS_SYNCED": true,
+            "ASYNC_QUEUE_REQUEST_CREATED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "ASYNC_QUEUE_REQUEST_JOB_ID_ASYNC_QUEUE_JOB_JOB_ID": true
+        }
+    }
+}

@@ -1,0 +1,82 @@
+<?php
+
+
+use Magento\Framework\Escaper;
+use Leat\LoyaltyFrontend\Block\Widget\Rewards;
+use Piggy\Api\Models\Loyalty\Rewards\Reward;
+
+/** @var Rewards $block */
+/** @var Escaper $escaper */
+
+if (!$block->show()) {
+    return;
+}
+
+/** @var Reward[] $rewards */
+$rewards = $block->getAvailableRewards();
+?>
+
+<section class="<?= $block->getWidgetCssClass() ?>" id="<?= $block->getWidgetId() ?>">
+    <header class="leat-section-header">
+        <h2><?= $escaper->escapeHtml(__('Rewards')) ?></h2>
+    </header>
+
+    <?php if (empty($rewards)) : ?>
+        <div class="leat-rewards-empty">
+            <p><?= $escaper->escapeHtml(__('No rewards available at this time. Keep shopping to earn rewards!')) ?></p>
+        </div>
+    <?php else : ?>
+        <div class="leat-rewards-list">
+            <?php foreach ($rewards as $reward) : ?>
+                <div class="leat-reward-item">
+                    <?php if (!empty($reward->getMedia())) : ?>
+                        <div class="leat-reward-image">
+                            <img src="<?= $escaper->escapeUrl($reward->getMedia()->getValue()) ?>"
+                                 alt="<?= $escaper->escapeHtmlAttr($reward->getTitle()) ?>" />
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="leat-reward-content">
+                        <h3 class="leat-reward-title"><?= $escaper->escapeHtml($reward->getTitle()) ?></h3>
+
+                        <?php if (!empty($reward->getDescription())) : ?>
+                            <div class="leat-reward-description">
+                                <?= $escaper->escapeHtml($reward->getDescription()) ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="leat-reward-points">
+                            <span class="leat-reward-points-value"><?= $escaper->escapeHtml($reward->getRequiredCredits()) ?></span>
+                            <span class="leat-reward-points-label"><?= $escaper->escapeHtml(__('points')) ?></span>
+                        </div>
+
+                        <div class="leat-reward-actions">
+                            <button type="button"
+                                    class="action primary leat-reward-redeem"
+                                    data-reward-id="<?= $escaper->escapeHtmlAttr($reward->getUuid()) ?>">
+                                <?= $escaper->escapeHtml(__('Redeem')) ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+</section>
+
+<script type="text/x-magento-init">
+{
+    ".<?= $block->getWidgetCssClass() ?>": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "leatRewards": {
+                    "component": "Leat_LoyaltyFrontend/js/rewards",
+                    "config": {
+                        "template": "Leat_LoyaltyFrontend/rewards"
+                    }
+                }
+            }
+        }
+    }
+}
+</script>

@@ -1,0 +1,141 @@
+"Prepaid Balance","Prepaid Balance"
+"Prepaid balance Refunded","Prepaid balance Refunded"
+"Prepaid balance to Refund","Prepaid balance to Refund"
+"Your Activity","Your Activity"
+"For every 100€ spent, earn 10 %1","For every 100€ spent, earn 10 %1"
+"Reward redeemed: %1","Reward redeemed: %1"
+"Digital Reward redemption","Digital Reward redemption"
+"Physical Reward redemption","Physical Reward redemption"
+"Lucky~ %1 granted via Loyalty Dashboard","Lucky~ %1 granted via Loyalty Dashboard"
+"Prepaid Balance Reception","Prepaid Balance Reception"
+"%1 Transaction","%1 Transaction"
+"Unknown Transaction","Unknown Transaction"
+Points,Points
+"Your Balance","Your Balance"
+"Refer a friend","Refer a friend"
+"Invite a friend and get rewards","Invite a friend and get rewards"
+"Get a discount on your first purchase!","Get a discount on your first purchase!"
+"I have a discount for you","I have a discount for you"
+Copy,Copy
+Twitter/X,Twitter/X
+WhatsApp,WhatsApp
+Email,Email
+SMS,SMS
+Rewards,Rewards
+"Your Coupons","Your Coupons"
+"Prepaid balance feature is not enabled.","Prepaid balance feature is not enabled."
+"Invalid form key.","Invalid form key."
+"Invalid balance amount.","Invalid balance amount."
+"Customer is not logged in.","Customer is not logged in."
+"Unable to get quote extension attributes.","Unable to get quote extension attributes."
+"Customer must be logged in to use prepaid balance.","Customer must be logged in to use prepaid balance."
+"Missing reward ID parameter","Missing reward ID parameter"
+"Voucher successfully applied to your cart.","Voucher successfully applied to your cart."
+"An unexpected error occurred while applying the voucher.","An unexpected error occurred while applying the voucher."
+"Voucher successfully removed from your cart.","Voucher successfully removed from your cart."
+"An unexpected error occurred while removing the voucher.","An unexpected error occurred while removing the voucher."
+"Invalid form key","Invalid form key"
+"Invalid email address","Invalid email address"
+"Invalid referral code","Invalid referral code"
+"An error occurred. Please try again later.","An error occurred. Please try again later."
+"Customer is not logged in","Customer is not logged in"
+"Please log in to redeem rewards.","Please log in to redeem rewards."
+"No reward ID provided.","No reward ID provided."
+"Copy Link","Copy Link"
+"Unable to place order with prepaid balance: %1","Unable to place order with prepaid balance: %1"
+"You have earned %1 %2 with your purchase.","You have earned %1 %2 with your purchase."
+"Leat Module Configuration Required","Leat Module Configuration Required"
+"The Leat Loyalty module is enabled but not correctly configured. Please complete the configuration to enable loyalty features.","The Leat Loyalty module is enabled but not correctly configured. Please complete the configuration to enable loyalty features."
+Activity,Activity
+Balance,Balance
+Coupons,Coupons
+"Refer a Friend","Refer a Friend"
+"Enter your email address","Enter your email address"
+Action,Action
+Date,Date
+"Order #","Order #"
+"You don't have any activity yet.","You don't have any activity yet."
+"You have","You have"
+"No rewards available at this time. Keep shopping to earn rewards!","No rewards available at this time. Keep shopping to earn rewards!"
+points,points
+Redeem,Redeem
+Code:,Code:
+Ends,Ends
+"Apply Voucher","Apply Voucher"
+"You have no available coupons.","You have no available coupons."
+"Purchase items to earn points you can use to redeem rewards.","Purchase items to earn points you can use to redeem rewards."
+"Remove from Cart","Remove from Cart"
+"You receive","You receive"
+"Available balance:","Available balance:"
+Apply,Apply
+"Applied balance:","Applied balance:"
+Cancel,Cancel
+Updating...,Updating...
+"Use the slider or enter an amount to apply your prepaid balance to this order. The maximum you can apply is limited to your available balance or the order total, whichever is less.","Use the slider or enter an amount to apply your prepaid balance to this order. The maximum you can apply is limited to your available balance or the order total, whichever is less."
+"Your Available Coupons","Your Available Coupons"
+Expires:,Expires:
+"Apply to Cart","Apply to Cart"
+"Purchase rewards from the rewards widget to earn coupons.","Purchase rewards from the rewards widget to earn coupons."
+Remove,Remove
+Removing...,Removing...
+Removed!,Removed!
+Loading...,Loading...
+Success!,Success!
+"Try Again","Try Again"
+"Link copied!","Link copied!"
+Redeeming...,Redeeming...
+Redeemed!,Redeemed!
+"Reward successfully redeemed!","Reward successfully redeemed!"
+"Failed to redeem reward.","Failed to redeem reward."
+"An error occurred while redeeming your reward.","An error occurred while redeeming your reward."
+"An error occurred while applying prepaid balance. Please try again.","An error occurred while applying prepaid balance. Please try again."
+"Use Your Prepaid Balance","Use Your Prepaid Balance"
+Applying...,Applying...
+Applied!,Applied!
+"Voucher applied to your cart","Voucher applied to your cart"
+"Voucher removed from your cart","Voucher removed from your cart"
+Failed,Failed
+"Unable to process voucher.","Unable to process voucher."
+"An error occurred while processing the voucher.","An error occurred while processing the voucher."
+"Invalid request. Please check the provided information.","Invalid request. Please check the provided information."
+"Server error. Please try again later.","Server error. Please try again later."
+"Prepaid Balance Refunded","Prepaid Balance Refunded"
+"Leat Rewards","Leat Rewards"
+"Displays available rewards from Leat that the customer can redeem","Displays available rewards from Leat that the customer can redeem"
+Title,Title
+"Widget title displayed on the frontend","Widget title displayed on the frontend"
+"Show Points Balance","Show Points Balance"
+"Display customer's current points balance at the top of the widget","Display customer's current points balance at the top of the widget"
+Yes,Yes
+No,No
+Template,Template
+"Select template for the widget","Select template for the widget"
+"Default Template","Default Template"
+"Leat Your Coupons","Leat Your Coupons"
+"Displays your available redeemed coupons from Leat","Displays your available redeemed coupons from Leat"
+"Leat: Refer A Friend","Leat: Refer A Friend"
+"Displays a refer-a-friend widget with social sharing options","Displays a refer-a-friend widget with social sharing options"
+"Widget Heading","Widget Heading"
+"Section Title","Section Title"
+"Section Subtitle","Section Subtitle"
+"The subtitle displayed below the section title","The subtitle displayed below the section title"
+"Share Message","Share Message"
+"The message that will be shared via social media","The message that will be shared via social media"
+"Email Subject","Email Subject"
+"The subject line for email sharing","The subject line for email sharing"
+"Enabled Social Icons","Enabled Social Icons"
+"Select which social sharing icons to display","Select which social sharing icons to display"
+"Important Note","Important Note"
+"This widget is for display purposes only and won't function correctly on cached pages","This widget is for display purposes only and won't function correctly on cached pages"
+"Leat: Balance","Leat: Balance"
+"Displays customer's points balance and prepaid balance","Displays customer's points balance and prepaid balance"
+"Show Header","Show Header"
+"Enable or disable the header section with title","Enable or disable the header section with title"
+"Credit Name","Credit Name"
+"Label to display for credit points (e.g., ""Points"", ""Credits"", etc.)","Label to display for credit points (e.g., ""Points"", ""Credits"", etc.)"
+"Prepaid Balance Name","Prepaid Balance Name"
+"Label to display for prepaid balance","Label to display for prepaid balance"
+"Leat: Activity Log","Leat: Activity Log"
+"Displays customer's transaction history and activity log","Displays customer's transaction history and activity log"
+"Your received credits","Your received credits"
+"1 column (Disabled FPC)","1 column (Disabled FPC)"

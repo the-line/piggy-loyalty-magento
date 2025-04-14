@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Use AsyncConnector as the adapter between Leat and AsyncQueue -->
+    <type name="Leat\LoyaltyAsync\Model\Connector\AsyncConnector">
+        <arguments>
+            <argument name="leatConnector" xsi:type="object">Leat\Loyalty\Model\Connector</argument>
+        </arguments>
+    </type>
+
+    <!-- Register our adapter in the AsyncQueue connector pool -->
+    <type name="Leat\AsyncQueue\Model\Connector\ConnectorPool">
+        <arguments>
+            <argument name="connector" xsi:type="array">
+                <item name="leat_connector" xsi:type="object">Leat\LoyaltyAsync\Model\Connector\AsyncConnector</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Register the request types for AsyncQueue -->
+    <type name="Leat\AsyncQueue\Model\Queue\Request\RequestTypePool">
+        <arguments>
+            <argument name="requestType" xsi:type="array">
+                <!--        ~Contact Requests~        -->
+                <!-- Contact -->
+                <item name="contact_create" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Contact\ContactCreate</item>
+                <item name="contact_update" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Contact\ContactUpdate</item>
+
+                <!-- Transaction -->
+                <item name="order_item_transaction" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Contact\Order\Balance\Transaction\OrderItemTransaction</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Plugins for job handling -->
+    <type name="Leat\AsyncQueue\Service\JobDigest">
+        <plugin name="leat_loyalty_job_validate" type="Leat\LoyaltyAsync\Plugin\JobDigest\JobValidation"/>
+        <plugin name="leat_loyalty_async_queue_exception_handler"
+                type="Leat\LoyaltyAsync\Plugin\JobDigest\ExceptionHandler"/>
+    </type>
+</config>

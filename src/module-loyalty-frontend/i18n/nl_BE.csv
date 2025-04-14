@@ -1,0 +1,141 @@
+"Prepaid Balance","Prepaid Saldo"
+"Prepaid balance Refunded","Terugbetaald Prepaid Saldo"
+"Prepaid balance to Refund","Prepaid saldo om terug te betalen"
+"Your Activity","Uw Activiteit"
+"For every 100€ spent, earn 10 %1","Voor elke €100 besteed, verdien je 10 %1"
+"Reward redeemed: %1","Beloning ingewisseld: %1"
+"Digital Reward redemption","Inwisseling Digitale Beloning"
+"Physical Reward redemption","Inwisseling Fysieke Beloning"
+"Lucky~ %1 granted via Loyalty Dashboard","Gelukje~ %1 toegekend via Loyaliteitsdashboard"
+"Prepaid Balance Reception","Ontvangst Prepaid Saldo"
+"%1 Transaction","%1 Transactie"
+"Unknown Transaction","Onbekende Transactie"
+Points,Punten
+"Your Balance","Uw Saldo"
+"Refer a friend","Verwijs een vriend"
+"Invite a friend and get rewards","Nodig een vriend uit en ontvang beloningen"
+"Get a discount on your first purchase!","Krijg korting op je eerste aankoop!"
+"I have a discount for you","Ik heb een korting voor je"
+Copy,Kopiëren
+Twitter/X,Twitter/X
+WhatsApp,WhatsApp
+Email,E-mail
+SMS,SMS
+Rewards,Beloningen
+"Your Coupons","Uw Kortingsbonnen"
+"Prepaid balance feature is not enabled.","Prepaid-saldofunctie is niet ingeschakeld."
+"Invalid form key.","Ongeldige formuliersleutel."
+"Invalid balance amount.","Ongeldig saldo bedrag."
+"Customer is not logged in.","Klant is niet ingelogd."
+"Unable to get quote extension attributes.","Kan offerte-uitbreidingskenmerken niet ophalen."
+"Customer must be logged in to use prepaid balance.","Klant moet ingelogd zijn om prepaid saldo te gebruiken."
+"Missing reward ID parameter","Ontbrekende belonings-ID parameter"
+"Voucher successfully applied to your cart.","Voucher succesvol toegepast op uw winkelwagen."
+"An unexpected error occurred while applying the voucher.","Er is een onverwachte fout opgetreden bij het toepassen van de voucher."
+"Voucher successfully removed from your cart.","Voucher succesvol verwijderd uit uw winkelwagen."
+"An unexpected error occurred while removing the voucher.","Er is een onverwachte fout opgetreden bij het verwijderen van de voucher."
+"Invalid form key","Ongeldige formuliersleutel"
+"Invalid email address","Ongeldig e-mailadres"
+"Invalid referral code","Ongeldige verwijzingscode"
+"An error occurred. Please try again later.","Er is een fout opgetreden. Probeer het later opnieuw."
+"Customer is not logged in","Klant is niet ingelogd"
+"Please log in to redeem rewards.","Log in om beloningen in te wisselen."
+"No reward ID provided.","Geen belonings-ID opgegeven."
+"Copy Link","Kopieer link"
+"Unable to place order with prepaid balance: %1","Kan bestelling niet plaatsen met prepaid saldo: %1"
+"You have earned %1 %2 with your purchase.","U heeft %1 %2 verdiend met uw aankoop."
+"Leat Module Configuration Required","Leat Moduleconfiguratie vereist"
+"The Leat Loyalty module is enabled but not correctly configured. Please complete the configuration to enable loyalty features.","De Leat Loyalty-module is ingeschakeld maar niet correct geconfigureerd. Voltooi de configuratie om loyaliteitsfuncties te activeren."
+Activity,Activiteit
+Balance,Saldo
+Coupons,Kortingsbonnen
+"Refer a Friend","Verwijs een Vriend"
+"Enter your email address","Vul uw e-mailadres in"
+Action,Actie
+Date,Datum
+"Order #","Bestelling #"
+"You don't have any activity yet.","U heeft nog geen activiteit."
+"You have","U heeft"
+"No rewards available at this time. Keep shopping to earn rewards!","Er zijn momenteel geen beloningen beschikbaar. Blijf winkelen om beloningen te verdienen!"
+points,punten
+Redeem,Inwisselen
+Code:,Code:
+Ends,Verloopt
+"Apply Voucher","Toepassen Voucher"
+"You have no available coupons.","U heeft geen beschikbare kortingsbonnen."
+"Purchase items to earn points you can use to redeem rewards.","Koop artikelen om punten te verdienen die u kunt gebruiken om beloningen in te wisselen."
+"Remove from Cart","Verwijderen uit winkelwagen"
+"You receive","U ontvangt"
+"Available balance:","Beschikbaar saldo:"
+Apply,Toepassen
+"Applied balance:","Toegepast saldo:"
+Cancel,Annuleren
+Updating...,Bijwerken...
+"Use the slider or enter an amount to apply your prepaid balance to this order. The maximum you can apply is limited to your available balance or the order total, whichever is less.","Gebruik de schuifregelaar of voer een bedrag in om uw prepaid saldo toe te passen op deze bestelling. Het maximum dat u kunt toepassen is beperkt tot uw beschikbare saldo of het totaalbedrag van de bestelling, afhankelijk van wat lager is."
+"Your Available Coupons","Uw Beschikbare Kortingsbonnen"
+Expires:,Verloopt:
+"Apply to Cart","Toepassen op Winkelwagen"
+"Purchase rewards from the rewards widget to earn coupons.","Koop beloningen via de beloningswidget om kortingsbonnen te verdienen."
+Remove,Verwijderen
+Removing...,Bezig met verwijderen...
+Removed!,Verwijderd!
+Loading...,Laden...
+Success!,Succes!
+"Try Again","Probeer Opnieuw"
+"Link copied!","Link gekopieerd!"
+Redeeming...,Inwisselen...
+Redeemed!,Ingewisseld!
+"Reward successfully redeemed!","Beloning succesvol ingewisseld!"
+"Failed to redeem reward.","Inwisselen van beloning mislukt."
+"An error occurred while redeeming your reward.","Er is een fout opgetreden bij het inwisselen van uw beloning."
+"An error occurred while applying prepaid balance. Please try again.","Er is een fout opgetreden bij het toepassen van prepaid saldo. Probeer het opnieuw."
+"Use Your Prepaid Balance","Gebruik uw Prepaid Saldo"
+Applying...,Toepassen...
+Applied!,Toegepast!
+"Voucher applied to your cart","Voucher toegepast op uw winkelwagen"
+"Voucher removed from your cart","Voucher verwijderd uit uw winkelwagen"
+Failed,Mislukt
+"Unable to process voucher.","Kan voucher niet verwerken."
+"An error occurred while processing the voucher.","Er is een fout opgetreden bij het verwerken van de voucher."
+"Invalid request. Please check the provided information.","Ongeldig verzoek. Controleer de verstrekte informatie."
+"Server error. Please try again later.","Serverfout. Probeer het later opnieuw."
+"Prepaid Balance Refunded","Terugbetaald Prepaid Saldo"
+"Leat Rewards","Leat Beloningen"
+"Displays available rewards from Leat that the customer can redeem","Toont beschikbare beloningen van Leat die de klant kan inwisselen"
+Title,Titel
+"Widget title displayed on the frontend","Widgettitel weergegeven aan de voorkant"
+"Show Points Balance","Toon Punten Saldo"
+"Display customer's current points balance at the top of the widget","Toon het huidige puntensaldo van de klant bovenaan de widget"
+Yes,Ja
+No,Nee
+Template,Sjabloon
+"Select template for the widget","Selecteer sjabloon voor de widget"
+"Default Template","Standaardsjabloon"
+"Leat Your Coupons","Leat Uw Kortingsbonnen"
+"Displays your available redeemed coupons from Leat","Toont uw beschikbare ingewisselde kortingsbonnen van Leat"
+"Leat: Refer A Friend","Leat: Verwijs Een Vriend"
+"Displays a refer-a-friend widget with social sharing options","Toont een verwijs-een-vriend-widget met opties voor sociale media"
+"Widget Heading","Widget Koptekst"
+"Section Title","Sectietitel"
+"Section Subtitle","Sectie Ondertitel"
+"The subtitle displayed below the section title","De ondertitel die onder de sectietitel wordt weergegeven"
+"Share Message","Deelbericht"
+"The message that will be shared via social media","Het bericht dat via sociale media wordt gedeeld"
+"Email Subject","E-mail Onderwerp"
+"The subject line for email sharing","Het onderwerp voor e-maildeling"
+"Enabled Social Icons","Ingeschakelde Sociale Iconen"
+"Select which social sharing icons to display","Selecteer welke sociale deelpictogrammen worden weergegeven"
+"Important Note","Belangrijke Opmerking"
+"This widget is for display purposes only and won't function correctly on cached pages","Deze widget is alleen voor weergave en werkt niet correct op gecachete pagina's"
+"Leat: Balance","Leat: Saldo"
+"Displays customer's points balance and prepaid balance","Toont het puntensaldo en prepaid saldo van de klant"
+"Show Header","Toon Koptekst"
+"Enable or disable the header section with title","Schakel de koptekst met titel in of uit"
+"Credit Name","Label voor Kredietpunten"
+"Label to display for credit points (e.g., ""Points"", ""Credits"", etc.)","Label dat wordt weergegeven voor kredietpunten (bijv. ""Punten"", ""Krediet"", enz.)"
+"Prepaid Balance Name","Prepaid Saldonaam"
+"Label to display for prepaid balance","Label dat wordt weergegeven voor prepaid saldo"
+"Leat: Activity Log","Leat: Activiteitenlogboek"
+"Displays customer's transaction history and activity log","Toont het transactieoverzicht en activiteitenlogboek van de klant"
+"Your received credits","Uw ontvangen krediet"
+"1 column (Disabled FPC)","1 kolom (FPC uitgeschakeld)"

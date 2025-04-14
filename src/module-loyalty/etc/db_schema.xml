@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order">
+        <column xsi:type="boolean" name="exported_to_leat" nullable="false" default="0" comment="Order has been exported to leat"/>
+        <column xsi:type="timestamp" name="exported_to_leat_at" nullable="true" comment="Order has been exported to leat at"/>
+        <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount used"/>
+        <column xsi:type="decimal" name="leat_loyalty_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount refunded"/>
+        <column xsi:type="varchar" name="leat_loyalty_prepaid_transaction_uuid" length="36" nullable="true" comment="Leat prepaid transaction UUID"/>
+    </table>
+    <table name="quote">
+        <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount used"/>
+    </table>
+    <table name="sales_creditmemo">
+        <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount to refund"/>
+        <column xsi:type="decimal" name="leat_loyalty_balance_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount refunded"/>
+    </table>
+
+    <!-- Extension attributes table for SalesRule -->
+    <table name="leat_loyalty_salesrule_extension" resource="default" engine="innodb" comment="Leat Loyalty SalesRule Extension Attributes">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="rule_id" padding="10" unsigned="true" nullable="false" comment="Sales Rule ID"/>
+        <column xsi:type="varchar" name="reward_uuid" length="36" nullable="true" comment="Leat Reward UUID"/>
+        <column xsi:type="text" name="gift_skus" nullable="true" comment="Gift Product SKUs"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="LEAT_LOYALTY_SALESRULE_EXTENSION_RULE_ID">
+            <column name="rule_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="LEAT_LOYALTY_SALESRULE_EXTENSION_RULE_ID_SALESRULE_RULE_ID"
+                    table="leat_loyalty_salesrule_extension"
+                    column="rule_id"
+                    referenceTable="salesrule"
+                    referenceColumn="rule_id"
+                    onDelete="CASCADE"/>
+        <index referenceId="LEAT_LOYALTY_SALESRULE_EXTENSION_REWARD_UUID" indexType="btree">
+            <column name="reward_uuid"/>
+        </index>
+    </table>
+
+    <!-- Extension attributes table for Quote Items (gifts) -->
+    <table name="leat_loyalty_quote_item_extension" resource="default" engine="innodb" comment="Leat Loyalty Quote Item Extension Attributes">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="item_id" padding="10" unsigned="true" nullable="false" comment="Quote Item ID"/>
+        <column xsi:type="boolean" name="is_gift" nullable="false" default="0" comment="Is Gift Item"/>
+        <column xsi:type="int" name="gift_rule_id" padding="10" unsigned="true" nullable="true" comment="Gift Rule ID"/>
+        <column xsi:type="varchar" name="original_product_sku" length="255" nullable="true" comment="Original Product SKU"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="LEAT_LOYALTY_QUOTE_ITEM_EXTENSION_ITEM_ID">
+            <column name="item_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="LEAT_LOYALTY_QUOTE_ITEM_EXTENSION_ITEM_ID_QUOTE_ITEM_ITEM_ID"
+                    table="leat_loyalty_quote_item_extension"
+                    column="item_id"
+                    referenceTable="quote_item"
+                    referenceColumn="item_id"
+                    onDelete="CASCADE"/>
+    </table>
+</schema>

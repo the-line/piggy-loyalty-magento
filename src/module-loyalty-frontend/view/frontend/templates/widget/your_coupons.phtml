@@ -1,0 +1,149 @@
+<?php
+/**
+ * Your Coupons Widget Template
+ *
+ * @var \Leat\LoyaltyFrontend\Block\Widget\YourCoupons $block
+ */
+
+// Get the collectible rewards data and decode it
+$rewardsJson = $block->getCouponsJson();
+$rewards = json_decode($rewardsJson, true) ?: [];
+$hasRewards = !empty($rewards);
+?>
+
+<?php if ($block->show()) : ?>
+<section class="<?= $block->getWidgetCssClass() ?>" id="<?= $block->getWidgetId() ?>" data-bind="scope: 'leatYourCoupons'">
+    <header class="leat-section-header">
+        <h2><?= $block->escapeHtml(__('Your Coupons')) ?></h2>
+    </header>
+    <div class="leat-coupons-content">
+        <!-- Initial PHP rendered content (will be replaced by KnockoutJS) -->
+        <div class="leat-initial-content">
+            <?php if ($hasRewards) : ?>
+                <div class="leat-coupons-list">
+                    <?php foreach ($rewards as $reward) : ?>
+                        <div class="leat-coupon-item">
+                            <div class="leat-coupon-header">
+                                <?php if (!empty($reward['image_url'])) : ?>
+                                <div class="leat-coupon-image">
+                                    <img src="<?= $block->escapeUrl($reward['image_url']) ?>"
+                                         alt="<?= $block->escapeHtml($reward['name']) ?>" />
+                                </div>
+                                <?php endif; ?>
+                                <div class="leat-coupon-title"><?= $block->escapeHtml($reward['name']) ?></div>
+                            </div>
+                            <div class="leat-coupon-content">
+                                <div class="leat-coupon-description"><?= $block->escapeHtml($reward['description']) ?></div>
+                                <?php if (!empty($reward['code'])) : ?>
+                                <div class="leat-coupon-code">
+                                    <span class="leat-coupon-label"><?= $block->escapeHtml(__('Code:')) ?></span>
+                                    <span class="leat-coupon-value"><?= $block->escapeHtml($reward['code']) ?></span>
+                                </div>
+                                <?php endif; ?>
+                                <?php if (!empty($reward['expires_at'])) : ?>
+                                <div class="leat-coupon-expiry">
+                                    <span class="leat-coupon-label"><?= $block->escapeHtml(__('Ends')) ?></span>
+                                    <span class="leat-coupon-value">
+                                        <?php
+                                        if (isset($reward['expires_at']['date'])) {
+                                            echo $block->escapeHtml(date('M j, Y', strtotime($reward['expires_at']['date'])));
+                                        } elseif (is_string($reward['expires_at'])) {
+                                            echo $block->escapeHtml(date('M j, Y', strtotime($reward['expires_at'])));
+                                        }
+                                        ?>
+                                    </span>
+                                </div>
+                                <?php endif; ?>
+                                <div class="leat-coupon-actions">
+                                    <button type="button" class="leat-coupon-collect js-collect-reward"
+                                            data-reward-id="<?= $block->escapeHtmlAttr($reward['id']) ?>">
+                                        <?= $block->escapeHtml(__('Apply Voucher')) ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                    </div>
+            <?php else : ?>
+                <div class="leat-coupons-empty">
+                    <?= $block->escapeHtml(__('You have no available coupons.')) ?>
+                    <div class="leat-coupons-empty-message">
+                        <?= $block->escapeHtml(__('Purchase items to earn points you can use to redeem rewards.')) ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- KnockoutJS Templates (hidden initially, will replace initial content) -->
+        <div class="leat-ko-content" style="display: none;">
+            <!-- ko if: coupons().length -->
+            <div class="leat-coupons-list">
+                <!-- ko foreach: coupons -->
+                <div class="leat-coupon-item">
+                    <div class="leat-coupon-header">
+                        <!-- ko if: typeof image_url !== 'undefined' && image_url -->
+                        <div class="leat-coupon-image">
+                            <img data-bind="attr: { src: image_url, alt: name }" />
+                        </div>
+                        <!-- /ko -->
+                        <div class="leat-coupon-title" data-bind="text: name"></div>
+                    </div>
+                    <div class="leat-coupon-content">
+                        <div class="leat-coupon-description" data-bind="text: description"></div>
+                        <!-- ko if: typeof code !== 'undefined' && code -->
+                        <div class="leat-coupon-code">
+                            <span class="leat-coupon-label"><?= $block->escapeHtml(__('Code:')) ?></span>
+                            <span class="leat-coupon-value" data-bind="text: code"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: typeof expires_at !== 'undefined' && expires_at -->
+                        <div class="leat-coupon-expiry">
+                            <span class="leat-coupon-label"><?= $block->escapeHtml(__('Ends')) ?></span>
+                            <span class="leat-coupon-value" data-bind="text: $parent.formatDate(expires_at)"></span>
+                        </div>
+                        <!-- /ko -->
+                        <div class="leat-coupon-actions">
+                            <button type="button" class="leat-coupon-collect js-collect-reward"
+                                    data-bind="click: function(data, event) { $parent.collectReward($data, null, event); },
+                                               css: { 'toggled': typeof is_applied !== 'undefined' && is_applied },
+                                               attr: { 'data-reward-id': id }">
+                                <!-- ko if: typeof is_applied !== 'undefined' && is_applied -->
+                                <?= $block->escapeHtml(__('Remove from Cart')) ?>
+                                <!-- /ko -->
+                                <!-- ko ifnot: typeof is_applied !== 'undefined' && is_applied -->
+                                <?= $block->escapeHtml(__('Apply Voucher')) ?>
+                                <!-- /ko -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <!-- /ko -->
+            <!-- ko if: !coupons().length -->
+            <div class="leat-coupons-empty">
+                <?= $block->escapeHtml(__('You have no available coupons.')) ?>
+                <div class="leat-coupons-empty-message">
+                    <?= $block->escapeHtml(__('Purchase items to earn points you can use to redeem rewards.')) ?>
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</section>
+
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "leatYourCoupons": {
+                    "component": "Leat_LoyaltyFrontend/js/view/your-coupons",
+                    "coupons": <?= /* @noEscape */ $rewardsJson ?>
+                }
+            }
+        }
+    }
+}
+</script>
+<?php endif; ?>

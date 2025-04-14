@@ -1,0 +1,90 @@
+<!-- ko if: isVisible() -->
+<div class="payment-option _collapsible opc-payment-additional leat-balance-container"
+     data-bind="mageInit: {'collapsible':{'openedState': '_active'}}">
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" role="heading" aria-level="2">
+            <!-- ko i18n: getSectionTitle() --><!-- /ko -->
+        </span>
+    </div>
+    <div class="payment-option-content" data-role="content">
+        <div class="leat-balance-content">
+            <p class="leat-balance-available" data-bind="if: prepaidBalance() > 0">
+                <!-- ko i18n: 'Available balance:' --><!-- /ko -->
+                <strong data-bind="text: formatPrice(prepaidBalance())"></strong>
+            </p>
+
+            <div class="leat-balance-slider-container">
+                <div class="leat-balance-slider">
+                    <input type="range"
+                           min="0"
+                           data-bind="attr: {max: maxBalance()},
+                                     value: appliedBalance,
+                                     event: {
+                                        input: onSliderChange,
+                                        change: onSlideEnd
+                                     },
+                                     disable: isBalanceSliderDisabled()" />
+                    <div class="slider-labels">
+                        <span class="min">0</span>
+                        <span class="max" data-bind="text: formatPrice(maxBalance())"></span>
+                    </div>
+                </div>
+
+                <div class="leat-balance-amount">
+                    <!-- ko if: isSliding() -->
+                    <div class="amount-indicator" data-bind="text: formatPrice(appliedBalance())"></div>
+                    <!-- /ko -->
+
+                    <div class="field manual-input-field">
+                        <div class="control">
+                            <input type="text"
+                                   class="input-text"
+                                   data-bind="value: manualInput,
+                                             event: {blur: onManualInputChange},
+                                             disable: isLoading()" />
+                            <div class="actions-toolbar">
+                                <div class="primary">
+                                    <button class="action action-apply"
+                                            data-bind="click: applyBalance,
+                                                      disable: isBalanceSliderDisabled()">
+                                        <span data-bind="i18n: 'Apply'"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ko if: isBalanceApplied() -->
+            <div class="leat-balance-applied">
+                <span class="applied-text">
+                    <!-- ko i18n: 'Applied balance:' --><!-- /ko -->
+                    <strong data-bind="text: formatPrice(appliedBalance())"></strong>
+                </span>
+                <button class="action action-cancel"
+                        data-bind="click: cancelBalance">
+                    <span data-bind="i18n: 'Cancel'"></span>
+                </button>
+            </div>
+            <!-- /ko -->
+
+            <!-- ko if: errorMessage -->
+            <div class="leat-balance-error message notice">
+                <span data-bind="text: errorMessage"></span>
+            </div>
+            <!-- /ko -->
+
+            <!-- ko if: isLoading -->
+            <div class="leat-balance-loading">
+                <span data-bind="i18n: 'Updating...'"></span>
+            </div>
+            <!-- /ko -->
+
+            <div class="leat-balance-info message info">
+                <span data-bind="i18n: 'Use the slider or enter an amount to apply your prepaid balance to this order. The maximum you can apply is limited to your available balance or the order total, whichever is less.'"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /ko -->

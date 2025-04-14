@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="page.main.title" display="false"/>
+        <referenceContainer name="main">
+            <block name="leat.loyalty.index"
+                   class="Leat\LoyaltyFrontend\Block\Loyalty\Index"
+                   template="Leat_LoyaltyFrontend::loyalty/index.phtml"
+                   cacheable="false">
+                <arguments>
+                    <argument name="section_config" xsi:type="array">
+                        <item name="balance" xsi:type="array">
+                            <item name="class" xsi:type="string">Leat\LoyaltyFrontend\Block\Widget\Balance</item>
+                            <item name="sort_order" xsi:type="number">10</item>
+                            <item name="enabled" xsi:type="boolean">true</item>
+                            <item name="id" xsi:type="string">leat-balance</item>
+                            <item name="label" xsi:type="string" translate="true">Balance</item>
+                        </item>
+                        <item name="coupons" xsi:type="array">
+                            <item name="class" xsi:type="string">Leat\LoyaltyFrontend\Block\Widget\YourCoupons</item>
+                            <item name="sort_order" xsi:type="number">20</item>
+                            <item name="enabled" xsi:type="boolean">true</item>
+                            <item name="id" xsi:type="string">leat-coupons</item>
+                            <item name="label" xsi:type="string" translate="true">Coupons</item>
+                        </item>
+                        <item name="rewards" xsi:type="array">
+                            <item name="class" xsi:type="string">Leat\LoyaltyFrontend\Block\Widget\Rewards</item>
+                            <item name="sort_order" xsi:type="number">30</item>
+                            <item name="enabled" xsi:type="boolean">true</item>
+                            <item name="id" xsi:type="string">leat-rewards</item>
+                            <item name="label" xsi:type="string" translate="true">Rewards</item>
+                        </item>
+                        <item name="refer" xsi:type="array">
+                            <item name="class" xsi:type="string">Leat\LoyaltyFrontend\Block\Widget\ReferAFriend</item>
+                            <item name="sort_order" xsi:type="number">40</item>
+                            <item name="enabled" xsi:type="boolean">true</item>
+                            <item name="id" xsi:type="string">leat-refer</item>
+                            <item name="label" xsi:type="string" translate="true">Refer a Friend</item>
+                        </item>
+                        <item name="activity" xsi:type="array">
+                            <item name="class" xsi:type="string">Leat\LoyaltyFrontend\Block\Widget\ActivityLog</item>
+                            <item name="sort_order" xsi:type="number">50</item>
+                            <item name="enabled" xsi:type="boolean">true</item>
+                            <item name="id" xsi:type="string">leat-activity</item>
+                            <item name="label" xsi:type="string" translate="true">Activity</item>
+                        </item>
+                    </argument>
+                </arguments>
+                <block class="Leat\LoyaltyFrontend\Block\ConfigurationBanner"
+                       name="leat.configuration.banner"
+                       template="Leat_LoyaltyFrontend::loyalty/banner/configuration.phtml"
+                       before="-"
+                />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

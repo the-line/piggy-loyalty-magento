@@ -1,0 +1,53 @@
+/* Additional CSS for Leat Rewards that doesn't need LESS preprocessing */
+
+/* Animation for redeem button */
+.leat-reward-redeem {
+    transition: all 0.3s ease;
+}
+
+.leat-reward-redeem:hover {
+    transform: scale(1.05);
+}
+
+/* Progress indicator for reward redemptions in progress */
+.leat-reward-actions .progress {
+    height: 3px;
+    width: 100%;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    margin-top: 5px;
+    border-radius: 2px;
+}
+
+.leat-reward-actions .progress-bar {
+    height: 100%;
+    background-color: #ff6b6b;
+    width: 0;
+    transition: width 0.5s ease;
+}
+
+.leat-config-banner {
+    background-color: #fff8e1;
+    border-left: 4px solid #ffc107;
+    margin: 20px 0;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.leat-config-banner-content {
+    display: flex;
+    align-items: center;
+}
+
+.leat-config-banner-icon {
+    margin-right: 16px;
+    font-size: 24px;
+}
+
+.leat-config-banner-message {
+    flex: 1;
+}
+
+.leat-config-banner-message p {
+    margin: 5px 0 0;
+}

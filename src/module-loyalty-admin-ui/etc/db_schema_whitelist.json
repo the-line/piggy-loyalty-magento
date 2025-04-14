@@ -1,0 +1,17 @@
+{
+    "sales_order_item": {
+        "column": {
+            "leat_loyalty_applied_coupons": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "leat_loyalty_applied_coupons": true
+        }
+    },
+    "quote": {
+        "column": {
+            "leat_loyalty_applied_coupons": true
+        }
+    }
+}

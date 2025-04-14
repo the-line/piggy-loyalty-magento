@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_customer_save_after">
+        <observer name="leat_loyalty_customer_update_after_admin_save"
+                  instance="Leat\LoyaltyAdminUI\Observer\Customer\UpdateCustomerFromAdmin"/>
+    </event>
+    <event name="customer_address_save_commit_after">
+        <observer name="leat_loyalty_customer_address_update_admin"
+                  instance="Leat\LoyaltyFrontend\Observer\Customer\UpdateCustomerAddress"/>
+    </event>
+</config>

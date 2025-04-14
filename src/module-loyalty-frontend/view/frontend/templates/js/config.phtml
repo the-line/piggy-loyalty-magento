@@ -1,0 +1,12 @@
+<?php
+
+
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<script>
+    window.LeatConfig = {
+        redeemUrl: '<?= $escaper->escapeJs($block->getUrl('leat/reward/redeem')) ?>'
+    };
+</script>

@@ -1,0 +1,155 @@
+<?php
+/**
+ * Loyalty program navigation bar template
+ *
+ * @var Leat\LoyaltyFrontend\Block\Loyalty\Navigation $block
+ * @var Magento\Framework\Escaper $escaper
+ */
+
+if ($block->show()) : 
+    $items = $block->getNavigationItems();
+    $itemCount = count($items);
+    $navClasses = 'leat-loyalty-nav';
+    $navClasses .= ' items-' . $itemCount; // Add class based on number of visible items
+?>
+<nav class="<?= $navClasses ?>" id="leat-loyalty-nav" data-items="<?= $itemCount ?>">
+    <ul class="leat-nav-list">
+        <?php $i = 0; ?>
+        <?php foreach ($items as $code => $item) : ?>
+            <?php $block->setData('item_position', ++$i); ?>
+            <?= $block->renderNavigationItem($code) ?>
+        <?php endforeach; ?>
+    </ul>
+</nav>
+
+<script>
+    require(['jquery'], function ($) {
+        $(function () {
+            // Store the original position of the nav
+            const $nav = $('#leat-loyalty-nav');
+            const navTop = $nav.offset().top;
+            const navHeight = $nav.outerHeight();
+            const navPlaceholder = $('<div class="nav-placeholder"></div>').height(navHeight).hide().insertAfter($nav);
+
+            // Handle click events for smooth scrolling
+            $(document).on('click', '.leat-nav-link', function (e) {
+                e.preventDefault();
+                const targetId = $(this).attr('href');
+
+                if (!targetId) {
+                    return;
+                }
+
+                const targetSelector = targetId.replace(/^#/, '');
+                const $target = $('#' + targetSelector);
+
+                if ($target.length) {
+                    $('html, body').animate({
+                        scrollTop: $target.offset().top - 100
+                    }, 500);
+
+                    $('.leat-nav-link').removeClass('active');
+                    $(this).addClass('active');
+                }
+            });
+
+            // Handle scroll events with throttling for performance
+            let ticking = false;
+            $(window).on('scroll', function() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        handleScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            function handleScroll() {
+                try {
+                    const scrollPos = $(document).scrollTop();
+
+                    // Handle sticky nav
+                    if (scrollPos > navTop + 100) {
+                        $nav.addClass('is-sticky');
+                        navPlaceholder.show();
+                    } else {
+                        $nav.removeClass('is-sticky');
+                        navPlaceholder.hide();
+                    }
+
+                    // Build sections array from navigation links
+                    const sections = [];
+
+                    // Get all navigation links
+                    const $navLinks = $('.leat-nav-link');
+
+                    // Process each link to find its target section
+                    $navLinks.each(function() {
+                        try {
+                            const $link = $(this);
+                            const targetId = $link.attr('href');
+
+                            // Skip if no href attribute
+                            if (!targetId) {
+                                return;
+                            }
+
+                            const targetSelector = targetId.replace(/^#/, '');
+                            const $target = $('#' + targetSelector);
+
+                            if ($target.length) {
+                                sections.push({
+                                    link: $link,
+                                    target: $target,
+                                    top: $target.offset().top
+                                });
+                            }
+                        } catch (e) {
+                            console.warn('Error processing nav link', e);
+                        }
+                    });
+
+                    // If no sections found, exit early
+                    if (sections.length === 0) {
+                        return;
+                    }
+
+                    // Sort sections by position
+                    sections.sort(function(a, b) {
+                        return a.top - b.top;
+                    });
+
+                    // Find active section
+                    let activeSectionFound = false;
+
+                    for (let i = 0; i < sections.length; i++) {
+                        const section = sections[i];
+                        const nextSection = sections[i + 1];
+                        const sectionTop = section.top - 120;
+                        const sectionBottom = nextSection ? nextSection.top - 120 : $(document).height();
+
+                        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                            $('.leat-nav-link').removeClass('active');
+                            section.link.addClass('active');
+                            activeSectionFound = true;
+                            break;
+                        }
+                    }
+
+                    // Default to first section if no active section found
+                    if (!activeSectionFound && sections.length > 0 && scrollPos < sections[0].top) {
+                        $('.leat-nav-link').removeClass('active');
+                        sections[0].link.addClass('active');
+                    }
+                } catch (e) {
+                    console.error('Error in handleScroll', e);
+                }
+            }
+
+            // Initial check for active section after a short delay to ensure DOM is ready
+            setTimeout(handleScroll, 100);
+        });
+    });
+</script>
+<?php endif; ?>

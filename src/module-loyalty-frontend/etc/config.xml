@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <leat>
+            <refer_a_friend>
+                <popup_title>We have a discount for you</popup_title>
+                <popup_subtitle>Get 50% off on your first purchase!</popup_subtitle>
+                <popup_message>Enter your email below and we will send you the discount code.</popup_message>
+                <popup_button_text>Get discount</popup_button_text>
+                <popup_success_message>Thank you! Your discount code will be sent to your email.</popup_success_message>
+                <popup_discount_amount>50% off</popup_discount_amount>
+            </refer_a_friend>
+        </leat>
+    </default>
+</config>

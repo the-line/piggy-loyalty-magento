@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="leat_loyalty_rewards" class="Leat\LoyaltyFrontend\Block\Widget\Rewards" ttl="86400">
+        <label translate="true">Leat Rewards</label>
+        <description translate="true">Displays available rewards from Leat that the customer can redeem</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true" required="false" sort_order="10">
+                <label translate="true">Title</label>
+                <description translate="true">Widget title displayed on the frontend</description>
+                <value>My Rewards</value>
+            </parameter>
+            <parameter name="show_points" xsi:type="select" visible="true" required="false" sort_order="20">
+                <label translate="true">Show Points Balance</label>
+                <description translate="true">Display customer's current points balance at the top of the widget</description>
+                <options>
+                    <option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="30">
+                <label translate="true">Template</label>
+                <description translate="true">Select template for the widget</description>
+                <options>
+                    <option name="default" value="Leat_LoyaltyFrontend::widget/rewards.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+
+    <widget id="leat_loyalty_your_coupons" class="Leat\LoyaltyFrontend\Block\Widget\YourCoupons" ttl="86400">
+        <label translate="true">Leat Your Coupons</label>
+        <description translate="true">Displays your available redeemed coupons from Leat</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" visible="true" required="false" sort_order="10">
+                <label translate="true">Title</label>
+                <description translate="true">Widget title displayed on the frontend</description>
+                <value>Your Coupons</value>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="20">
+                <label translate="true">Template</label>
+                <description translate="true">Select template for the widget</description>
+                <options>
+                    <option name="default" value="Leat_LoyaltyFrontend::widget/your_coupons.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget id="leat_loyalty_refer_a_friend" class="Leat\LoyaltyFrontend\Block\Widget\ReferAFriend">
+        <label translate="true">Leat: Refer A Friend</label>
+        <description translate="true">Displays a refer-a-friend widget with social sharing options</description>
+        <parameters>
+            <parameter name="widget_heading" xsi:type="text" visible="true" sort_order="10">
+                <label translate="true">Widget Heading</label>
+                <value>Refer a friend</value>
+            </parameter>
+            <parameter name="section_title" xsi:type="text" visible="true" sort_order="20">
+                <label translate="true">Section Title</label>
+                <value>Refer a friend</value>
+            </parameter>
+            <parameter name="section_subtitle" xsi:type="text" visible="true" sort_order="30">
+                <label translate="true">Section Subtitle</label>
+                <description translate="true">The subtitle displayed below the section title</description>
+                <value>Invite a friend and get rewards</value>
+            </parameter>
+            <parameter name="share_message" xsi:type="text" visible="true" sort_order="40">
+                <label translate="true">Share Message</label>
+                <description translate="true">The message that will be shared via social media</description>
+                <value>Get a discount on your first purchase!</value>
+            </parameter>
+            <parameter name="email_subject" xsi:type="text" visible="true" sort_order="50">
+                <label translate="true">Email Subject</label>
+                <description translate="true">The subject line for email sharing</description>
+                <value>I have a discount for you</value>
+            </parameter>
+            <parameter name="enabled_icons" xsi:type="multiselect" visible="true" sort_order="60" source_model="Leat\LoyaltyFrontend\Model\Config\Source\SocialIcons">
+                <label translate="true">Enabled Social Icons</label>
+                <description translate="true">Select which social sharing icons to display</description>
+            </parameter>
+            <parameter name="note" xsi:type="text" visible="true" required="false" sort_order="70">
+                <label translate="true">Important Note</label>
+                <description translate="true">This widget is for display purposes only and won't function correctly on cached pages</description>
+                <value>This widget requires customer login and should only be placed on uncached pages</value>
+            </parameter>
+        </parameters>
+    </widget>
+
+    <widget id="leat_loyalty_balance" class="Leat\LoyaltyFrontend\Block\Widget\Balance">
+        <label translate="true">Leat: Balance</label>
+        <description translate="true">Displays customer's points balance and prepaid balance</description>
+        <parameters>
+            <parameter name="widget_heading" xsi:type="text" visible="true" sort_order="10">
+                <label translate="true">Widget Heading</label>
+                <value>Your Balance</value>
+            </parameter>
+            <parameter name="show_header" xsi:type="select" visible="true" sort_order="15">
+                <label translate="true">Show Header</label>
+                <description translate="true">Enable or disable the header section with title</description>
+                <options>
+                    <option name="yes" value="1">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0" selected="true">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="credit_name" xsi:type="text" visible="true" sort_order="20">
+                <label translate="true">Credit Name</label>
+                <description translate="true">Label to display for credit points (e.g., "Points", "Credits", etc.)</description>
+                <value>Points</value>
+            </parameter>
+            <parameter name="prepaid_balance_name" xsi:type="text" visible="true" sort_order="30">
+                <label translate="true">Prepaid Balance Name</label>
+                <description translate="true">Label to display for prepaid balance</description>
+                <value>Prepaid Balance</value>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="40">
+                <label translate="true">Template</label>
+                <description translate="true">Select template for the widget</description>
+                <options>
+                    <option name="default" value="Leat_LoyaltyFrontend::widget/balance.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="note" xsi:type="text" visible="true" required="false" sort_order="50">
+                <label translate="true">Important Note</label>
+                <description translate="true">This widget is for display purposes only and won't function correctly on cached pages</description>
+                <value>This widget requires customer login and should only be placed on uncached pages</value>
+            </parameter>
+        </parameters>
+    </widget>
+
+    <widget id="leat_loyalty_activity_log" class="Leat\LoyaltyFrontend\Block\Widget\ActivityLog">
+        <label translate="true">Leat: Activity Log</label>
+        <description translate="true">Displays customer's transaction history and activity log</description>
+        <parameters>
+            <parameter name="widget_heading" xsi:type="text" visible="true" sort_order="10">
+                <label translate="true">Widget Heading</label>
+                <value>Your Activity</value>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="20">
+                <label translate="true">Template</label>
+                <description translate="true">Select template for the widget</description>
+                <options>
+                    <option name="default" value="Leat_LoyaltyFrontend::widget/activity_log.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="note" xsi:type="text" visible="true" required="false" sort_order="30">
+                <label translate="true">Important Note</label>
+                <description translate="true">This widget is for display purposes only and won't function correctly on cached pages</description>
+                <value>This widget requires customer login and should only be placed on uncached pages</value>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

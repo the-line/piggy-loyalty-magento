@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <!-- Sales Order Item table modifications -->
+    <table name="sales_order_item" resource="default" engine="innodb">
+        <column xsi:type="text" name="leat_loyalty_applied_coupons" nullable="true" comment="Leat Applied Coupons Used For Free Product"/>
+    </table>
+
+    <!-- Sales Order table modifications -->
+    <table name="sales_order" resource="default" engine="innodb">
+        <column xsi:type="text" name="leat_loyalty_applied_coupons" nullable="true" comment="Leat Applied Coupons for Order"/>
+    </table>
+
+    <!-- Quote table modifications -->
+    <table name="quote">
+        <column xsi:type="text" name="leat_loyalty_applied_coupons" nullable="true" comment="Applied Leat coupon reward UUIDs"/>
+    </table>
+</schema>

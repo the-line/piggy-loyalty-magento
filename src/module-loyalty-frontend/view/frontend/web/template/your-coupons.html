@@ -1,0 +1,44 @@
+<div class="leat-your-coupons">
+    <div class="block-title">
+        <strong data-bind="i18n: 'Your Available Coupons'"></strong>
+    </div>
+    <div class="block-content">
+        <!-- ko if: coupons().length -->
+        <div class="coupons-list">
+            <!-- ko foreach: coupons -->
+            <div class="coupon-item">
+                <div class="coupon-header">
+                    <div class="coupon-name" data-bind="text: name"></div>
+                </div>
+                <div class="coupon-details">
+                    <div class="coupon-description" data-bind="text: description"></div>
+                    <div class="coupon-code">
+                        <span class="label" data-bind="i18n: 'Code:'"></span>
+                        <span class="value" data-bind="text: code"></span>
+                    </div>
+                    <!-- ko if: expires_at -->
+                    <div class="coupon-expiry">
+                        <span class="label" data-bind="i18n: 'Expires:'"></span>
+                        <span class="value" data-bind="text: $parent.formatDate(expires_at)"></span>
+                    </div>
+                    <!-- /ko -->
+                    <div class="coupon-actions">
+                        <button type="button" class="action apply"
+                                data-bind="click: $parent.applyCoupon.bind($parent, $data), i18n: 'Apply to Cart'">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+        <!-- ko if: !coupons().length -->
+        <div class="empty-message">
+            <span data-bind="i18n: 'You have no available coupons.'"></span>
+            <div class="empty-action">
+                <span data-bind="i18n: 'Purchase rewards from the rewards widget to earn coupons.'"></span>
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+</div>

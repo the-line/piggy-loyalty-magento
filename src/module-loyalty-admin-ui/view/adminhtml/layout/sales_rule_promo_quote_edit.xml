@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="js">
+            <block class="Magento\Framework\View\Element\Template" name="leat_loyalty_salesrule_field_handlers" template="Leat_LoyaltyAdminUI::promo/salesrule-field-handlers.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

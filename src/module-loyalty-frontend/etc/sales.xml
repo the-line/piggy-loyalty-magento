@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="leat_loyaltyfrontend" instance="Leat\LoyaltyFrontend\Totals\Quote\LeatCredits" sort_order="999"/>
+            <item name="leat_loyalty_balance" instance="Leat\LoyaltyFrontend\Totals\Quote\LeatBalance" sort_order="700"/>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="leat_loyalty_balance" instance="Leat\LoyaltyFrontend\Totals\Invoice\LeatBalance" sort_order="700"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="leat_loyalty_balance" instance="Leat\LoyaltyFrontend\Totals\Creditmemo\LeatBalance" sort_order="700"/>
+        </group>
+    </section>
+</config>

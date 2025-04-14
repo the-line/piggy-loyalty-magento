@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="async_queue" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Async Queue</label>
+            <tab>leat_loyalty</tab>
+            <resource>Leat_AsyncQueue::config</resource>
+            <group id="general" translate="label" type="text" showInDefault="1">
+                <label>General Configuration</label>
+                <field id="alert_to" translate="label,comment" type="text" showInDefault="1">
+                    <label>Send error email(s) to:</label>
+                    <comment>Comma seperated list of emails</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

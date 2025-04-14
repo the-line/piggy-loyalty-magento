@@ -1,0 +1,22 @@
+<?php
+/**
+ * Loyalty program index template
+ *
+ * @var Leat\LoyaltyFrontend\Block\Loyalty\Index $block
+ * @var Magento\Framework\Escaper $escaper
+ */
+
+// Display navigation
+$navHtml = $block->getNavigationHtml();
+if (!$navHtml) {
+    echo $block->getChildHtml('leat.configuration.banner');
+    return;
+}
+?>
+
+<?= $navHtml ?>
+<?php foreach ($block->getSections() as $key => $section): ?>
+    <?php if ($section['visible'] && !empty($section['content'])): ?>
+        <?= $section['content'] ?>
+    <?php endif; ?>
+<?php endforeach; ?>

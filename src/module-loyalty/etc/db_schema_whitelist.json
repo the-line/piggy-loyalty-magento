@@ -1,0 +1,53 @@
+{
+    "sales_order": {
+        "column": {
+            "exported_to_leat": true,
+            "exported_to_leat_at": true,
+            "leat_loyalty_balance_amount": true,
+            "leat_loyalty_prepaid_transaction_uuid": true,
+            "leat_loyalty_balance_refunded": true,
+            "leat_loyalty_refunded": true
+        }
+    },
+    "quote": {
+        "column": {
+            "leat_loyalty_balance_amount": true
+        }
+    },
+    "sales_creditmemo": {
+        "column": {
+            "leat_loyalty_balance_amount": true,
+            "leat_loyalty_balance_refunded": true
+        }
+    },
+    "leat_loyalty_salesrule_extension": {
+        "column": {
+            "entity_id": true,
+            "rule_id": true,
+            "reward_uuid": true,
+            "gift_skus": true
+        },
+        "index": {
+            "LEAT_LOYALTY_SALESRULE_EXTENSION_REWARD_UUID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "LEAT_LOYALTY_SALESRULE_EXTENSION_RULE_ID": true,
+            "LEAT_LOYALTY_SALESRULE_EXTENSION_RULE_ID_SALESRULE_RULE_ID": true
+        }
+    },
+    "leat_loyalty_quote_item_extension": {
+        "column": {
+            "entity_id": true,
+            "item_id": true,
+            "is_gift": true,
+            "gift_rule_id": true,
+            "original_product_sku": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "LEAT_LOYALTY_QUOTE_ITEM_EXTENSION_ITEM_ID": true,
+            "LEAT_LOYALTY_QUOTE_ITEM_EXTENSION_ITEM_ID_QUOTE_ITEM_ITEM_ID": true
+        }
+    }
+}

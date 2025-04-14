@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Leat_LoyaltyFrontend::css/styles.css"/>
+    </head>
+    <body>
+        <referenceContainer name="one-column-disabled-cache">
+            <block name="disabled-fpc" cacheable="false"/>
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" name="leat.rewards.js.config" template="Leat_LoyaltyFrontend::js/config.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" name="leat.referral.popup.init" template="Leat_LoyaltyFrontend::js/init-referral-popup.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Plugin for adding leat balance to order grid -->
+    <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+        <plugin name="leat_loyalty_admin_add_balance_to_grid" type="Leat\LoyaltyAdminUI\Plugin\Order\Grid\Collection" sortOrder="100"/>
+    </type>
+
+    <!-- Add Leat Reward UUID field to SalesRule form data -->
+    <type name="Magento\SalesRule\Model\Rule\DataProvider">
+        <plugin name="leat_loyalty_admin_ui_data_provider"
+                type="Leat\LoyaltyAdminUI\Plugin\SalesRule\Model\Rule\DataProviderPlugin"
+                sortOrder="10"/>
+    </type>
+</config>

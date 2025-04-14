@@ -1,0 +1,25 @@
+.order-leat-balance .admin__page-section-item-title .title {
+    font-weight: bold;
+    color: #514943;
+}
+
+.order-leat-balance .leat-balance-amount {
+    color: #ef672f;
+    font-weight: bold;
+}
+
+.order-leat-balance-table {
+    width: 100%;
+}
+
+.order-leat-balance-table th {
+    width: 50%;
+}
+
+.admin__total-mark.leat_loyalty_balance-total {
+    font-weight: bold;
+}
+
+.admin__total-amount.leat_loyalty_balance-total .price {
+    color: #ef672f;
+}

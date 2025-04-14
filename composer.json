@@ -1,0 +1,54 @@
+{
+    "name": "leat/magento2-loyalty",
+    "type": "magento2-component",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Technical Team Piggy",
+          "email": "techniek@piggy.nl"
+        }
+    ],
+    "description": "Magento 2 module for Leat loyalty program",
+    "keywords": [
+        "magento2",
+        "loyalty",
+        "piggy",
+        "leat"
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
+    "require": {
+        "magento/framework": ">=103.0.7",
+        "piggy/piggy-php-sdk": "^3.12",
+        "php": "^8.3"
+    },
+    "replace": {
+        "leat/module-loyalty": "self.version",
+        "leat/module-loyalty-frontend": "self.version",
+        "leat/module-loyalty-admin-ui": "self.version",
+        "leat/module-loyalty-async": "self.version",
+        "leat/module-async-queue": "self.version"
+    },
+    "autoload": {
+        "files": [
+            "src/module-loyalty/registration.php",
+            "src/module-loyalty-frontend/registration.php",
+            "src/module-loyalty-admin-ui/registration.php",
+            "src/module-loyalty-async/registration.php",
+            "src/module-async-queue/registration.php"
+        ],
+        "psr-4": {
+            "Leat\\Loyalty\\": "src/module-loyalty",
+            "Leat\\LoyaltyFrontend\\": "src/module-loyalty-frontend",
+            "Leat\\LoyaltyAdminUI\\": "src/module-loyalty-admin-ui",
+            "Leat\\LoyaltyAsync\\": "src/module-loyalty-async",
+            "Leat\\AsyncQueue\\": "src/module-async-queue"
+        }
+    },
+   "minimum-stability": "dev",
+   "prefer-stable": true
+}

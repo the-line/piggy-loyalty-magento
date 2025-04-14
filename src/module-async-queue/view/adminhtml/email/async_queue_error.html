@@ -1,0 +1,33 @@
+<!--@subject {{trans "Asnyc queue error(s) notification" }} @-->
+
+<style>
+    td, th {
+        border: 1px solid black;
+        padding: 2px 4px;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+</style>
+
+<b>The ASync Queue has run into {{var error_count}} errors this week that haven't resolved themselves.</b>
+<p>Please check the queue for issues that need resolving.</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Request ID</th>
+        <th>Type code</th>
+        <th>Relation ID</th>
+        <th>Website ID</th>
+        <th>Created at</th>
+        <th>Updated at</th>
+        <th>Attempt #</th>
+        <th>Latest fail reason (first line)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{var tbody|raw}}
+    </tbody>
+</table>

@@ -1,0 +1,40 @@
+<?php
+/**
+ * @var \Leat\LoyaltyAdminUI\Block\Adminhtml\Order\View\LeatBalance $block
+ */
+?>
+<?php if ($block->canDisplay()) : ?>
+<div class="admin__page-section-item order-leat-balance">
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= $block->escapeHtml(__('Prepaid Balance Information')) ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <div class="leat-balance-details">
+            <table class="admin__table-secondary order-leat-balance-table">
+                <tr>
+                    <th><?= $block->escapeHtml(__('Original Grand Total')) ?></th>
+                    <td><?= $block->escapeHtml($block->formatPrice($block->getOriginalGrandTotal())) ?></td>
+                </tr>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Prepaid Balance Applied')) ?></th>
+                    <td class="bold leat-balance-amount">
+                        - <?= $block->escapeHtml($block->formatPrice($block->getPrepaidBalanceAmount())) ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Final Grand Total')) ?></th>
+                    <td class="bold">
+                        <?= $block->escapeHtml($block->formatPrice($block->getOrder()->getGrandTotal())) ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="message message-notice">
+            <div><?= $block->escapeHtml(__(
+                'Note: A prepaid balance of %1 was applied to this order.',
+                $block->formatPrice($block->getPrepaidBalanceAmount())
+            )) ?></div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

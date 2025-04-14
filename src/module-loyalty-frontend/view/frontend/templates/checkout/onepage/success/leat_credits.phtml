@@ -1,0 +1,15 @@
+<?php
+
+/** @var \Leat\LoyaltyFrontend\ViewModel\LoyaltyStoreCheckCheckout $leatCheckViewModel */
+$leatCheckViewModel = $block->getData('leatDisplayCheckViewModel');
+$order = $leatCheckViewModel->getOrder();
+$creditLabel = $leatCheckViewModel->getCreditLabel();
+$isVisible = $leatCheckViewModel->isShowOnCheckoutSuccess();
+?>
+<?php if ($leatCheckViewModel->showLeatLoyalty() && $isVisible && ($credits = $leatCheckViewModel->getPointsEstimationByOrder($order)) > 0) : ?>
+    <div class="checkout-additional-leat-credits">
+        <span>
+            <?= /* @escapeNotVerified */  __("You have earned %1 %2 with your purchase.", $credits, $creditLabel) ?>
+        </span>
+    </div>
+<?php endif ?>
