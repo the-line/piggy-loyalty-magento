@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Leat\AsyncQueue\Cron\QueueManagement;
+namespace Leat\LoyaltyAsync\Cron;
 
-use Leat\AsyncQueue\Model\Config;
+use Leat\AsyncQueue\Api\RequestRepositoryInterface;
+use Leat\Loyalty\Model\Config;
 use Leat\Loyalty\Model\Logger;
 use Leat\Loyalty\Model\LoggerFactory;
-use Leat\AsyncQueue\Api\RequestRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Area;
 use Magento\Framework\Mail\Template\TransportBuilder;

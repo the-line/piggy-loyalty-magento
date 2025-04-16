@@ -10,7 +10,7 @@ use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\LoyaltyAsync\Model\Queue\Builder\LoyaltyJobBuilder;
 use Leat\LoyaltyAsync\Model\Queue\Builder\Service\ContactBuilder;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
+use Leat\Loyalty\Model\Config;
 use Leat\LoyaltyFrontend\Observer\Customer\UpdateCustomer;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Event\Observer;
@@ -21,7 +21,7 @@ class UpdateCustomerFromAdmin extends UpdateCustomer
     public function __construct(
         protected JobDigest         $jobDigest,
         LoyaltyJobBuilder           $jobBuilder,
-        FrontendConfig              $config,
+        Config                      $config,
         StoreManager                $storeManager,
         CustomerRepositoryInterface $customerRepository,
         Connector                   $leatConnector,

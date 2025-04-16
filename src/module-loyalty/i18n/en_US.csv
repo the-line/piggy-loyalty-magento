@@ -98,3 +98,4 @@ Enabled,Enabled
 "The message displayed after successful email submission","The message displayed after successful email submission"
 "Discount Amount","Discount Amount"
 "The discount amount displayed in the popup (e.g., ""50% off"")","The discount amount displayed in the popup (e.g., ""50% off"")"
+"Sync the data on every extension update to ensure the Leat backend gets updated with the latest attributes.","Sync the data on every extension update to ensure the Leat backend gets updated with the latest attributes."

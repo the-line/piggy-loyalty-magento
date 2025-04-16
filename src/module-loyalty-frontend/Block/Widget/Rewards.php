@@ -9,7 +9,7 @@ use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\RewardResource;
 use Leat\LoyaltyFrontend\Block\GenericWidgetBlock;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
+use Leat\Loyalty\Model\Config;
 use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\StoreManagerInterface;
@@ -32,7 +32,7 @@ class Rewards extends GenericWidgetBlock
 
     public function __construct(
         StoreManagerInterface $storeManager,
-        FrontendConfig $config,
+        Config $config,
         Session $customerSession,
         ContactResource $contactResource,
         Connector $connector,

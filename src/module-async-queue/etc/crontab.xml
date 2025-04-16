@@ -8,11 +8,6 @@
             <!--      First day of the month at 00:00      -->
             <schedule>0 0 1 * *</schedule>
         </job>
-        <job name="leat_asyncqueue_queue_alert" instance="Leat\AsyncQueue\Cron\QueueManagement\QueueAlert"
-             method="execute">
-            <!--      At 10:00 on mondays      -->
-            <schedule>0 10 * * 1</schedule>
-        </job>
         <job name="leat_asyncqueue_process_jobs" instance="Leat\AsyncQueue\Cron\QueueManagement\ProcessJobs"
              method="execute">
             <!--      Every minute     -->

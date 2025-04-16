@@ -11,7 +11,7 @@ use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\LoyaltyAsync\Model\Queue\Builder\LoyaltyJobBuilder;
 use Leat\LoyaltyAsync\Model\Queue\Builder\Service\ContactBuilder;
 use Leat\LoyaltyAsync\Observer\ContactRequestObserver;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
+use Leat\Loyalty\Model\Config;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Customer;
 use Magento\Framework\Event\Observer;
@@ -21,7 +21,7 @@ class CreateCustomer extends ContactRequestObserver
 {
     public function __construct(
         LoyaltyJobBuilder                 $jobBuilder,
-        FrontendConfig                  $config,
+        Config                          $config,
         StoreManager                    $storeManager,
         CustomerRepositoryInterface     $customerRepository,
         Connector                       $leatConnector,
@@ -60,9 +60,6 @@ class CreateCustomer extends ContactRequestObserver
     {
         /** @var Customer $customer */
         $customer = $observer->getCustomer();
-        if (!$this->config->getIsAddOnCreate()) {
-            return;
-        }
 
         $this->jobDigest->setJob(
             $this->contactBuilder->addNewContact($customer)->setSkipValidation(true)

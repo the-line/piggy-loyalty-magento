@@ -9,4 +9,11 @@
             <schedule>*/1 * * * *</schedule>
         </job>
     </group>
+    <group id="leat_async_queue">
+        <job name="leat_loyalty_queue_alert" instance="Leat\LoyaltyAsync\Cron\QueueAlert"
+             method="execute">
+            <!--      At 10:00 on mondays      -->
+            <schedule>0 10 * * 1</schedule>
+        </job>
+    </group>
 </config>

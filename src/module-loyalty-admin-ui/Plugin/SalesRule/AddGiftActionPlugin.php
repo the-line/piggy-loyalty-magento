@@ -20,7 +20,7 @@ class AddGiftActionPlugin
     public function afterToOptionArray(SimpleActionOptionsProvider $subject, array $result): array
     {
         $result[] = [
-            'label' => __('Add gift products to cart'),
+            'label' => __('Leat - Add gift products to cart'),
             'value' => self::ADD_GIFT_PRODUCTS_ACTION
         ];
 

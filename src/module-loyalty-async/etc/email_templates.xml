@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
     <template id="async_queue_error_mail" label="Async queue error notification template" file="asnyc_queue_error.html"
-              type="html" module="Leat_AsyncQueue" area="adminhtml"/>
+              type="html" module="Leat_LoyaltyAsync" area="adminhtml"/>
     <template id="connector_error_mail" label="Connector error" file="connector_error.html"
-              type="html" module="Leat_AsyncQueue" area="adminhtml"/>
+              type="html" module="Leat_LoyaltyAsync" area="adminhtml"/>
 </config>

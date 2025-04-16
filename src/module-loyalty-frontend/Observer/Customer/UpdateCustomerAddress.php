@@ -10,7 +10,7 @@ use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\LoyaltyAsync\Model\Queue\Builder\LoyaltyJobBuilder;
 use Leat\LoyaltyAsync\Model\Queue\Builder\Service\ContactBuilder;
 use Leat\LoyaltyAsync\Observer\ContactRequestObserver;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
+use Leat\Loyalty\Model\Config;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Store\Model\StoreManager;
@@ -18,8 +18,8 @@ use Magento\Store\Model\StoreManager;
 class UpdateCustomerAddress extends ContactRequestObserver
 {
     public function __construct(
-        LoyaltyJobBuilder                 $jobBuilder,
-        FrontendConfig                  $config,
+        LoyaltyJobBuilder               $jobBuilder,
+        Config                          $config,
         StoreManager                    $storeManager,
         CustomerRepositoryInterface     $customerRepository,
         Connector                       $leatConnector,

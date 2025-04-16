@@ -7,8 +7,6 @@ use Leat\AsyncQueue\Model\Queue\Request\RequestTypePool;
 use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\LoyaltyFrontend\Block\GenericWidgetBlock;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
-use Magento\Framework\View\Element\Template;
 use Leat\Loyalty\Model\Config;
 use Leat\Loyalty\Model\CustomerContactLink;
 use Magento\Customer\Model\Session as CustomerSession;
@@ -34,7 +32,7 @@ class Balance extends GenericWidgetBlock
 
     public function __construct(
         StoreManagerInterface $storeManager,
-        FrontendConfig $config,
+        Config $config,
         CustomerSession $customerSession,
         ContactResource $contactResource,
         Connector $connector,

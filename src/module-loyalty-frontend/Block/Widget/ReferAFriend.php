@@ -10,7 +10,7 @@ use Leat\Loyalty\Model\Config as LeatConfig;
 use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\LoyaltyFrontend\Block\GenericWidgetBlock;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
+use Leat\Loyalty\Model\Config;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -37,7 +37,7 @@ class ReferAFriend extends GenericWidgetBlock
 
     public function __construct(
         protected StoreManagerInterface $storeManager,
-        protected FrontendConfig        $config,
+        protected Config                $config,
         protected Session               $customerSession,
         protected ContactResource       $contactResource,
         protected Connector             $connector,

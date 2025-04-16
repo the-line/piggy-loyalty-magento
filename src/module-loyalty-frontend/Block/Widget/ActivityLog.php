@@ -12,7 +12,7 @@ use Leat\Loyalty\Model\ResourceModel\Loyalty\AttributeResource;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\Loyalty\Model\Transaction\OrderItems;
 use Leat\LoyaltyFrontend\Block\GenericWidgetBlock;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
+use Leat\Loyalty\Model\Config;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\LocalizedException;
@@ -52,7 +52,7 @@ class ActivityLog extends GenericWidgetBlock
 
     public function __construct(
         StoreManagerInterface $storeManager,
-        FrontendConfig $config,
+        Config $config,
         Session $customerSession,
         ContactResource $contactResource,
         Connector $connector,

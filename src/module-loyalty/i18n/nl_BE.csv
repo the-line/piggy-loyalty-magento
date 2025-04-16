@@ -98,3 +98,4 @@ Enabled,Ingeschakeld
 "The message displayed after successful email submission","Bericht weergegeven na succesvolle e-mailverzending"
 "Discount Amount","Kortingsbedrag"
 "The discount amount displayed in the popup (e.g., ""50% off"")","Kortingsbedrag weergegeven in de pop-up (bijv. ""50% korting"")"
+"Sync the data on every extension update to ensure the Leat backend gets updated with the latest attributes.","Synchroniseer de gegevens bij elke extensie-update om ervoor te zorgen dat de Leat backend wordt bijgewerkt met de nieuwste attributen."

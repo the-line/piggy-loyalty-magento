@@ -11,7 +11,7 @@ use Leat\Loyalty\Model\Client;
 use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\LoyaltyAsync\Model\Queue\Type\LoyaltyGenericType;
-use Leat\LoyaltyFrontend\Model\FrontendConfig;
+use Leat\Loyalty\Model\Config;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\LocalizedException;
@@ -54,7 +54,7 @@ abstract class GenericWidgetBlock extends Template implements BlockInterface
 
     public function __construct(
         protected StoreManagerInterface $storeManager,
-        protected FrontendConfig        $config,
+        protected Config                $config,
         protected Session               $customerSession,
         protected ContactResource       $contactResource,
         protected Connector             $connector,
