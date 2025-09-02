@@ -55,10 +55,11 @@ class RuleLoadPlugin
 
             $ruleExtension = $this->extensionRepository->getByRuleId($ruleId);
 
-            // Set extension attributes
-            $extensionAttributes->setGiftSkus($ruleExtension->getGiftSkus());
-
-            $result->setExtensionAttributes($extensionAttributes);
+            if (is_array($extensionAttributes)) {
+                $extensionAttributes['gift_skus'] = $ruleExtension->getGiftSkus();
+            } else {
+                $result->setExtensionAttributes($extensionAttributes);
+            }
 
             // Also set the data directly for use in forms
             if ($ruleExtension->getGiftSkus()) {

@@ -64,7 +64,7 @@ class RefundPrepaidTransaction implements ObserverInterface
             $refundAmount = 0.0;
             if ($creditmemo->getData('leat_loyalty_balance_amount') !== null) {
                 $refundAmount = (float)$creditmemo->getData('leat_loyalty_balance_amount');
-            } else if ($creditmemo->getData('leat_loyalty_balance_refund_amount') !== null) {
+            } elseif ($creditmemo->getData('leat_loyalty_balance_refund_amount') !== null) {
                 $refundAmount = (float)$creditmemo->getData('leat_loyalty_balance_refund_amount');
             }
 

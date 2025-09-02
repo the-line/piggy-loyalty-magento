@@ -99,7 +99,7 @@ class Job extends AbstractModel implements JobInterface
     /**
      * @inheritDoc
      */
-    public function setRelationId(string $relationId): static
+    public function setRelationId(?string $relationId): static
     {
         return $this->setData(self::RELATION_ID, $relationId);
     }

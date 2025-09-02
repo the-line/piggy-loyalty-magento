@@ -6,9 +6,11 @@ declare(strict_types=1);
 namespace Leat\LoyaltyAsync\Model\Queue\Type\Contact\Credit;
 
 use Leat\AsyncQueue\Model\Connector\ConnectorPool;
+use Leat\AsyncQueue\Model\Request;
 use Leat\Loyalty\Model\Config;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
-use Leat\Loyalty\Model\Transaction\OrderItems;
+use Leat\Loyalty\Model\Transaction\LoyaltyTransactionOrderItems;
+use Leat\Loyalty\Model\Transaction\LoyaltyTransactionHash;
 use Leat\LoyaltyAsync\Model\Connector\AsyncConnector;
 use Leat\LoyaltyAsync\Model\Queue\Type\ContactType;
 use Magento\Framework\Exception\AuthenticationException;
@@ -31,6 +33,8 @@ abstract class Transaction extends ContactType
     public const string DATA_INCREMENT_ID_KEY = 'increment_id';
     public const string DATA_ORDER_ITEM_ID_KEY = 'order_item_id';
     public const string DATA_UNIT_NAME_KEY = 'unit_name';
+    public const string DATA_TRANSACTION_NOTE_KEY = 'transaction_note';
+
 
     public const string INTERNAL_SKU_NAME = 'sku';
     public const string INTERNAL_BRAND_NAME = 'brand';
@@ -39,6 +43,15 @@ abstract class Transaction extends ContactType
     public const string INTERNAL_ROW_TOTAL_NAME = 'row_total';
     public const string INTERNAL_INCREMENT_ID_NAME = 'increment_id';
     public const string INTERNAL_ORDER_ITEM_ID_NAME = 'order_item_id';
+
+    public const string INTERNAL_TRANSACTION_HASH = 'transaction_hash';
+    public const string INTERNAL_TRANSACTION_NOTE = 'transaction_note';
+
+    /**
+     * Cached transaction hashes for a customer
+     * @var array
+     */
+    protected array $cachedTransactionHashes = [];
 
     /**
      * Mapped transactions for a customer
@@ -50,13 +63,14 @@ abstract class Transaction extends ContactType
     protected array $transactions = [];
 
     public function __construct(
-        protected OrderItems $orderItems,
-        Config $config,
-        ContactResource $contactResource,
-        ConnectorPool $connectorPool,
-        StoreManagerInterface $storeManager,
-        AsyncConnector $connector,
-        array $data = []
+        protected LoyaltyTransactionOrderItems $orderItems,
+        protected LoyaltyTransactionHash       $transactionHash,
+        Config                                 $config,
+        ContactResource                        $contactResource,
+        ConnectorPool                          $connectorPool,
+        StoreManagerInterface                  $storeManager,
+        AsyncConnector                         $connector,
+        array                                  $data = []
     ) {
         parent::__construct($config, $contactResource, $connectorPool, $storeManager, $connector, $data);
     }
@@ -64,7 +78,7 @@ abstract class Transaction extends ContactType
     /**
      * @inheritDoc
      */
-    protected function execute(): ?CreditReception
+    protected function execute(): mixed
     {
         $job = $this->getJob();
         $contactUuid = $this->contactResource->getContactUuid((int) $job->getRelationId());
@@ -73,13 +87,15 @@ abstract class Transaction extends ContactType
             return null;
         }
 
-        if ($this->skipTransaction($this->getData(self::DATA_ORDER_ITEM_ID_KEY))) {
+        if ($skipResult = $this->skipTransaction(
+            Transaction::INTERNAL_ORDER_ITEM_ID_NAME,
+            $this->getData(self::DATA_ORDER_ITEM_ID_KEY)
+        )) {
             $this->getLogger('skipped-transactions')->log(sprintf(
-                'Skipping transaction for #%s - order item id: %s - Contact %s',
-                $this->getData(self::DATA_INCREMENT_ID_KEY),
-                $this->getData(self::DATA_ORDER_ITEM_ID_KEY),
-                $contactUuid
+                'Skipping transaction | %s ',
+                $skipResult
             ));
+            $this->getRequest()->setLatestFailReason($skipResult);
             return null;
         }
 
@@ -100,23 +116,70 @@ abstract class Transaction extends ContactType
                 self::INTERNAL_BRAND_NAME => $this->getData(self::DATA_BRAND_KEY),
                 self::INTERNAL_INCREMENT_ID_NAME => $this->getData(self::DATA_INCREMENT_ID_KEY),
                 self::INTERNAL_ORDER_ITEM_ID_NAME => $this->getData(self::DATA_ORDER_ITEM_ID_KEY),
-                self::INTERNAL_ADDITIONAL_CREDITS_NAME => $this->getData(self::DATA_ADDITIONAL_CREDITS_KEY)
+                self::INTERNAL_ADDITIONAL_CREDITS_NAME => $this->getData(self::DATA_ADDITIONAL_CREDITS_KEY),
+                self::INTERNAL_TRANSACTION_HASH => $this->getRequest()->getTransactionHash(),
+                self::INTERNAL_TRANSACTION_NOTE => $this->getData(self::DATA_TRANSACTION_NOTE_KEY),
             ]
         );
     }
 
     /**
-     * @param $orderItemId
-     *
-     * @return bool
+     * @param string $contactUuid
+     * @param string|null $attribute
+     * @param string|null $attributeValue
+     * @return bool|string
      * @throws AuthenticationException
      * @throws PiggyRequestException
      */
-    protected function skipTransaction($orderItemId): bool
-    {
-        $orderItemTransactionMapping = $this->getCustomerTransactionOrderItemIds();
+    public function skipTransaction(
+        ?string $attribute = null,
+        ?string $attributeValue = null
+    ): bool|string {
+        switch ($attribute) {
+            case self::INTERNAL_ORDER_ITEM_ID_NAME:
+                $orderItemTransactionMapping = $this->getCustomerTransactionOrderItemIds();
+                if (isset($orderItemTransactionMapping[$attributeValue])) {
+                    return sprintf(
+                        'Transaction with order item id %s already exists',
+                        $attributeValue
+                    );
+                }
+                return false;
+            case self::INTERNAL_TRANSACTION_HASH:
+                $transactionHashes = $this->getTransactionHashes();
+                if (in_array($attributeValue, $transactionHashes, true)) {
+                    return sprintf(
+                        'Transaction with hash %s already exists',
+                        $attributeValue
+                    );
+                }
+                return false;
+            default:
+                return false;
+        }
+    }
 
-        return isset($orderItemTransactionMapping[$orderItemId]);
+    /**
+     * Fetch the transaction hashes for a contact
+     * - If the transactions are already fetched, return the cached transactions
+     *
+     * @param string $customerId
+     * @return array
+     * @throws \Magento\Framework\Exception\AuthenticationException
+     * @throws \Piggy\Api\Exceptions\PiggyRequestException
+     */
+    protected function getTransactionHashes(): array
+    {
+        $job = $this->getJob();
+        $customer = $this->contactResource->getCustomer((int) $job->getRelationId());
+        $contactUuid = $this->contactResource->getContactUuid((int) $customer->getId());
+        if (!isset($this->cachedTransactionHashes[$contactUuid])) {
+            $this->cachedTransactionHashes[$contactUuid] = $this->transactionHash->getTransactions([
+                'customer' => $customer
+            ]);
+        }
+
+        return $this->cachedTransactionHashes[$contactUuid];
     }
 
     /**
@@ -133,8 +196,9 @@ abstract class Transaction extends ContactType
         $customer = $this->contactResource->getCustomer((int) $job->getRelationId());
         $contactUuid = $this->contactResource->getContactUuid((int) $customer->getId());
         if (!isset($this->transactions[$contactUuid])) {
-            $this->transactions = [];
-            $this->transactions[$contactUuid] = $this->orderItems->getLoyaltyTransactions($customer);
+            $this->transactions[$contactUuid] = $this->orderItems->getTransactions([
+                'customer' => $customer
+            ]);
         }
 
         return $this->transactions[$contactUuid];

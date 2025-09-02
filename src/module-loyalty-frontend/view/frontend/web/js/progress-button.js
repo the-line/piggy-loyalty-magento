@@ -7,7 +7,7 @@ define([
     return {
         /**
          * Initialize progress button
-         * 
+         *
          * @param {jQuery} button - The button element
          * @param {Object} options - Button text options
          * @param {string} options.initialText - Original button text (saved for reset)
@@ -23,7 +23,6 @@ define([
          */
         init: function (button, options) {
             options = options || {};
-            
             // Store original text if not provided
             const initialText = options.initialText || button.text();
             button.data('original-text', initialText);
@@ -69,7 +68,7 @@ define([
             return {
                 /**
                  * Complete the progress animation and update button state
-                 * 
+                 *
                  * @param {boolean} success - Whether the operation was successful
                  * @param {Object} completeOptions - Options for customizing completion
                  */
@@ -112,7 +111,7 @@ define([
                         
                         // Reset button after a delay with new appropriate text based on toggle state
                         if (completeOptions.autoReset !== false) {
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 progressContainer.remove();
                                 button.text(resetText);
                                 button.removeClass('success').addClass('primary');
@@ -143,7 +142,7 @@ define([
                         }
                         
                         // Reset button after a short delay
-                        setTimeout(function() {
+                        setTimeout(function () {
                             button.text(toggleMode ? previousStateText : initialText);
                             button.attr('disabled', false);
                         }, 1000);
@@ -169,19 +168,19 @@ define([
                 
                 /**
                  * Get the current toggle state
-                 * 
+                 *
                  * @returns {boolean} Whether the button is currently toggled
                  */
-                isToggled: function() {
+                isToggled: function () {
                     return button.data('is-toggled') || false;
                 },
                 
                 /**
                  * Set toggle state without visual changes
-                 * 
+                 *
                  * @param {boolean} toggled - Whether the button should be toggled
                  */
-                setToggleState: function(toggled) {
+                setToggleState: function (toggled) {
                     if (toggleMode) {
                         isToggled = toggled;
                         button.data('is-toggled', isToggled);

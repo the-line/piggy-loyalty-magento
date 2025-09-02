@@ -7,6 +7,11 @@
         <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount used"/>
         <column xsi:type="decimal" name="leat_loyalty_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount refunded"/>
         <column xsi:type="varchar" name="leat_loyalty_prepaid_transaction_uuid" length="36" nullable="true" comment="Leat prepaid transaction UUID"/>
+        <column xsi:type="decimal" name="leat_loyalty_giftcard_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat giftcard amount refunded"/>
+    </table>
+    <table name="sales_order_item">
+        <column xsi:type="boolean" name="giftcard_exported_to_leat" nullable="false" default="0" comment="Giftcard has been exported to leat"/>
+        <column xsi:type="timestamp" name="giftcard_exported_to_leat_at" nullable="true" comment="Giftcard has been exported to leat at"/>
     </table>
     <table name="quote">
         <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount used"/>
@@ -14,6 +19,7 @@
     <table name="sales_creditmemo">
         <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount to refund"/>
         <column xsi:type="decimal" name="leat_loyalty_balance_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount refunded"/>
+        <column xsi:type="decimal" name="leat_loyalty_giftcard_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat giftcard amount refunded"/>
     </table>
 
     <!-- Extension attributes table for SalesRule -->
@@ -60,5 +66,52 @@
                     referenceTable="quote_item"
                     referenceColumn="item_id"
                     onDelete="CASCADE"/>
+    </table>
+    <table name="leat_applied_gift_cards" resource="default" engine="innodb"
+           comment="Leat Applied Gift Cards">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="quote_id" padding="10" unsigned="true" nullable="true"
+                comment="Quote ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="true"
+                comment="Order ID"/>
+        <column xsi:type="varchar" name="gift_card_code" length="255" nullable="false"
+                comment="Gift Card Code"/>
+        <column xsi:type="decimal" name="balance" scale="4" precision="20" unsigned="false" nullable="false" default="0.0000"
+                comment="Gift Card Balance"/>
+        <column xsi:type="decimal" name="applied_amount" scale="4" precision="20" unsigned="false" nullable="false" default="0.0000"
+                comment="Applied Amount"/>
+        <column xsi:type="decimal" name="base_applied_amount" scale="4" precision="20" unsigned="false" nullable="false" default="0.0000"
+                comment="Base Applied Amount"/>
+        <column xsi:type="decimal" name="refunded_amount" scale="4" precision="20" unsigned="false" nullable="false" default="0.0000"
+                comment="Refunded Amount"/>
+        <column xsi:type="decimal" name="base_refunded_amount" scale="4" precision="20" unsigned="false" nullable="false" default="0.0000"
+                comment="Base Refunded Amount"/>
+        <column xsi:type="varchar" name="leat_transaction_uuid" length="255" nullable="true"
+                comment="Leat Transaction UUID"/>
+        <column xsi:type="varchar" name="leat_giftcard_uuid" length="255" nullable="true"
+                comment="Leat Gift Card UUID"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="LEAT_APPLIED_GIFT_CARDS_QUOTE_ID_QUOTE_ENTITY_ID"
+                    table="leat_applied_gift_cards" column="quote_id" referenceTable="quote"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="LEAT_APPLIED_GIFT_CARDS_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="leat_applied_gift_cards" column="order_id" referenceTable="sales_order"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+
+        <index referenceId="LEAT_APPLIED_GIFT_CARDS_QUOTE_ID" indexType="btree">
+            <column name="quote_id"/>
+        </index>
+        <index referenceId="LEAT_APPLIED_GIFT_CARDS_ORDER_ID" indexType="btree">
+            <column name="order_id"/>
+        </index>
     </table>
 </schema>

@@ -50,7 +50,8 @@ class NavItem extends Template
         'coupons' => 'coupons.svg',
         'rewards' => 'rewards.svg',
         'refer' => 'refer.svg',
-        'activity' => 'activity.svg'
+        'activity' => 'activity.svg',
+        'giftcard' => 'giftcard.svg',
     ];
 
     /**

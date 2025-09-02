@@ -3,6 +3,7 @@
     <body>
         <referenceBlock name="invoice_totals">
             <block class="Leat\LoyaltyFrontend\Block\Sales\Order\Totals\LeatBalance" name="leat.balance.total" as="leat_loyalty_balance"/>
+            <block class="Leat\LoyaltyFrontend\Block\Adminhtml\Order\Invoice\Totals\LeatGiftcard" name="leat.giftcard.total" as="leat_loyalty_giftcard"/>
         </referenceBlock>
     </body>
 </page>

@@ -53,12 +53,6 @@ class RuleSavePlugin
             // Get gift_skus value from model and extension attributes
             $giftSkus = $result->getData('gift_skus');
 
-            // Check if data is available from extension attributes
-            $resultExtension = $result->getExtensionAttributes();
-            if ($resultExtension && $giftSkus === null && $resultExtension->getGiftSkus() !== null) {
-                $giftSkus = $resultExtension->getGiftSkus();
-            }
-
             // Set value on extension attributes
             $extensionAttributes->setGiftSkus($giftSkus);
 

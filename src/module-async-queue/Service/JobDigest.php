@@ -18,6 +18,8 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 
 class JobDigest
 {
+    public const string PREVIOUS_RESULT = 'previous_result';
+
     /**
      * Limit the amount of jobs to be processed at once to prevent memory/timing issues.
      */
@@ -67,8 +69,9 @@ class JobDigest
         $typePool = $this->requestTypePool->getRequestTypes();
         /** @var Job $job */
         foreach ($this->getJobs() as $job) {
-            $skipValidation = !($job->getSkipValidation() ?? false);
-            if ($skipValidation && !$this->validateJob($job)) {
+            $previousRequestResult = null;
+            $skipValidation = ($job->getSkipValidation() ?? false);
+            if (!$skipValidation && !$this->validateJob($job)) {
                 continue;
             }
 
@@ -76,10 +79,11 @@ class JobDigest
             $requests = $job->getRequestCollection();
             foreach ($requests as $request) {
                 if ($request->getIsSynced()) {
+                    $previousRequestResult = $request->getResult();
                     continue;
                 }
 
-                if ($skipValidation && !$this->checkRetryLimit($request)) {
+                if (!$skipValidation && !$this->checkRetryLimit($request)) {
                     continue 2;
                 }
 
@@ -89,7 +93,7 @@ class JobDigest
                     $request->setAttempt(($request->getAttempt() + 1));
                     $type = $typePool[$request->getTypeCode()];
 
-                    $type->unpack($request->getPayload());
+                    $type->unpack([...$request->getPayload(), self::PREVIOUS_RESULT => $previousRequestResult]);
 
                     $type->beforeExecute($job, $request);
 
@@ -115,6 +119,7 @@ class JobDigest
                     // Continue running the next job as the requests in a job are sequential
                     continue 2;
                 }
+                $previousRequestResult = $request->getResult();
             }
 
             $job->setCompleted(true);

@@ -1,3 +1,5 @@
 "Customer id Contact UUID or is missing","Customer id Contact UUID or is missing"
 "Customer should have a contact but doesn't","Customer should have a contact but doesn't"
 "No contact UUID found","No contact UUID found"
+"Asnyc queue error(s) notification","Asnyc queue error(s) notification"
+"Connector error","Connector error"

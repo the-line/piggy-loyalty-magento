@@ -2,6 +2,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="creditmemo_totals">
-            <block class="Leat\LoyaltyFrontend\Block\Adminhtml\Order\Creditmemo\Totals\LeatBalance" name="creditmemo_totals_leat_loyalty_balance" template="Leat_LoyaltyFrontend::order/creditmemo/create/totals/leat_loyalty_balance.phtml" />        </referenceBlock>
+            <block class="Leat\LoyaltyFrontend\Block\Adminhtml\Order\Creditmemo\Totals\LeatBalance" name="creditmemo_totals_leat_loyalty_balance" />
+            <block class="Leat\LoyaltyFrontend\Block\Adminhtml\Order\Creditmemo\Totals\LeatGiftcard" name="creditmemo_totals_leat_loyalty_giftcard" />
+        </referenceBlock>
     </body>
 </page>

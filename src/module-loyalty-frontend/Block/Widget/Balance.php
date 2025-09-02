@@ -107,7 +107,7 @@ class Balance extends GenericWidgetBlock
      */
     public function shouldShowPoints(): bool
     {
-        if (!$this->config->getIsEnabled()) {
+        if (!$this->config->getIsEnabled($this->getStoreId())) {
             return false;
         }
 
@@ -135,7 +135,9 @@ class Balance extends GenericWidgetBlock
      */
     public function getCreditName(): string
     {
-        return  (string) (($this->getData('credit_name') ?? $this->config->getCreditName()) ?? __('Points'));
+        return (string) (($this->getData('credit_name')
+            ?? $this->config->getCreditName($this->getStoreId()))
+            ?? __('Points'));
     }
 
     /**

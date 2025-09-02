@@ -1,0 +1,35 @@
+<?php
+/** @var \Leat\LoyaltyAdminUI\Block\Adminhtml\Order\View\GiftCards $block */
+$appliedGiftCards = $block->getAppliedGiftCards();
+?>
+<?php if (count($appliedGiftCards)) : ?>
+<div class="admin__page-section-item-title">
+    <span class="title"><?= $block->escapeHtml(__('Applied Gift Cards')) ?></span>
+</div>
+<div class="admin__page-section-item-content">
+    <div class="leat-applied-giftcards">
+        <table class="data-table admin__table-secondary">
+            <thead>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Gift Card Code')) ?></th>
+                    <th><?= $block->escapeHtml(__('Applied Amount')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($appliedGiftCards as $giftCard) : ?>
+                <tr>
+                    <td><?= $block->escapeHtml($giftCard->getGiftCardCode()) ?></td>
+                    <td><?= $block->escapeHtml($block->formatPrice($giftCard->getAppliedAmount()), ['span']) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th><strong><?= $block->escapeHtml(__('Total')) ?></strong></th>
+                    <th><strong><?= $block->escapeHtml($block->formatPrice($block->getTotalGiftCardAmount()), ['span']) ?></strong></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<?php endif; ?>

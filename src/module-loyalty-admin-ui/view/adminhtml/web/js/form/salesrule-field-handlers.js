@@ -2,7 +2,8 @@ define([
     'uiRegistry',
     'jquery',
     'domReady!'
-], function (registry, $) {
+], function (registry, $) 
+{
     'use strict';
 
     // Constants for action types
@@ -23,7 +24,7 @@ define([
     Promise.all([
         new Promise(resolve => registry.async('sales_rule_form.sales_rule_form.actions.simple_action')(resolve)),
         new Promise(resolve => registry.async('sales_rule_form.sales_rule_form.actions.gift_skus')(resolve))
-    ]).then(function(components) {
+    ]).then(function (components) {
         const [
             simpleActionField,
             giftSkusField

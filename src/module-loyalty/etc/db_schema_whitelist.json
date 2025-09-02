@@ -6,7 +6,8 @@
             "leat_loyalty_balance_amount": true,
             "leat_loyalty_prepaid_transaction_uuid": true,
             "leat_loyalty_balance_refunded": true,
-            "leat_loyalty_refunded": true
+            "leat_loyalty_refunded": true,
+            "leat_loyalty_giftcard_refunded": true
         }
     },
     "quote": {
@@ -17,7 +18,8 @@
     "sales_creditmemo": {
         "column": {
             "leat_loyalty_balance_amount": true,
-            "leat_loyalty_balance_refunded": true
+            "leat_loyalty_balance_refunded": true,
+            "leat_loyalty_giftcard_refunded": true
         }
     },
     "leat_loyalty_salesrule_extension": {
@@ -48,6 +50,38 @@
             "PRIMARY": true,
             "LEAT_LOYALTY_QUOTE_ITEM_EXTENSION_ITEM_ID": true,
             "LEAT_LOYALTY_QUOTE_ITEM_EXTENSION_ITEM_ID_QUOTE_ITEM_ITEM_ID": true
+        }
+    },
+    "leat_applied_gift_cards": {
+        "column": {
+            "entity_id": true,
+            "quote_id": true,
+            "order_id": true,
+            "gift_card_code": true,
+            "balance": true,
+            "applied_amount": true,
+            "base_applied_amount": true,
+            "leat_transaction_uuid": true,
+            "created_at": true,
+            "updated_at": true,
+            "leat_giftcard_uuid": true,
+            "refunded_amount": true,
+            "base_refunded_amount": true
+        },
+        "index": {
+            "LEAT_APPLIED_GIFT_CARDS_QUOTE_ID": true,
+            "LEAT_APPLIED_GIFT_CARDS_ORDER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "LEAT_APPLIED_GIFT_CARDS_QUOTE_ID_QUOTE_ENTITY_ID": true,
+            "LEAT_APPLIED_GIFT_CARDS_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    },
+    "sales_order_item": {
+        "column": {
+            "giftcard_exported_to_leat": true,
+            "giftcard_exported_to_leat_at": true
         }
     }
 }

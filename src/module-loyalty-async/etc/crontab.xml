@@ -8,6 +8,11 @@
             <!--      Every minute      -->
             <schedule>*/1 * * * *</schedule>
         </job>
+        <job name="leat_loyalty_sync_giftcard_purchase" instance="Leat\LoyaltyAsync\Cron\Order\GiftcardProductExport"
+             method="execute">
+            <!--      Every five minutes      -->
+            <schedule>*/5 * * * *</schedule>
+        </job>
     </group>
     <group id="leat_async_queue">
         <job name="leat_loyalty_queue_alert" instance="Leat\LoyaltyAsync\Cron\QueueAlert"

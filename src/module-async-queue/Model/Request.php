@@ -206,7 +206,7 @@ class Request extends AbstractModel implements RequestInterface
     public function getResult(): mixed
     {
         $result = $this->getData(self::RESULT);
-        if (is_string($result) && $this->jsonSerialzer->unserialize($result) !== false) {
+        if (is_string($result) && json_decode($result, true) && json_last_error() === JSON_ERROR_NONE) {
             return $this->jsonSerialzer->unserialize($result);
         }
 
@@ -221,10 +221,31 @@ class Request extends AbstractModel implements RequestInterface
     {
         if (is_array($result)) {
             $result = $this->jsonSerialzer->serialize($result);
-        } else if ($result instanceof DataObject) {
+        } elseif ($result instanceof DataObject) {
             $result = $this->jsonSerialzer->serialize($result->getData());
+        } elseif (is_object($result)) {
+            $result = null;
         }
 
         return $this->setData(self::RESULT, $result);
+    }
+
+    /**
+     * Create a hash by serializing the request data.
+     * - Only static data is used to create the hash to ensure that the hash is the same for all requests.
+     *
+     * @return string
+     */
+    public function getTransactionHash(): string
+    {
+        $data = [
+            'request_id' => $this->getRequestId(),
+            'job_id' => $this->getJobId(),
+            'type_code' => $this->getTypeCode(),
+            'payload' => $this->getPayload(),
+            'created_at' => $this->getCreatedAt(),
+        ];
+
+        return md5(serialize($data));
     }
 }

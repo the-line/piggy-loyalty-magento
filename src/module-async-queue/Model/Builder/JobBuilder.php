@@ -109,9 +109,9 @@ class JobBuilder
      * @return JobInterface|null
      * @throws LocalizedException
      */
-    public function create(): ?JobInterface
+    public function create(bool $debounce = true): ?JobInterface
     {
-        if ($this->debounceRequests()) {
+        if ($debounce && $this->debounceRequests()) {
             $this->reset();
             return null;
         }

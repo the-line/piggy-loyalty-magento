@@ -7,9 +7,12 @@ namespace Leat\LoyaltyAsync\Model\Queue\Builder\Service;
 use Leat\AsyncQueue\Api\Data\JobInterface;
 use Leat\AsyncQueue\Model\Builder\JobBuilder;
 use Leat\AsyncQueue\Model\Queue\Request\RequestTypePool;
+use Leat\Loyalty\Model\Config;
+use Leat\Loyalty\Setup\Patch\Data\AddLeatGiftcardAttribute;
 use Leat\LoyaltyAsync\Model\Queue\Builder\LoyaltyJobBuilder;
 use Leat\LoyaltyAsync\Model\Queue\Type\Contact\Credit\Transaction;
 use Leat\LoyaltyAsync\Model\Queue\Type\Contact\Order\Balance\Transaction\OrderItemTransaction;
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\ResourceModel\Product;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
@@ -21,6 +24,7 @@ class OrderBuilder
         protected LoyaltyJobBuilder $jobBuilder,
         protected RequestTypePool $requestTypePool,
         protected Product $productResource,
+        protected Config $config
     ) {
     }
 
@@ -39,7 +43,10 @@ class OrderBuilder
             ->newJob($order->getCustomerId())
             ->setStoreId((int) $order->getStoreId());
 
-        $this->addOrderItemsToJob($jobBuilder, $order);
+        $count = $this->addOrderItemsToJob($jobBuilder, $order);
+        if ($count === 0) {
+            return null; // No valid order items to process
+        }
 
         return $jobBuilder->create();
     }
@@ -50,12 +57,13 @@ class OrderBuilder
      *
      * @param JobBuilder $jobBuilder
      * @param Order $order
-     * @return void
+     * @return int
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    protected function addOrderItemsToJob(JobBuilder $jobBuilder, OrderInterface $order): void
+    protected function addOrderItemsToJob(JobBuilder $jobBuilder, OrderInterface $order): int
     {
-        foreach ($this->filterOrderItems($order) as $orderItem) {
+        $filteredOrderItems = $this->filterOrderItems($order);
+        foreach ($filteredOrderItems as $orderItem) {
             $product = $orderItem->getProduct();
             if (!$product) {
                 continue;
@@ -80,6 +88,8 @@ class OrderBuilder
                 OrderItemTransaction::getTypeCode()
             );
         }
+
+        return count($filteredOrderItems);
     }
 
     /**
@@ -90,9 +100,11 @@ class OrderBuilder
      */
     protected function filterOrderItems(Order $order): array
     {
+        $filterGiftcardProducts = !$this->config->getGiftcardPointExclusionStatus((int) $order->getStoreId());
         $orderItems = [];
         foreach ($order->getItems() as $orderItem) {
-            if ($orderItem->isDummy()) {
+            $product = $orderItem->getProduct();
+            if ($orderItem->isDummy() || ($filterGiftcardProducts && $product && $this->isLeatGiftcard($product))) {
                 continue;
             }
 
@@ -100,5 +112,17 @@ class OrderBuilder
         }
 
         return $orderItems;
+    }
+
+    /**
+     * Check if the product is a gift card product.
+     *
+     * @param ProductInterface $product
+     * @return bool
+     */
+    protected function isLeatGiftcard(ProductInterface $product): bool
+    {
+        $giftcardAttrValue = $product->getData(AddLeatGiftcardAttribute::GIFTCARD_ATTRIBUTE_CODE);
+        return $giftcardAttrValue && $giftcardAttrValue !== '0';
     }
 }

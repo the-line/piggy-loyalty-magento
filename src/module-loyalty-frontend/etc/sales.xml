@@ -4,16 +4,19 @@
         <group name="totals">
             <item name="leat_loyaltyfrontend" instance="Leat\LoyaltyFrontend\Totals\Quote\LeatCredits" sort_order="999"/>
             <item name="leat_loyalty_balance" instance="Leat\LoyaltyFrontend\Totals\Quote\LeatBalance" sort_order="700"/>
+            <item name="leat_loyalty_giftcard" instance="Leat\LoyaltyFrontend\Totals\Quote\LeatGiftCard" sort_order="690"/>
         </group>
     </section>
     <section name="order_invoice">
         <group name="totals">
             <item name="leat_loyalty_balance" instance="Leat\LoyaltyFrontend\Totals\Invoice\LeatBalance" sort_order="700"/>
+            <item name="leat_loyalty_giftcard" instance="Leat\LoyaltyFrontend\Totals\Invoice\LeatGiftCard" sort_order="690"/>
         </group>
     </section>
     <section name="order_creditmemo">
         <group name="totals">
             <item name="leat_loyalty_balance" instance="Leat\LoyaltyFrontend\Totals\Creditmemo\LeatBalance" sort_order="700"/>
+            <item name="leat_loyalty_giftcard" instance="Leat\LoyaltyFrontend\Totals\Creditmemo\LeatGiftcard" sort_order="690"/>
         </group>
     </section>
 </config>

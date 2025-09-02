@@ -1,3 +1,8 @@
+// Import the giftcard product styles
+@import 'giftcard-product.less';
+// Import the Leat gift card component styles for checkout
+@import '_leat-giftcard.less';
+
 & when (@media-common = true) {
     // Progress Button Styles
     .progress {
@@ -67,6 +72,146 @@
 
         .progress-bar {
             background-color: #c02020;
+        }
+    }
+
+    // Gift Card Balance Widget Styles
+    .block-giftcard-balance {
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+
+        .block-title {
+            margin-bottom: 15px;
+            text-align: center;
+
+            strong {
+                font-size: 18px;
+                font-weight: 600;
+                color: #333;
+            }
+        }
+
+        .block-content {
+            padding: 0;
+
+            .form-giftcard-check {
+                width: 100%;
+                margin: 0 auto;
+
+                .fieldset {
+                    margin-bottom: 15px;
+                }
+
+                .field {
+                    margin-bottom: 15px;
+
+                    .label {
+                        font-weight: 600;
+                        margin-bottom: 5px;
+                        text-align: center;
+                        display: block;
+                    }
+
+                    .control {
+                        input[type="text"] {
+                            width: 100%;
+                            height: 40px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                            padding: 0 10px;
+                            font-size: 14px;
+                            text-align: center;
+
+                            &:focus {
+                                border-color: #ff6b6b;
+                                box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.2);
+                            }
+                        }
+                    }
+                }
+
+                .actions-toolbar {
+                    text-align: center;
+                    display: flex;
+                    justify-content: center;
+
+                    .primary {
+                        display: inline-block;
+
+                        button {
+                            min-width: 180px;
+                            background-color: #ff6b6b;
+                            border-color: #ff6b6b;
+                            color: #fff;
+                            font-weight: 600;
+                            padding: 10px 15px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+
+                            &:hover {
+                                background-color: darken(#ff6b6b, 10%);
+                                border-color: darken(#ff6b6b, 10%);
+                            }
+
+                            &:active,
+                            &:focus {
+                                background-color: darken(#ff6b6b, 15%);
+                                border-color: darken(#ff6b6b, 15%);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .giftcard-balance-result {
+                margin: 20px auto 0;
+                padding: 15px;
+                background-color: #f8f8f8;
+                border-radius: 4px;
+                border-left: 3px solid #ff6b6b;
+
+                .balance-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .balance-amount {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: #ff6b6b;
+                    }
+
+                    .balance-expires {
+                        font-size: 14px;
+                        color: #666;
+                    }
+                }
+            }
+
+            .giftcard-balance-messages {
+                margin: 10px auto 0;
+
+                .message {
+                    padding: 10px 15px;
+                    border-radius: 4px;
+                    margin-bottom: 10px;
+                    text-align: center;
+
+                    &.success {
+                        background-color: #e8f6ef;
+                        color: #4caf50;
+                        border-left: 3px solid #4caf50;
+                    }
+
+                    &.error {
+                        background-color: #fde7e9;
+                        color: #e02b27;
+                        border-left: 3px solid #e02b27;
+                    }
+                }
+            }
         }
     }
 

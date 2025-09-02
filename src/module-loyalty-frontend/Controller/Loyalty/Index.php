@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Leat\LoyaltyFrontend\Controller\Loyalty;
 
 use Leat\Loyalty\Model\Config;
-use Leat\LoyaltyFrontend\Controller\GenericController;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\ResponseInterface;
@@ -16,11 +15,9 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Controller\Result\Forward;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Exception\NotFoundException;
-use Magento\Framework\Url\EncoderInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\App\RequestInterface;
 
 class Index implements HttpGetActionInterface
 {
@@ -45,10 +42,10 @@ class Index implements HttpGetActionInterface
      */
     public function execute()
     {
-//        if (!$this->config->getIsEnabled()) {
-//            $resultForward = $this->forwardFactory->create();
-//            return $resultForward->forward('noroute');
-//        }
+        if (!$this->config->getIsEnabled()) {
+            $resultForward = $this->forwardFactory->create();
+            return $resultForward->forward('noroute');
+        }
 
         if (!$this->customerSession->isLoggedIn()) {
             // Get URL of the login page

@@ -12,4 +12,15 @@
                 type="Leat\LoyaltyAdminUI\Plugin\SalesRule\Model\Rule\DataProviderPlugin"
                 sortOrder="10"/>
     </type>
+    <!-- Plugin to add giftcard options to cart item renderers -->
+    <type name="Magento\Checkout\Block\Cart\Item\Renderer">
+        <plugin name="leat_order_options_giftcard_item_renderer"
+                type="Leat\LoyaltyAdminUI\Plugin\GiftcardRenderOrderOptions"/>
+    </type>
+    
+    <!-- Plugin to add giftcard options to order items in admin area -->
+    <type name="Magento\Sales\Model\Order\Item">
+        <plugin name="leat_order_options_giftcard_order_item"
+                type="Leat\LoyaltyAdminUI\Plugin\GiftcardItemOrderOptions"/>
+    </type>
 </config>

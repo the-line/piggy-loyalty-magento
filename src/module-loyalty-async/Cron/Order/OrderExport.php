@@ -6,6 +6,7 @@ namespace Leat\LoyaltyAsync\Cron\Order;
 
 use Leat\AsyncQueue\Model\Builder\JobBuilder;
 use Leat\AsyncQueue\Model\Queue\Request\RequestTypePool;
+use Leat\Loyalty\Helper\GiftcardHelper;
 use Leat\LoyaltyAsync\Cron\AbstractCron;
 use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\CustomerContactLink;
@@ -13,6 +14,7 @@ use Leat\LoyaltyAsync\Model\Queue\Builder\Service\ContactBuilder;
 use Leat\LoyaltyAsync\Model\Queue\Builder\Service\OrderBuilder;
 use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory as CustomerCollectionFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Flag;
 use Magento\Framework\FlagFactory;
 use Magento\Framework\FlagManager;
@@ -67,6 +69,7 @@ class OrderExport extends AbstractCron
         protected FlagManager           $flagManager,
         protected FlagFactory           $flagFactory,
         protected StoreManagerInterface $storeManager,
+        ResourceConnection              $resourceConnection,
         CustomerCollectionFactory       $customerCollectionFactory,
         JobBuilder                      $jobBuilder,
         Connector                       $leatConnector,
@@ -76,7 +79,8 @@ class OrderExport extends AbstractCron
             $customerCollectionFactory,
             $jobBuilder,
             $leatConnector,
-            $leatRequestTypePool
+            $leatRequestTypePool,
+            $resourceConnection
         );
     }
 
@@ -116,8 +120,22 @@ class OrderExport extends AbstractCron
                 }
 
                 if ($this->leatConnector->getConfig()->getIsOrderExportEnabled($storeId)) {
-                    $this->orderBuilder->addTransactionJob($order);
-                    $this->markOrder($order);
+                    try {
+                        $this->connection->beginTransaction();
+
+                        $this->orderBuilder->addTransactionJob($order);
+                        $this->markOrder($order);
+
+                        $this->connection->commit();
+                    } catch (\Throwable $e) {
+                        $this->connection->rollBack();
+                        $this->leatConnector->getLogger()->debug(sprintf(
+                            "%s threw an error: %s \n %s",
+                            get_class($this),
+                            $e->getMessage(),
+                            $e->getTraceAsString()
+                        ));
+                    }
                 }
             }
         }

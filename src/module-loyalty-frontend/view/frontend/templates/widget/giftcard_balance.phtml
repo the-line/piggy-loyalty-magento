@@ -1,0 +1,51 @@
+<?php
+/**
+ * @var \Leat\LoyaltyFrontend\Block\Widget\GiftcardBalance $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+?>
+<section class="<?= $block->getWidgetCssClass() ?? 'leat-giftcard-balance-container' ?>" id="<?= $block->getWidgetId() ?? 'leat-giftcard-balance' ?>">
+    <header class="leat-section-header">
+        <h2><?= $escaper->escapeHtml(__('Gift Card Balance Check')) ?></h2>
+    </header>
+
+    <div class="block block-leat-widget block-giftcard-balance">
+        <div class="block-content">
+            <form class="form form-giftcard-check"
+                  id="form-giftcard-check"
+                  data-mage-init='{"Leat_LoyaltyFrontend/js/widget/giftcard-balance": {
+                      "checkUrl": "<?= $escaper->escapeUrl($block->getBalanceCheckUrl()) ?>"
+                  }}'>
+                <fieldset class="fieldset">
+                    <div class="field giftcard-code required">
+                        <label class="label" for="giftcard-check-code">
+                            <span><?= $escaper->escapeHtml(__('Gift Card Code')) ?></span>
+                        </label>
+                        <div class="control">
+                            <input name="giftcard_code"
+                                   id="giftcard-check-code"
+                                   type="text"
+                                   class="input-text"
+                                   data-validate="{required:true}"
+                                   aria-required="true"
+                                   placeholder="<?= $escaper->escapeHtmlAttr(__('Enter gift card code')) ?>"/>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit" class="action primary" title="<?= $escaper->escapeHtmlAttr(__('Check Balance')) ?>">
+                            <span><?= $escaper->escapeHtml(__('Check Balance')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div id="giftcard-balance-result" class="giftcard-balance-result" style="display: none;">
+                <!-- Result will be populated by JS -->
+            </div>
+            <div id="giftcard-balance-messages" class="giftcard-balance-messages">
+                <!-- Error/Success messages will be populated by JS -->
+            </div>
+        </div>
+    </div>
+</section>

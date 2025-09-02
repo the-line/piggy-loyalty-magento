@@ -16,6 +16,13 @@
                 <title>Use Your Prepaid Balance</title>
                 <refund_priority>balance_first</refund_priority>
             </prepaid_balance>
+            <giftcard_form>
+                <show_form>1</show_form>
+                <recipient_email>req</recipient_email>
+                <recipient_firstname>opt</recipient_firstname>
+                <recipient_lastname>opt</recipient_lastname>
+                <sender_message>opt</sender_message>
+            </giftcard_form>
         </leat>
     </default>
 </config>

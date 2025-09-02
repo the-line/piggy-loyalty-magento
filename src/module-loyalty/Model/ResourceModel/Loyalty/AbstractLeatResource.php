@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Leat\Loyalty\Model\ResourceModel\Loyalty;
 
 use Leat\Loyalty\Model\Logger;
-use Leat\Loyalty\Exception\NoContactException;
 use Leat\Loyalty\Model\Client;
 use Leat\Loyalty\Model\Config;
 use Leat\Loyalty\Model\Connector;
@@ -196,10 +195,9 @@ abstract class AbstractLeatResource
      * Get shop UUID for a store
      *
      * @param int|null $storeId
-     * @return string
-     * @throws LocalizedException
+     * @return string|null
      */
-    protected function getShopUuid(?int $storeId = null): string
+    protected function getShopUuid(?int $storeId = null): ?string
     {
         return $this->config->getShopUuid($storeId);
     }

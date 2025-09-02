@@ -6,24 +6,26 @@ namespace Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\FlagManager;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use Magento\Store\Model\StoreManagerInterface;
 
-class Sync extends Field
+class Sync extends GenericField
 {
     public const FLAG_CODE = 'leat_loyalty_sync_data_status';
     private const string FLAG_CODE_FORMAT = 'leat_loyalty_sync_data_status_%d';
 
     public function __construct(
         protected FlagManager $flagManager,
-        protected StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
+        RequestInterface      $request,
         Context $context,
         array $data = [],
         ?SecureHtmlRenderer $secureRenderer = null
     ) {
-        parent::__construct($context, $data, $secureRenderer);
+        parent::__construct($request, $storeManager, $context, $data, $secureRenderer);
     }
 
     /**
@@ -42,8 +44,7 @@ class Sync extends Field
             ->setOnClick('window.syncLeatData(); return false;')
             ->toHtml();
 
-        $storeId = (int)$this->storeManager->getStore()->getId();
-
+        $storeId = $this->getStoreId();
         $syncingMessage = __('Syncing data...');
         $syncFailedMessage = __('Data synchronization failed');
         $html .= <<<HTML

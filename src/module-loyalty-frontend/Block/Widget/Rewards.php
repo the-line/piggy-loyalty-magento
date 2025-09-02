@@ -13,7 +13,6 @@ use Leat\Loyalty\Model\Config;
 use Magento\Customer\Model\Session;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Widget\Block\BlockInterface;
 use Piggy\Api\Models\Loyalty\Rewards\Reward;
 
 class Rewards extends GenericWidgetBlock
@@ -50,56 +49,6 @@ class Rewards extends GenericWidgetBlock
             $requestTypePool,
             $context
         );
-    }
-
-    /**
-     * Should show points balance
-     *
-     * @return bool
-     */
-    public function shouldShowPoints(): bool
-    {
-        return (bool)($this->getData('show_points') ?? true);
-    }
-
-    /**
-     * Get customer points balance
-     *
-     * @return int
-     */
-    public function getPointsBalance(): int
-    {
-        if ($this->show()) {
-            try {
-                $contact = $this->getContactForCustomer();
-                return $contact?->getCreditBalance()->getBalance() ?? 0;
-            } catch (\Throwable $e) {
-                $this->getLogger()->log($e->getMessage());
-                return 0;
-            }
-        }
-
-        return 0;
-    }
-
-    /**
-     * Get customer prepaid points balance
-     *
-     * @return int
-     */
-    public function getPrepaidBalance(): int
-    {
-        if ($this->show()) {
-            try {
-                $contact = $this->getContactForCustomer();
-                return $contact?->getPrepaidBalance()->getBalanceInCents() ?? 0;
-            } catch (\Throwable $e) {
-                $this->getLogger()->log($e->getMessage());
-                return 0;
-            }
-        }
-
-        return 0;
     }
 
     /**

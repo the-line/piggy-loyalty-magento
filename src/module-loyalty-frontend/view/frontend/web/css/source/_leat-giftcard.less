@@ -1,0 +1,459 @@
+// Leat LoyaltyFrontend Gift Card Component Styles
+
+// Component specific variables (can be adjusted)
+@_leat-giftcard-icon-size: 24px;
+@_leat-giftcard-primary-color: #ff6b6b;
+@_leat-giftcard-bg-color: #f8f8f8;
+@_leat-giftcard-border-color: #e0e0e0;
+@_leat-giftcard-text-color: #333333;
+@_leat-giftcard-secondary-text-color: #666666;
+@_leat-giftcard-success-color: #4caf50;
+@_leat-giftcard-error-color: #e02b27;
+@_leat-giftcard-hover-bg: #f5f5f5;
+
+.leat-giftcard-component {
+    .payment-option-content {
+        padding-top: 20px;
+    }
+
+    .form {
+        margin-bottom: 25px;
+
+        .field {
+            margin-bottom: 15px;
+
+            .label {
+                font-weight: 600;
+                margin-bottom: 10px;
+                color: @_leat-giftcard-text-color;
+                display: block;
+            }
+
+            .control {
+                input[type="text"] {
+                    height: 42px;
+                    border: 1px solid @_leat-giftcard-border-color;
+                    border-radius: 4px;
+                    padding: 0 15px;
+                    font-size: 14px;
+                    width: 100%;
+                    max-width: 350px;
+                    transition: all 0.3s ease;
+
+                    &:focus {
+                        border-color: @_leat-giftcard-primary-color;
+                        box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.15);
+                        outline: none;
+                    }
+
+                    &::placeholder {
+                        color: #aaaaaa;
+                        font-style: italic;
+                    }
+                }
+            }
+        }
+
+        .actions-toolbar {
+            .primary {
+                button.action-apply {
+                    background-color: @_leat-giftcard-primary-color;
+                    border-color: @_leat-giftcard-primary-color;
+                    color: white;
+                    padding: 10px 22px;
+                    border-radius: 4px;
+                    font-weight: 600;
+                    font-size: 1.4rem;
+                    transition: all 0.3s ease;
+                    position: relative;
+                    overflow: hidden;
+
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(255, 255, 255, 0.1);
+                        transform: translateX(-100%);
+                        transition: transform 0.3s ease;
+                    }
+
+                    &:hover {
+                        background-color: darken(@_leat-giftcard-primary-color, 8%);
+                        border-color: darken(@_leat-giftcard-primary-color, 8%);
+                        transform: translateY(-1px);
+                        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+                        &:before {
+                            transform: translateX(0);
+                        }
+                    }
+
+                    &:active {
+                        background-color: darken(@_leat-giftcard-primary-color, 15%);
+                        border-color: darken(@_leat-giftcard-primary-color, 15%);
+                        transform: translateY(0);
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.leat-applied-giftcards-list {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(to right, @_leat-giftcard-border-color, transparent);
+    }
+
+    .leat-giftcards-total {
+        margin-top: 15px;
+        padding-top: 12px;
+        border-top: 1px dashed @_leat-giftcard-border-color;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        color: @_leat-giftcard-text-color;
+
+        .total-label {
+            font-size: 1.4rem;
+        }
+
+        .total-amount {
+            font-size: 1.5rem;
+            color: @_leat-giftcard-primary-color;
+        }
+    }
+}
+
+.leat-giftcard-tile {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background-color: white;
+    border: 1px solid @_leat-giftcard-border-color;
+    border-left: 3px solid @_leat-giftcard-primary-color; // Brand accent
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    animation: leatGiftcardFadeIn 0.4s ease-out;
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+        border-color: darken(@_leat-giftcard-border-color, 5%);
+    }
+
+    .leat-giftcard-tile-icon {
+        margin-right: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 32px;
+        height: 32px;
+
+        .leat-giftcard-svg-icon {
+            width: @_leat-giftcard-icon-size;
+            height: @_leat-giftcard-icon-size;
+            fill: transparent;
+            stroke: @_leat-giftcard-primary-color;
+            stroke-width: 1.5;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 107, 107, 0.08);
+            z-index: 1;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+    }
+
+    &:hover .leat-giftcard-tile-icon {
+        .leat-giftcard-svg-icon {
+            transform: scale(1.1);
+        }
+
+        &:after {
+            transform: scale(1);
+        }
+    }
+
+    .leat-giftcard-tile-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        .leat-giftcard-tile-code {
+            font-weight: 600;
+            color: @_leat-giftcard-text-color;
+            font-size: 1.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .leat-giftcard-tile-amount {
+            font-size: 1.4rem;
+            color: @_leat-giftcard-primary-color;
+            margin-top: 4px;
+            font-weight: 500;
+        }
+    }
+
+    .leat-giftcard-tile-remove {
+        margin-left: 12px;
+        background: transparent;
+        border: 1px solid @_leat-giftcard-border-color;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        .leat-giftcard-remove-icon {
+            position: relative;
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+
+            &:before,
+            &:after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                background-color: @_leat-giftcard-secondary-text-color;
+                top: 50%;
+                left: 0;
+                transition: all 0.3s ease;
+            }
+
+            &:before {
+                transform: translateY(-50%) rotate(45deg);
+            }
+
+            &:after {
+                transform: translateY(-50%) rotate(-45deg);
+            }
+        }
+
+        &:hover {
+            background-color: rgba(224, 43, 39, 0.05);
+            border-color: rgba(224, 43, 39, 0.3);
+            transform: rotate(90deg);
+
+            .leat-giftcard-remove-icon {
+                &:before,
+                &:after {
+                    background-color: @_leat-giftcard-error-color;
+                }
+            }
+        }
+
+        &:active {
+            background-color: rgba(224, 43, 39, 0.1);
+            transform: rotate(90deg) scale(0.95);
+        }
+    }
+}
+
+@keyframes leatGiftcardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes leatGiftcardFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+.leat-giftcard-removing {
+    animation: leatGiftcardFadeOut 0.3s ease-out forwards;
+}
+
+// Improved message styling
+.leat-giftcard-component {
+    .messages {
+        margin: 20px 0;
+        .message {
+            padding: 14px 16px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            position: relative;
+            animation: leatMessageFadeIn 0.4s ease-out;
+
+            &.message-success {
+                background-color: #e8f6ef;
+                border-left: 3px solid @_leat-giftcard-success-color;
+                color: darken(@_leat-giftcard-success-color, 15%);
+                box-shadow: 0 2px 5px rgba(76, 175, 80, 0.1);
+            }
+
+            &.message-error {
+                background-color: #fde7e9;
+                border-left: 3px solid @_leat-giftcard-error-color;
+                color: darken(@_leat-giftcard-error-color, 5%);
+                box-shadow: 0 2px 5px rgba(224, 43, 39, 0.1);
+            }
+        }
+    }
+}
+
+@keyframes leatMessageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Loading state
+.leat-giftcard-loading {
+    position: relative;
+    pointer-events: none;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: leatGiftcardSpin 0.8s linear infinite;
+    }
+
+    span {
+        opacity: 0;
+    }
+}
+
+@keyframes leatGiftcardSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Responsive adjustments
+@media only screen and (max-width: 767px) {
+    .leat-giftcard-component {
+        .form {
+            .field {
+                .control {
+                    input[type="text"] {
+                        max-width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .leat-giftcard-tile {
+        padding: 14px;
+
+        .leat-giftcard-tile-details {
+            .leat-giftcard-tile-code {
+                font-size: 1.3rem;
+            }
+
+            .leat-giftcard-tile-amount {
+                font-size: 1.2rem;
+            }
+        }
+
+        .leat-giftcard-tile-icon {
+            margin-right: 12px;
+            width: 28px;
+            height: 28px;
+
+            .leat-giftcard-svg-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            &:after {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        .leat-giftcard-tile-remove {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    .leat-applied-giftcards-list {
+        .leat-giftcards-total {
+            .total-label {
+                font-size: 1.3rem;
+            }
+
+            .total-amount {
+                font-size: 1.4rem;
+            }
+        }
+    }
+}
+
+// High contrast mode support
+@media (forced-colors: active) {
+    .leat-giftcard-tile {
+        border: 2px solid CanvasText;
+    }
+
+    .leat-giftcard-tile-remove {
+        border: 1px solid CanvasText;
+    }
+}

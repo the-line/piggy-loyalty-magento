@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <!-- Add CSS for giftcard product page -->
+        <css src="Leat_LoyaltyFrontend::css/styles.css"/>
+    </head>
+    <body>
+        <referenceBlock name="product.info">
+            <referenceBlock name="product.info.form.options">
+                <container name="leat.giftcard.options.wrapper" htmlTag="div" htmlClass="giftcard-options-wrapper"/>
+            </referenceBlock>
+            <referenceBlock name="product.info.options.wrapper">
+                <block class="Magento\Framework\View\Element\Template"
+                       name="leat.loyalty.giftcard.options"
+                       template="Leat_LoyaltyFrontend::product/view/giftcard_options.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">Leat\LoyaltyFrontend\ViewModel\GiftcardProduct</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+        </referenceBlock>
+
+        <!-- Move the gift card options to the product.info.options.wrapper container -->
+        <move element="leat.loyalty.giftcard.options" destination="product.info.options.wrapper" before="product.info.options.wrapper.bottom" />
+
+        <!-- Move the container to the right position -->
+        <move element="leat.giftcard.options.wrapper" destination="product.info.form.options" after="-" />
+
+    </body>
+</page>

@@ -55,6 +55,32 @@ class Config
     protected const XML_PREPAID_BALANCE_ENABLED = 'leat/prepaid_balance/enabled';
     protected const XML_PREPAID_BALANCE_TITLE = 'leat/prepaid_balance/title';
 
+    // Giftcard Configuration Constants
+    protected const XML_GIFTCARD_ENABLED = 'leat/giftcard/enabled';
+    protected const XML_GIFTCARD_PROGRAM_UUID = 'leat/giftcard/program_uuid';
+    protected const XML_GIFTCARD_BALANCE_CHECK = 'leat/giftcard/balance_check';
+    protected const XML_GIFTCARD_MAX_BALANCE_CHECKS = 'leat/giftcard/max_balance_checks';
+
+    protected const XML_GIFTCARD_POINTS_EXCLUSION = 'leat/giftcard/disable_giftcard_points_exclusion';
+
+    // Giftcard Product Form Configuration Constants
+
+    protected const XML_SHOW_SEND_AS_GIFT = 'leat/giftcard_form/show_form';
+    protected const XML_SHOW_RECIPIENT_EMAIL = 'leat/giftcard_form/recipient_email';
+    protected const XML_SHOW_RECIPIENT_FIRSTNAME = 'leat/giftcard_form/recipient_firstname';
+    protected const XML_SHOW_RECIPIENT_LASTNAME = 'leat/giftcard_form/recipient_lastname';
+    protected const XML_SHOW_SENDER_MESSAGE = 'leat/giftcard_form/sender_message';
+
+    /**
+     * @var array
+     */
+    private $valueConfig = [
+        '' => ['is_required' => 0, 'is_visible' => 0],
+        'opt' => ['is_required' => 0, 'is_visible' => 1],
+        '1' => ['is_required' => 0, 'is_visible' => 1],
+        'req' => ['is_required' => 1, 'is_visible' => 1],
+    ];
+
     /**
      * @param ScopeConfigInterface $scopeConfig
      */
@@ -564,5 +590,155 @@ class Config
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
+    }
+
+
+    /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isGiftcardEnabled(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_GIFTCARD_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * 0 = filter out gift cards from points calculation
+     * 1 = include gift cards in points calculation
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function getGiftcardPointExclusionStatus(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_GIFTCARD_POINTS_EXCLUSION,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return string|null
+     */
+    public function getGiftcardProgramUUID(?int $storeId = null): ?string
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_GIFTCARD_PROGRAM_UUID,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isGiftcardBalanceCheckEnabled(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_GIFTCARD_BALANCE_CHECK,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get maximum number of gift card balance checks allowed per session per day
+     *
+     * @param int|null $storeId
+     * @return int
+     */
+    public function getMaxGiftcardBalanceChecks(?int $storeId = null): int
+    {
+        $value = $this->scopeConfig->getValue(
+            self::XML_GIFTCARD_MAX_BALANCE_CHECKS,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        return (int)($value ?: 10); // Default to 10 if not configured
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isShowSendAsGift(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_SHOW_SEND_AS_GIFT,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return int[]
+     */
+    public function isShowRecipientEmail(?int $storeId = null): array
+    {
+        return $this->getValueConfig($this->scopeConfig->getValue(
+            self::XML_SHOW_RECIPIENT_EMAIL,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ));
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return int[]
+     */
+    public function isShowRecipientFirstname(?int $storeId = null): array
+    {
+        return $this->getValueConfig($this->scopeConfig->getValue(
+            self::XML_SHOW_RECIPIENT_FIRSTNAME,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ));
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return array[]
+     */
+    public function isShowRecipientLastname(?int $storeId = null): array
+    {
+        return $this->getValueConfig($this->scopeConfig->getValue(
+            self::XML_SHOW_RECIPIENT_LASTNAME,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ));
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return int[]
+     */
+    public function isShowSenderMessage(?int $storeId = null): array
+    {
+        return $this->getValueConfig($this->scopeConfig->getValue(
+            self::XML_SHOW_SENDER_MESSAGE,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ));
+    }
+
+    /**
+     * Get value config
+     *
+     * @param int|string|null $value
+     * @return array = ['is_required' => 0, 'is_visible' => 0]
+     */
+    private function getValueConfig(int|string|null $value): array
+    {
+        $value = (string) $value;
+        return $this->valueConfig[$value] ?? $this->valueConfig[''];
     }
 }

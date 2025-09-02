@@ -7,23 +7,26 @@ namespace Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config;
 use Leat\Loyalty\Model\Config;
 use Leat\LoyaltyAdminUI\Service\ConnectionTester;
 use Magento\Backend\Block\Template\Context;
-use Magento\Config\Block\System\Config\Form\Field;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use Magento\Store\Model\StoreManagerInterface;
 
-class PingStatus extends Field
+class PingStatus extends GenericField
 {
     public function __construct(
         protected ConnectionTester $connectionTester,
         protected Config $config,
-        protected StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
+        RequestInterface $request,
         Context $context,
         array $data = [],
         ?SecureHtmlRenderer $secureRenderer = null
     ) {
         parent::__construct(
+            $request,
+            $storeManager,
             $context,
             $data,
             $secureRenderer
@@ -39,7 +42,7 @@ class PingStatus extends Field
      */
     protected function _getElementHtml(AbstractElement $element): string
     {
-        $storeId = (int)$this->_request->getParam('store', 0);
+        $storeId = (int) $this->getStoreId();
 
         // If this is a new configuration that hasn't been tested yet
         $personalAccessToken = $this->config->getPersonalAccessToken($storeId);

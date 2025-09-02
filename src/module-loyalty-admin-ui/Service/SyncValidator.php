@@ -20,17 +20,17 @@ class SyncValidator
     /**
      * Validate sync status and return message if action needed
      *
-     * @param int $storeId
+     * @param int|null $storeId
      * @return Phrase|null Returns a message if action needed, null if all valid
      */
-    public function validateSyncStatus(int $storeId): ?Phrase
+    public function validateSyncStatus(?int $storeId = null): ?Phrase
     {
         try {
             $attributesValidation = $this->attributeResource->validateAttributes($storeId);
 
             if (!$attributesValidation['valid']) {
                 $missingCount = count($attributesValidation['missing']['transaction'] ?? [])
-                              + count($attributesValidation['missing']['reward'] ?? []);
+                              + count($attributesValidation['missing']['custom'] ?? []);
 
                 return __(
                     'Leat data synchronization needed: %1 attribute(s) missing.' .

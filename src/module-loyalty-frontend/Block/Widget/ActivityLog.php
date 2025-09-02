@@ -10,7 +10,7 @@ use Leat\Loyalty\Model\Config as LeatConfig;
 use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\AttributeResource;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
-use Leat\Loyalty\Model\Transaction\OrderItems;
+use Leat\Loyalty\Model\Transaction\LoyaltyTransactionOrderItems;
 use Leat\LoyaltyFrontend\Block\GenericWidgetBlock;
 use Leat\Loyalty\Model\Config;
 use Magento\Customer\Model\Session;
@@ -51,18 +51,18 @@ class ActivityLog extends GenericWidgetBlock
     protected array $transactionCache = [];
 
     public function __construct(
-        StoreManagerInterface $storeManager,
-        Config $config,
-        Session $customerSession,
-        ContactResource $contactResource,
-        Connector $connector,
-        RequestTypePool $requestTypePool,
-        Context $context,
-        protected LeatConfig $leatConfig,
-        protected OrderItems $orderItems,
-        protected TimezoneInterface $timezone,
-        protected AttributeResource $attributeResource,
-        array $data = []
+        StoreManagerInterface                  $storeManager,
+        Config                                 $config,
+        Session                                $customerSession,
+        ContactResource                        $contactResource,
+        Connector                              $connector,
+        RequestTypePool                        $requestTypePool,
+        Context                                $context,
+        protected LeatConfig                   $leatConfig,
+        protected LoyaltyTransactionOrderItems $orderItems,
+        protected TimezoneInterface            $timezone,
+        protected AttributeResource            $attributeResource,
+        array                                  $data = []
     ) {
         parent::__construct(
             $storeManager,
@@ -115,7 +115,9 @@ class ActivityLog extends GenericWidgetBlock
 
         try {
             $customer = $this->customerSession->getCustomer();
-            $transactions = $this->orderItems->getLoyaltyTransactions($customer, $this->getTransactionFilter());
+            $transactions = $this->orderItems->getTransactions([
+                'customer' => $customer
+            ], $this->getTransactionFilter());
 
             // Group transactions by order increment ID
             $groupedTransactions = [];

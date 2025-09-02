@@ -9,11 +9,12 @@ use Leat\Loyalty\Model\Config;
 use Leat\Loyalty\Model\CustomerContactLink;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
 use Leat\LoyaltyAsync\Model\Queue\Type\ContactType;
+use Leat\LoyaltyAsync\Model\Queue\Type\LeatGenericType;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Piggy\Api\Models\Contacts\Contact;
 
-class ContactCreate extends ContactType
+class ContactCreate extends LeatGenericType
 {
     protected const string TYPE_CODE = 'contact_create';
 

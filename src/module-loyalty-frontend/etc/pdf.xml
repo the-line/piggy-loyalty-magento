@@ -9,10 +9,26 @@
             <display_zero>false</display_zero>
             <sort_order>450</sort_order>
         </total>
+        <total name="leat_loyalty_giftcard">
+            <title translate="true">Leat Gift Card</title>
+            <source_field>leat_loyalty_giftcard_amount</source_field>
+            <model>Leat\LoyaltyFrontend\Model\Order\Pdf\Total\LeatGiftcard</model>
+            <font_size>7</font_size>
+            <display_zero>false</display_zero>
+            <sort_order>450</sort_order>
+        </total>
         <total name="leat_loyalty_balance_refunded">
             <title translate="true">Prepaid Balance Refunded</title>
             <source_field>leat_loyalty_balance_amount</source_field>
             <model>Leat\LoyaltyFrontend\Model\Order\Pdf\Total\LeatBalanceRefunded</model>
+            <font_size>7</font_size>
+            <display_zero>false</display_zero>
+            <sort_order>750</sort_order>
+        </total>
+        <total name="leat_loyalty_giftcard_refunded">
+            <title translate="true">Leat Gift Card Refunded</title>
+            <source_field>leat_loyalty_giftcard_refunded</source_field>
+            <model>Leat\LoyaltyFrontend\Model\Order\Pdf\Total\LeatGiftcardRefunded</model>
             <font_size>7</font_size>
             <display_zero>false</display_zero>
             <sort_order>750</sort_order>

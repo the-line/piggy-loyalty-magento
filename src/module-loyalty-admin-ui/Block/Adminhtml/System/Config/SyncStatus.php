@@ -6,31 +6,33 @@ namespace Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config;
 
 use Leat\LoyaltyAdminUI\Service\SyncValidator;
 use Magento\Backend\Block\Template\Context;
-use Magento\Config\Block\System\Config\Form\Field;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
+use Magento\Store\Model\StoreManagerInterface;
 
-class SyncStatus extends Field
+class SyncStatus extends GenericField
 {
     /**
-     * @var SyncValidator
-     */
-    private SyncValidator $syncValidator;
-
-    /**
      * @param SyncValidator $syncValidator
+     * @param RequestInterface $request
+     * @param StoreManagerInterface $storeManager
      * @param Context $context
      * @param array $data
      * @param SecureHtmlRenderer|null $secureRenderer
      */
     public function __construct(
-        SyncValidator $syncValidator,
+        protected SyncValidator $syncValidator,
+        RequestInterface $request,
+        StoreManagerInterface $storeManager,
         Context $context,
         array $data = [],
         ?SecureHtmlRenderer $secureRenderer = null
     ) {
-        $this->syncValidator = $syncValidator;
         parent::__construct(
+            $request,
+            $storeManager,
             $context,
             $data,
             $secureRenderer
@@ -42,11 +44,11 @@ class SyncStatus extends Field
      *
      * @param AbstractElement $element
      * @return string
+     * @throws NoSuchEntityException
      */
     protected function _getElementHtml(AbstractElement $element): string
     {
-        $storeId = (int)$this->_request->getParam('store', 0);
-
+        $storeId = $this->getStoreId();
         $validationMessage = $this->syncValidator->validateSyncStatus($storeId);
         if ($validationMessage !== null) {
             return '<span class="warning-msg">' . $validationMessage . '</span>';

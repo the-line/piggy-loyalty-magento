@@ -15,8 +15,8 @@ if (!$navHtml) {
 ?>
 
 <?= $navHtml ?>
-<?php foreach ($block->getSections() as $key => $section): ?>
-    <?php if ($section['visible'] && !empty($section['content'])): ?>
+<?php foreach ($block->getSections() as $key => $section) : ?>
+    <?php if ($section['visible'] && !empty($section['content'])) : ?>
         <?= $section['content'] ?>
     <?php endif; ?>
-<?php endforeach; ?>
+<?php endforeach;

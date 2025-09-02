@@ -3,10 +3,19 @@
     <!-- Interface preferences -->
     <preference for="Leat\Loyalty\Model\RateLimiterInterface" type="Leat\Loyalty\Model\RateLimiter" />
     <preference for="Leat\Loyalty\Api\ApplyBalanceInterface" type="Leat\Loyalty\Model\ApplyBalance" />
+    <preference for="Leat\Loyalty\Api\ApplyGiftCardInterface" type="Leat\Loyalty\Model\ApplyGiftCard" />
     <preference for="Leat\Loyalty\Api\Data\ApplyBalanceResultInterface" type="Leat\Loyalty\Model\Data\ApplyBalanceResult" />
+    <preference for="Leat\Loyalty\Api\Data\ApplyGiftCardResultInterface" type="Leat\Loyalty\Model\Data\ApplyGiftCardResult" />
     <preference for="Leat\Loyalty\Api\BalanceValidatorInterface" type="Leat\Loyalty\Model\BalanceValidator" />
     <preference for="Leat\Loyalty\Api\OrderLeatBalanceRepositoryInterface" type="Leat\Loyalty\Model\Order\LeatBalanceRepository" />
     <preference for="Leat\Loyalty\Api\PrepaidTransactionServiceInterface" type="Leat\Loyalty\Model\PrepaidTransactionService" />
+    <preference for="Leat\Loyalty\Api\Data\AppliedGiftCardInterface" type="Leat\Loyalty\Model\Data\AppliedGiftCard" />
+    <preference for="Leat\Loyalty\Api\AppliedGiftCardRepositoryInterface" type="Leat\Loyalty\Model\AppliedGiftCardRepository" />
+    <preference for="Leat\Loyalty\Api\Data\AppliedGiftCardSearchResultsInterface" type="Leat\Loyalty\Model\Data\AppliedGiftCardSearchResults" />
+    <preference for="Leat\Loyalty\Api\Data\AppliedGiftCardDetailsInterface" type="Leat\Loyalty\Model\Data\AppliedGiftCardDetails" />
+    <preference for="Leat\Loyalty\Api\Data\RemoveGiftCardResultInterface" type="Leat\Loyalty\Model\Data\RemoveGiftCardResult" />
+    <preference for="Leat\Loyalty\Api\RemoveGiftCardInterface" type="Leat\Loyalty\Model\RemoveGiftCard" />
+    <preference for="Leat\Loyalty\Api\GetAppliedGiftCardsInterface" type="Leat\Loyalty\Model\GetAppliedGiftCards" />
 
     <!-- Plugins for prepaid balance handling -->
     <type name="Magento\Sales\Api\OrderRepositoryInterface">
@@ -26,13 +35,13 @@
     </type>
 
     <!-- Register our custom salesrule action -->
-    <virtualType name="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory">
+    <type name="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory">
         <arguments>
             <argument name="discountRules" xsi:type="array">
                 <item name="add_gift_products" xsi:type="string">Leat\Loyalty\Model\SalesRule\Action\AddGiftProducts</item>
             </argument>
         </arguments>
-    </virtualType>
+    </type>
 
     <!-- SalesRule Extension Attributes Plugin -->
     <type name="Magento\SalesRule\Api\RuleRepositoryInterface">
@@ -68,10 +77,31 @@
                 sortOrder="20" />
     </type>
 
+    <!-- Prevent gift card items from being merged in cart -->
+    <type name="Magento\Quote\Model\Quote\Item">
+        <plugin name="leat_loyalty_prevent_giftcard_merge"
+                type="Leat\Loyalty\Plugin\Quote\PreventGiftcardMergePlugin"
+                sortOrder="10" />
+    </type>
+
+    <!-- Prevent merging giftcards by altering option comparison -->
+    <type name="Magento\Quote\Model\Quote\Item\Compare">
+        <plugin name="leat_loyalty_compare_giftcard_options"
+                type="Leat\Loyalty\Plugin\Quote\Item\CompareOptionsPlugin"
+                sortOrder="10" />
+    </type>
+
     <!-- Save extension attributes when item ID becomes available -->
     <type name="Magento\Quote\Model\Quote\Item">
         <plugin name="leat_loyalty_save_item_extension_attributes"
                 type="Leat\Loyalty\Plugin\Quote\Item\SaveExtensionAttributesPlugin"
+                sortOrder="10" />
+    </type>
+
+    <!-- Transfer gift cards from quote to order after order placement -->
+    <type name="Magento\Sales\Api\OrderManagementInterface">
+        <plugin name="leat_loyalty_transfer_gift_cards_to_order"
+                type="Leat\Loyalty\Plugin\OrderManagement\TransferGiftCardsToOrder"
                 sortOrder="10" />
     </type>
 </config>

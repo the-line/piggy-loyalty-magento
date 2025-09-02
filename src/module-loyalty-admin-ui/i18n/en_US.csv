@@ -38,3 +38,9 @@ message,message
 "Prepaid Balance","Prepaid Balance"
 "Enter comma-separated product SKUs to add as gifts. For configurable products, you can use the simple product SKU.","Enter comma-separated product SKUs to add as gifts. For configurable products, you can use the simple product SKU."
 "Unique UUID for customer within Leat; Field gets filled automatically and can/should not be changed.","Unique UUID for customer within Leat; Field gets filled automatically and can/should not be changed."
+"-- Please Select --","-- Please Select --"
+"Applied Gift Cards","Applied Gift Cards"
+"Gift Card Code","Gift Card Code"
+"Applied Amount","Applied Amount"
+Total,Total
+"Leat - Add gift products to cart","Leat - Add gift products to cart"

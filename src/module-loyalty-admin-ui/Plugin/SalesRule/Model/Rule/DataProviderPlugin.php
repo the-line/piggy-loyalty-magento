@@ -46,7 +46,7 @@ class DataProviderPlugin
             }
 
             // Set gift SKUs if available
-            if ($extensionAttributes->getGiftSkus()) {
+            if (is_object($extensionAttributes) && $extensionAttributes->getGiftSkus()) {
                 $item['gift_skus'] = $extensionAttributes->getGiftSkus();
             }
         }

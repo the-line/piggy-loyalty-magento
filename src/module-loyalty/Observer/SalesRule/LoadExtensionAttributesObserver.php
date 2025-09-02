@@ -62,23 +62,12 @@ class LoadExtensionAttributesObserver implements ObserverInterface
             }
 
             try {
-                $extensionAttributes = $rule->getExtensionAttributes();
-                if (!$extensionAttributes) {
-                    $extensionAttributes = $this->extensionFactory->create(RuleInterface::class);
-                }
-
                 $ruleExtension = $this->extensionRepository->getByRuleId($ruleId);
-
-                // Set extension attributes for gift_skus
                 $giftSkus = $ruleExtension->getGiftSkus();
                 if ($giftSkus) {
-                    $extensionAttributes->setGiftSkus($giftSkus);
-
-                    // Also set directly on the model for form handling
                     $rule->setData('gift_skus', $giftSkus);
                 }
 
-                $rule->setExtensionAttributes($extensionAttributes);
             } catch (\Exception $e) {
                 // Log error but don't break the collection loading
             }

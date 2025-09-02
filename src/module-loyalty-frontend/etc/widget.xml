@@ -9,27 +9,6 @@
                 <description translate="true">Widget title displayed on the frontend</description>
                 <value>My Rewards</value>
             </parameter>
-            <parameter name="show_points" xsi:type="select" visible="true" required="false" sort_order="20">
-                <label translate="true">Show Points Balance</label>
-                <description translate="true">Display customer's current points balance at the top of the widget</description>
-                <options>
-                    <option name="yes" value="1" selected="true">
-                        <label translate="true">Yes</label>
-                    </option>
-                    <option name="no" value="0">
-                        <label translate="true">No</label>
-                    </option>
-                </options>
-            </parameter>
-            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="30">
-                <label translate="true">Template</label>
-                <description translate="true">Select template for the widget</description>
-                <options>
-                    <option name="default" value="Leat_LoyaltyFrontend::widget/rewards.phtml" selected="true">
-                        <label translate="true">Default Template</label>
-                    </option>
-                </options>
-            </parameter>
         </parameters>
     </widget>
 
@@ -41,15 +20,6 @@
                 <label translate="true">Title</label>
                 <description translate="true">Widget title displayed on the frontend</description>
                 <value>Your Coupons</value>
-            </parameter>
-            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="20">
-                <label translate="true">Template</label>
-                <description translate="true">Select template for the widget</description>
-                <options>
-                    <option name="default" value="Leat_LoyaltyFrontend::widget/your_coupons.phtml" selected="true">
-                        <label translate="true">Default Template</label>
-                    </option>
-                </options>
             </parameter>
         </parameters>
     </widget>
@@ -122,15 +92,6 @@
                 <description translate="true">Label to display for prepaid balance</description>
                 <value>Prepaid Balance</value>
             </parameter>
-            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="40">
-                <label translate="true">Template</label>
-                <description translate="true">Select template for the widget</description>
-                <options>
-                    <option name="default" value="Leat_LoyaltyFrontend::widget/balance.phtml" selected="true">
-                        <label translate="true">Default Template</label>
-                    </option>
-                </options>
-            </parameter>
             <parameter name="note" xsi:type="text" visible="true" required="false" sort_order="50">
                 <label translate="true">Important Note</label>
                 <description translate="true">This widget is for display purposes only and won't function correctly on cached pages</description>
@@ -146,15 +107,6 @@
             <parameter name="widget_heading" xsi:type="text" visible="true" sort_order="10">
                 <label translate="true">Widget Heading</label>
                 <value>Your Activity</value>
-            </parameter>
-            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="20">
-                <label translate="true">Template</label>
-                <description translate="true">Select template for the widget</description>
-                <options>
-                    <option name="default" value="Leat_LoyaltyFrontend::widget/activity_log.phtml" selected="true">
-                        <label translate="true">Default Template</label>
-                    </option>
-                </options>
             </parameter>
             <parameter name="note" xsi:type="text" visible="true" required="false" sort_order="30">
                 <label translate="true">Important Note</label>

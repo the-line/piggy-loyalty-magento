@@ -73,12 +73,12 @@ class ContactResource extends AbstractLeatResource
      * Create or find a contact for the given email address and save to customer
      *
      * @param string $email
-     * @param int $customerId
+     * @param int|null $customerId
      * @param int|null $storeId
      * @return Contact
      * @throws LocalizedException
      */
-    public function createOrFindContact(string $email, int $customerId, ?int $storeId = null): Contact
+    public function createOrFindContact(string $email, int $customerId = null, ?int $storeId = null): Contact
     {
         return $this->executeApiRequest(
             function () use ($email, $customerId, $storeId) {

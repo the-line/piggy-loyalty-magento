@@ -18,6 +18,14 @@
                             <item name="id" xsi:type="string">leat-balance</item>
                             <item name="label" xsi:type="string" translate="true">Balance</item>
                         </item>
+                        <!-- Leat Giftcard Balance Check Section -->
+                        <item name="giftcard" xsi:type="array">
+                            <item name="class" xsi:type="string">Leat\LoyaltyFrontend\Block\Widget\GiftcardBalance</item>
+                            <item name="sort_order" xsi:type="number">15</item>
+                            <item name="enabled" xsi:type="boolean">true</item>
+                            <item name="id" xsi:type="string">leat-giftcard-balance</item>
+                            <item name="label" xsi:type="string" translate="true">Gift Card Balance</item>
+                        </item>
                         <item name="coupons" xsi:type="array">
                             <item name="class" xsi:type="string">Leat\LoyaltyFrontend\Block\Widget\YourCoupons</item>
                             <item name="sort_order" xsi:type="number">20</item>

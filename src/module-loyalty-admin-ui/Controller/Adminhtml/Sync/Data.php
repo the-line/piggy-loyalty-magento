@@ -48,7 +48,7 @@ class Data extends Action implements HttpPostActionInterface, CsrfAwareActionInt
 
             // Use the existing AttributeResource to sync attributes
             $this->attributeResource->syncTransactionAttributes($storeId);
-            $this->attributeResource->syncRewardAttributes($storeId);
+            $this->attributeResource->syncCustomAttributes($storeId);
 
             $syncResult = [
                 'success' => true,

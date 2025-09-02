@@ -2,13 +2,16 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="Leat_LoyaltyAdminUI::css/leat-balance.css"/>
+        <css src="Leat_LoyaltyAdminUI::css/leat-giftcard.css"/>
     </head>
     <body>
-        <referenceBlock name="order_tab_info">
-            <block class="Leat\LoyaltyAdminUI\Block\Adminhtml\Order\View\LeatBalance" name="sales_order_leat_loyalty_balance" template="Leat_LoyaltyAdminUI::order/view/leat_loyalty_balance.phtml" after="order_info"/>
+        <referenceBlock name="order_additional_info">
+            <block class="Leat\LoyaltyAdminUI\Block\Adminhtml\Order\View\LeatBalance" name="sales_order_leat_loyalty_balance" template="Leat_LoyaltyAdminUI::order/view/leat_balance.phtml" after="order_info"/>
+            <block class="Leat\LoyaltyAdminUI\Block\Adminhtml\Order\View\GiftCards" name="sales_order_gift_cards" template="Leat_LoyaltyAdminUI::order/view/gift_cards.phtml" after="sales_order_leat_loyalty_balance"/>
         </referenceBlock>
         <referenceBlock name="order_totals">
             <block class="Leat\LoyaltyFrontend\Block\Sales\Order\Totals\LeatBalance" name="leat.balance.total" as="leat_loyalty_balance"/>
+            <block class="Leat\LoyaltyFrontend\Block\Sales\Order\Totals\LeatGiftcard" name="leat.giftcard.total" as="leat_loyalty_giftcard"/>
         </referenceBlock>
     </body>
 </page>

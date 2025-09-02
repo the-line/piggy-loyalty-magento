@@ -54,15 +54,6 @@ class AddGiftProductFieldsToRule implements ObserverInterface
         if (isset($data['gift_skus'])) {
             // Set the data directly on the rule for immediate use
             $rule->setData('gift_skus', $data['gift_skus']);
-
-            // Also set it on the extension attributes for proper persistence
-            $extensionAttributes = $rule->getExtensionAttributes();
-            if (!$extensionAttributes) {
-                $extensionAttributes = $this->extensionAttributesFactory->create(RuleInterface::class);
-                $rule->setExtensionAttributes($extensionAttributes);
-            }
-
-            $extensionAttributes->setGiftSkus($data['gift_skus']);
         }
     }
 }

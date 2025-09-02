@@ -10,16 +10,25 @@ use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Setup\Patch\Data\AddContactUuidCustomerAttribute;
 use Magento\Customer\Model\ResourceModel\Customer\Collection;
 use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory as CustomerCollectionFactory;
+use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Exception\LocalizedException;
 
 abstract class AbstractCron
 {
+    /**
+     * @var AdapterInterface
+     */
+    protected AdapterInterface $connection;
+
     public function __construct(
         protected CustomerCollectionFactory $customerCollectionFactory,
         protected JobBuilder $jobBuilder,
         protected Connector $leatConnector,
-        protected RequestTypePool $leatRequestTypePool
+        protected RequestTypePool $leatRequestTypePool,
+        protected ResourceConnection $resourceConnection,
     ) {
+        $this->connection = $this->resourceConnection->getConnection();
     }
 
     /**

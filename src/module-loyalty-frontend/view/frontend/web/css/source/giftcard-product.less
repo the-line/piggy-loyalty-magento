@@ -1,0 +1,195 @@
+// Giftcard slider component
+.giftcard-slider-container {
+    margin: 15px 0;
+
+    .slider-container {
+        padding: 10px 0;
+
+        .slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #f1f1f1;
+            outline: none;
+            margin: 15px 0;
+
+            &::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                background: #ff6b6b;
+                cursor: pointer;
+                border: 2px solid #fff;
+                box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            }
+
+            &::-moz-range-thumb {
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                background: #ff6b6b;
+                cursor: pointer;
+                border: 2px solid #fff;
+                box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            }
+        }
+    }
+}
+
+// Giftcard options form styling
+#leat-giftcard-options {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+
+    .visible {
+        display: block;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .legend {
+        margin-bottom: 10px;
+        font-weight: bold;
+        font-size: 16px;
+
+        span {
+            font-weight: bold;
+        }
+    }
+
+    .field {
+        margin-bottom: 15px;
+
+        &.choice {
+            margin-bottom: 10px;
+
+            .label {
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 5px;
+            }
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .control {
+            .input-text,
+            .textarea {
+                width: 100%;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 8px 12px;
+
+                &:focus {
+                    border-color: #ff6b6b;
+                    box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.2);
+                }
+            }
+
+            .textarea {
+                min-height: 80px;
+                resize: vertical;
+            }
+        }
+
+        &.required {
+            .label::after {
+                content: '*';
+                color: #e02b27;
+                margin-left: 3px;
+                font-size: 1.2em;
+                line-height: 1;
+            }
+        }
+    }
+}
+
+// Gift recipient fields container
+#leat-giftcard-gift-fields {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+
+    // Specific field styling for recipient fields
+    .field {
+        &.recipient-email,
+        &.recipient-firstname,
+        &.recipient-lastname,
+        &.sender-message {
+            margin-bottom: 15px;
+        }
+    }
+}
+
+// Giftcard amount display in cart and checkout
+.giftcard-amount-info {
+    margin: 5px 0 10px;
+    font-size: 13px;
+    color: #ff6b6b;
+    font-weight: 600;
+
+    // Different styling for minicart
+    .minicart-items & {
+        margin: 3px 0 8px;
+        font-size: 12px;
+    }
+}
+
+// Highlight giftcard items in cart
+.cart.item {
+    &.giftcard-item {
+        .product-item-details {
+            position: relative;
+
+            .giftcard-amount-info {
+                margin-bottom: 12px;
+            }
+
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: -5px;
+                left: -5px;
+                right: -5px;
+                bottom: -5px;
+                border-radius: 4px;
+                border: 1px dashed #ff6b6b;
+                pointer-events: none;
+                opacity: 0.3;
+                z-index: -1;
+            }
+        }
+    }
+}
+
+// Checkout styling for giftcard items
+.checkout-cart-index {
+    .giftcard-amount-info {
+        margin-bottom: 8px;
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    // Mobile Giftcard Product Styles
+    .catalog-product-view {
+        .giftcard-price-box {
+            & ~ .product-options-wrapper {
+                // Target the product options wrapper that follows a giftcard price box
+                padding-top: 0;
+            }
+        }
+    }
+}

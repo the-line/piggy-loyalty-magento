@@ -8,4 +8,27 @@
     <type name="Magento\Sales\Api\OrderManagementInterface">
         <plugin name="leat_loyalty_order_management" type="Leat\LoyaltyFrontend\Plugin\Sales\OrderManagement" sortOrder="10" />
     </type>
+    <!-- Plugin to hide the edit action for giftcard products in the cart -->
+    <type name="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Generic">
+        <plugin name="leat_hide_giftcard_edit"
+                type="Leat\LoyaltyFrontend\Plugin\Giftcard\HideGiftcardEdit"/>
+    </type>
+    
+    <!-- Plugin to add giftcard options to the customer data for mini cart display -->
+    <type name="Magento\Checkout\CustomerData\ItemPool">
+        <plugin name="leat_giftcard_item_data"
+                type="Leat\LoyaltyFrontend\Plugin\Giftcard\GiftcardItemData"/>
+    </type>
+    
+    <!-- Plugin to add giftcard options to the product configuration helper -->
+    <type name="Magento\Catalog\Helper\Product\Configuration">
+        <plugin name="leat_giftcard_options"
+                type="Leat\LoyaltyFrontend\Plugin\Giftcard\GiftcardOptions"/>
+    </type>
+    
+    <!-- Plugin to add giftcard options to configurable product renderers in the cart -->
+    <type name="Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable">
+        <plugin name="leat_giftcard_options"
+                type="Leat\LoyaltyFrontend\Plugin\Giftcard\GiftcardOptions"/>
+    </type>
 </config>

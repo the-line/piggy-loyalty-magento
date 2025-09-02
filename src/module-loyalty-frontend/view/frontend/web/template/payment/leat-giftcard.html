@@ -1,0 +1,64 @@
+<!-- ko if: isVisible() -->
+<div class="payment-option _collapsible opc-payment-additional leat-giftcard-component"
+     data-bind="mageInit: {'collapsible':{'openedState': '_active'}}">
+    <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" role="heading" aria-level="2">
+            <!-- ko i18n: getSectionTitle() --><!-- /ko -->
+        </span>
+    </div>
+    <div class="payment-option-content" data-role="content">
+        <form class="form" id="leat-giftcard-form" data-bind="submit: applyGiftCard">
+            <div class="payment-option-inner">
+                <div class="field">
+                    <label class="label" for="leat-giftcard-code">
+                        <span data-bind="i18n: 'Enter Gift Card Code'"></span>
+                    </label>
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="leat-giftcard-code"
+                               name="leat_giftcard_code"
+                               data-validate="{'required-entry':true}"
+                               data-bind="value: giftCardCode, valueUpdate: 'keyup', attr: {placeholder: $t('Enter gift card code')}"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button class="action action-apply" type="submit" data-bind="'value': $t('Apply Gift Card'), click: applyGiftCard">
+                        <span><!-- ko i18n: 'Apply Gift Card'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- ko if: message() -->
+        <div class="messages">
+            <div class="message" data-bind="css: {'message-success success': !isLoading() && message().includes('success'), 'message-error error': !isLoading() && !message().includes('success') && message()}, text: message"></div>
+        </div>
+        <!-- /ko -->
+        <!-- Applied Gift Card Tiles -->
+        <!-- ko if: appliedGiftCards().length > 0 -->
+        <div class="leat-applied-giftcards-list">
+            <!-- ko foreach: appliedGiftCards -->
+            <div class="leat-giftcard-tile" data-bind="css: {'leat-giftcard-removing': $parent.isRemovingCard() === $data.gift_card_code}">
+                <span class="leat-giftcard-tile-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" class="leat-giftcard-svg-icon"><g clip-path="url(#leatGiftcardClipPath)"><path stroke-linecap="round" stroke-linejoin="round" d="M7 8v4.5"></path><path d="M1.5 5.755c0-.693.562-1.255 1.255-1.255h8.49c.693 0 1.255.562 1.255 1.255v.99C12.5 7.438 11.938 8 11.245 8h-8.49A1.255 1.255 0 0 1 1.5 6.745zM2.5 8h9v2.75a1.75 1.75 0 0 1-1.75 1.75h-5.5a1.75 1.75 0 0 1-1.75-1.75z"></path><path d="M4.524 4.017c.566.58 2.41.499 2.41.499s.08-1.888-.486-2.468c-.566-.579-1.455-.607-1.986-.064-.531.544-.503 1.454.062 2.033m4.952 0c-.566.58-2.41.499-2.41.499s-.08-1.888.486-2.468c.566-.579 1.455-.607 1.986-.064.531.544.503 1.454-.062 2.033"></path></g><defs><clipPath id="leatGiftcardClipPath"><path fill="#fff" d="M0 0h14v14H0z"></path></clipPath></defs></svg>
+                </span>
+                <span class="leat-giftcard-tile-details">
+                    <span class="leat-giftcard-tile-code" data-bind="text: masked_code"></span>
+                    <!-- ko if: applied_amount_formatted -->
+                    <span class="leat-giftcard-tile-amount" data-bind="text: applied_amount_formatted"></span>
+                    <!-- /ko -->
+                </span>
+                <button type="button" class="action action-remove leat-giftcard-tile-remove"
+                        data-bind="click: $parent.removeGiftCard.bind($parent, $data), attr: {title: $t('Remove Gift Card')}">
+                    <span class="leat-giftcard-remove-icon"></span>
+                </button>
+            </div>
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+    </div>
+</div>
+<!-- /ko -->

@@ -28,6 +28,13 @@
                                                                 <item name="title" xsi:type="string" translate="true">Prepaid Balance</item>
                                                             </item>
                                                         </item>
+                                                        <item name="leat_loyalty_giftcard" xsi:type="array">
+                                                            <item name="component"  xsi:type="string">Leat_LoyaltyFrontend/js/view/checkout/summary/leat-giftcard</item>
+                                                            <item name="sortOrder" xsi:type="string">95</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="title" xsi:type="string" translate="true">Leat Gift Card</item>
+                                                            </item>
+                                                        </item>
                                                     </item>
                                                 </item>
                                             </item>
@@ -48,6 +55,16 @@
                                                                     <item name="displayArea" xsi:type="string">afterMethods</item>
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="template" xsi:type="string">Leat_LoyaltyFrontend/payment/leat-balance</item>
+                                                                    </item>
+                                                                </item>
+                                                                <!-- Leat Giftcard Input Component -->
+                                                                <item name="leat-giftcard" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Leat_LoyaltyFrontend/js/view/payment/leat-giftcard</item>
+                                                                    <item name="sortOrder" xsi:type="string">30</item> <!-- After leat-balance -->
+                                                                    <item name="displayArea" xsi:type="string">afterMethods</item>
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="template" xsi:type="string">Leat_LoyaltyFrontend/payment/leat-giftcard</item>
+                                                                        <item name="title" xsi:type="string" translate="true">Apply Gift Card</item>
                                                                     </item>
                                                                 </item>
                                                             </item>

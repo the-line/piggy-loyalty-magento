@@ -1,0 +1,190 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Leat\LoyaltyFrontend\ViewModel\GiftcardProduct $viewModel
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$viewModel = $block->getData('view_model');
+$product = $viewModel->getProduct();
+?>
+
+<?php if ($viewModel->isGiftcardEnabled() && $viewModel->isLeatGiftcard() && $viewModel->isGiftFormEnabled()) : ?>
+    <div class="field giftcard-options" id="leat-giftcard-options">
+        <legend class="legend">
+            <span><?= $escaper->escapeHtml(__('Gift Card Options')) ?></span>
+        </legend>
+
+        <div class="field choice">
+            <input type="checkbox"
+                   name="leat_giftcard_is_gift"
+                   id="leat_giftcard_is_gift"
+                   class="checkbox"
+                   data-role="send-as-gift-checkbox"/>
+            <label class="label" for="leat_giftcard_is_gift">
+                <span><?= $escaper->escapeHtml(__('I want to send this as a gift')) ?></span>
+            </label>
+        </div>
+
+        <div id="leat-giftcard-gift-fields" class="hidden">
+            <?php if ($viewModel->isEmailVisible()) : ?>
+                <div class="field recipient-email  <?= $viewModel->isEmailRequired() ? 'required' : '' ?>">
+                    <label class="label" for="leat_giftcard_recipient_email">
+                        <span><?= $escaper->escapeHtml(__('Recipient Email')) ?><?= !$viewModel->isEmailRequired() ? __(' (Optional)') : '' ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="email"
+                               name="leat_giftcard_recipient_email"
+                               id="leat_giftcard_recipient_email"
+                               class="input-text validate-email"
+                            <?php if ($viewModel->isEmailRequired()) : ?>
+                                data-validate="{required:true, 'validate-email':true}"
+                                aria-required="true"
+                            <?php else : ?>
+                                data-validate="{required:false, 'validate-email':true}"
+                                aria-required="false"
+                            <?php endif; ?>
+                        />
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($viewModel->isFirstnameVisible()) : ?>
+                <div class="field recipient-firstname  <?= $viewModel->isFirstnameRequired() ? 'required' : '' ?>">
+                    <label class="label" for="leat_giftcard_recipient_firstname">
+                        <span><?= $escaper->escapeHtml(__('Recipient First Name')) ?><?= !$viewModel->isFirstnameRequired() ? __(' (Optional)') : '' ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="text"
+                               name="leat_giftcard_recipient_firstname"
+                               id="leat_giftcard_recipient_firstname"
+                               class="input-text"
+                            <?php if ($viewModel->isFirstnameRequired()) : ?>
+                                data-validate="{required:true}"
+                                aria-required="true"
+                            <?php else : ?>
+                                data-validate="{required:false}"
+                                aria-required="false"
+                            <?php endif; ?>
+                        />
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($viewModel->isLastnameVisible()) : ?>
+                <div class="field recipient-lastname  <?= $viewModel->isLastnameRequired() ? 'required' : '' ?>">
+                    <label class="label" for="leat_giftcard_recipient_lastname">
+                        <span><?= $escaper->escapeHtml(__('Recipient Last Name')) ?><?= !$viewModel->isLastnameRequired() ? __(' (Optional)') : '' ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="text"
+                               name="leat_giftcard_recipient_lastname"
+                               id="leat_giftcard_recipient_lastname"
+                               class="input-text"
+                            <?php if ($viewModel->isLastnameRequired()) : ?>
+                                data-validate="{required:true}"
+                                aria-required="true"
+                            <?php else : ?>
+                                data-validate="{required:false}"
+                                aria-required="false"
+                            <?php endif; ?>
+                        />
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if ($viewModel->isMessageVisible()) : ?>
+                <div class="field sender-message  <?= $viewModel->isMessageRequired() ? 'required' : '' ?>">
+                    <label class="label" for="leat_giftcard_sender_message">
+                        <span><?= $escaper->escapeHtml(__('Message')) ?><?= !$viewModel->isMessageRequired() ? __(' (Optional)') : '' ?></span>
+                    </label>
+                    <div class="control">
+                    <textarea name="leat_giftcard_sender_message"
+                              id="leat_giftcard_sender_message"
+                              class="textarea"
+                              rows="3"
+                              <?php if ($viewModel->isMessageRequired()) : ?>
+                                  data-validate="{required:true}"
+                                  aria-required="true"
+                              <?php else : ?>
+                                  data-validate="{required:false}"
+                                  aria-required="false"
+                              <?php endif; ?>
+                        ></textarea>
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <script>
+        require([
+            'mage/validation',
+            'jquery',
+            'domReady!'
+        ], function (validation, $) {
+            $giftcardAddToCart = $('#product_addtocart_form');
+            $isGiftField = $('#leat_giftcard_is_gift');
+
+            // Initialize form validation
+            if ($giftcardAddToCart.length) {
+                $giftcardAddToCart.validation();
+
+                // Add custom validation for the form
+                $giftcardAddToCart.on('submit', function (e) {
+                    var isGiftChecked = $isGiftField.is(':checked');
+
+                    if (isGiftChecked) {
+                        var isValid = true;
+                        <?php
+                            $requiredFields = [];
+                            $requiredFields[] = $viewModel->isEmailRequired() ? '#leat_giftcard_recipient_email' : null;
+                            $requiredFields[] = $viewModel->isFirstnameRequired() ? '#leat_giftcard_recipient_firstname' : null;
+                            $requiredFields[] = $viewModel->isLastnameRequired() ? '#leat_giftcard_recipient_lastname' : null;
+                            $requiredFields[] = $viewModel->isMessageRequired() ? '#leat_giftcard_sender_message' : null;
+                            $requiredFields = array_filter($requiredFields);
+                        ?>
+                        var requiredFields = <?= json_encode($requiredFields) ?>;
+
+                        // Check each required field
+                        $.each(requiredFields, function (index, selector) {
+                            var field = $(selector);
+                            if (!field.val()) {
+                                isValid = false;
+                                field.addClass('mage-error');
+
+                                // Add error message if not exists
+                                var errorMsgId = field.attr('id') + '-error';
+                                if (!$('#' + errorMsgId).length) {
+                                    $('<div class="mage-error" id="' + errorMsgId + '">This is a required field.</div>')
+                                        .insertAfter(field);
+                                }
+                            }
+                        });
+
+                        if (!isValid) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return false;
+                        }
+                    }
+                });
+
+                // Handle checkbox change to toggle required state
+                $isGiftField.on('change', function () {
+                    var isChecked = $(this).is(':checked');
+                    var giftFields = $('#leat-giftcard-gift-fields');
+
+                    if (isChecked) {
+                        giftFields.removeClass('hidden').addClass('visible');
+                        giftFields.find('.required input').attr('aria-required', 'true');
+                    } else {
+                        giftFields.removeClass('visible').addClass('hidden');
+                        giftFields.find('.required input').attr('aria-required', 'false');
+
+                        // Clear values and errors
+                        giftFields.find('input, textarea').val('');
+                        giftFields.find('.mage-error').remove();
+                        giftFields.find('input').removeClass('mage-error');
+                    }
+                });
+            }
+        });
+    </script>
+<?php endif; ?>

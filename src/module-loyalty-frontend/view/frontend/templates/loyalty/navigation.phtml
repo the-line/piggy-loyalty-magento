@@ -6,12 +6,12 @@
  * @var Magento\Framework\Escaper $escaper
  */
 
-if ($block->show()) : 
+if ($block->show()) :
     $items = $block->getNavigationItems();
     $itemCount = count($items);
     $navClasses = 'leat-loyalty-nav';
     $navClasses .= ' items-' . $itemCount; // Add class based on number of visible items
-?>
+    ?>
 <nav class="<?= $navClasses ?>" id="leat-loyalty-nav" data-items="<?= $itemCount ?>">
     <ul class="leat-nav-list">
         <?php $i = 0; ?>

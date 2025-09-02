@@ -19,7 +19,7 @@
                         <![CDATA[Can be found under:</br><i>Navbar "Apps" > Integrations > Personal Access Token</i></br><b>Make sure to copy the token as it will not be shown again.</b></br><a href="https://docs.piggy.eu/v3/oauth/authorization">More Info about Personal Access Tokens</a>]]>
                     </comment>
                 </field>
-                <field id="shop_uuid" translate="label,comment" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="shop_uuid" translate="label,comment" type="text" showInDefault="1" sortOrder="10" showInWebsite="1" showInStore="1">
                     <label>Shop Uuid</label>
                     <comment>
                         <![CDATA[Can be found under:</br><i>Settings > Management > Profiles > [Select Shop] > Information > Uuid</i>]]>
@@ -66,7 +66,7 @@
                 <field id="label" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                     <label>Custom credit name</label>
                     <comment>Click the button to fetch data from the API.</comment>
-                    <frontend_model>Leat\Loyalty\Block\Adminhtml\Form\Field\FetchCreditNameButton</frontend_model>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\FetchCreditNameButton</frontend_model>
                 </field>
                 <field id="show_on_cart_page" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
                     <label>Show credits on Cart Page</label>
@@ -116,6 +116,79 @@
                     <comment>Title to display for the prepaid balance section in checkout</comment>
                     <depends>
                         <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="giftcard" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
+                <label>Leat Giftcard</label>
+                <field id="enabled" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Leat Giftcards</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow purchase and redemption of Leat Giftcards.</comment>
+                </field>
+                <field id="program_uuid" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Giftcard Program</label>
+                    <source_model>Leat\LoyaltyAdminUI\Model\Config\Source\GiftcardPrograms</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>Select the configured Gift Card Program in Piggy</comment>
+                </field>
+                <field id="balance_check" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Giftcard Balance Check</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow customers to check their gift card balance on the frontend</comment>
+                </field>
+                <field id="max_balance_checks" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Balance Checks Per Session</label>
+                    <validate>validate-number validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="balance_check">1</field>
+                    </depends>
+                    <comment>Maximum number of gift card balance checks allowed per session per day</comment>
+                </field>
+                <field id="disable_giftcard_points_exclusion" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable Giftcard Points Exclusion</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow customers to earn points when purchasing gift cards.</comment>
+                </field>
+            </group>
+            <group id="giftcard_form"  translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="75">
+                <label>Giftcard Form</label>
+                <field id="show_form" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show 'Send as gift' Form</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Show form on giftcard product page</comment>
+                </field>
+                <field id="recipient_email" translate="label" type="select" showInDefault="1" showInWebsite="1">
+                    <label>Show Recipient Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Nooptreq</source_model>
+                    <depends>
+                        <field id="show_form">1</field>
+                    </depends>
+                </field>
+                <field id="recipient_firstname" translate="label" type="select" showInDefault="1" showInWebsite="1">
+                    <label>Show Recipient Firstname</label>
+                    <source_model>Magento\Config\Model\Config\Source\Nooptreq</source_model>
+                    <depends>
+                        <field id="show_form">1</field>
+                    </depends>
+                </field>
+                <field id="recipient_lastname" translate="label" type="select" showInDefault="1" showInWebsite="1">
+                    <label>Show Recipient Lastname</label>
+                    <source_model>Magento\Config\Model\Config\Source\Nooptreq</source_model>
+                    <depends>
+                        <field id="show_form">1</field>
+                    </depends>
+                </field>
+                <field id="sender_message" translate="label" type="select" showInDefault="1" showInWebsite="1">
+                    <label>Show Sender Message</label>
+                    <source_model>Magento\Config\Model\Config\Source\Nooptreq</source_model>
+                    <depends>
+                        <field id="show_form">1</field>
                     </depends>
                 </field>
             </group>

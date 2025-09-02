@@ -11,4 +11,36 @@
             <parameter name="cartId" force="true">%cart_id%</parameter>
         </data>
     </route>
+    <route url="/V1/carts/mine/leat-giftcard-redemption" method="POST">
+        <service class="Leat\Loyalty\Api\ApplyGiftCardInterface" method="apply"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <!-- Remove Gift Card from Customer Cart (Logged in) -->
+    <route url="/V1/carts/mine/leat-giftcard-remove" method="POST">
+        <service class="Leat\Loyalty\Api\RemoveGiftCardInterface" method="remove"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+            <!-- appliedCardId will be expected in the POST body -->
+        </data>
+    </route>
+
+    <!-- Get Applied Gift Cards for Customer Cart (Logged in) -->
+    <route url="/V1/carts/mine/leat-applied-giftcards" method="GET">
+        <service class="Leat\Loyalty\Api\GetAppliedGiftCardsInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
 </routes>

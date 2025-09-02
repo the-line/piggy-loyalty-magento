@@ -30,4 +30,8 @@
     <action name="checkout/onepage/saveOrder">
         <section name="leat"/>
     </action>
+
+    <action name="customer/ajax/login">
+        <section name="leat"/>
+    </action>
 </config>

@@ -17,7 +17,43 @@ use Piggy\Api\Models\CustomAttributes\CustomAttribute;
 class AttributeResource extends AbstractLeatResource
 {
     protected const string LOGGER_PURPOSE = 'attributes';
-    protected const string DEFAULT_GROUP_NAME = 'Magento';
+
+    /**
+     * List of configurable attribute types
+     */
+    protected const CUSTOM_ATTRIBUTE_TYPES = [
+        'business_profile',
+        'booking',
+        'contact',
+        'giftcard',
+        'giftcard_transaction',
+        'promotion',
+        'reward',
+        'voucher'
+    ];
+
+    /**
+     * Reward attributes
+     */
+    private const array CUSTOM_ATTRIBUTES = [
+        'giftcard_transaction' => [
+            'transaction_hash' => [
+                'type' => CustomAttributeTypes::TEXT,
+                'label' => 'Transaction Hash',
+                'description' => 'The hash of the transaction, to prevent duplicate transactions',
+            ],
+            'increment_id' => [
+                'type' => CustomAttributeTypes::TEXT,
+                'label' => 'Increment ID',
+                'description' => 'The Magento order increment ID of the order this giftcard is bought in',
+            ],
+            'order_item_id' => [
+                'type' => CustomAttributeTypes::TEXT,
+                'label' => 'Magento Order ID',
+                'description' => 'The order Item ID of the order this giftcard is bought in',
+            ],
+        ]
+    ];
 
     /**
      * @var array
@@ -32,50 +68,48 @@ class AttributeResource extends AbstractLeatResource
             'type' => CustomAttributeTypes::TEXT,
             'label' => 'Increment ID',
             'description' => 'The Magento order increment ID of the order',
-            'options' => null
         ],
         'order_item_id' => [
             'type' => CustomAttributeTypes::TEXT,
             'label' => 'Order ID',
             'description' => 'The Magento order item ID of the order item',
-            'options' => null
         ],
         'product_name' => [
             'type' => CustomAttributeTypes::TEXT,
             'label' => 'Product Name',
             'description' => 'The name of the product sold',
-            'options' => null
         ],
         'brand' => [
             'type' => CustomAttributeTypes::TEXT,
             'label' => 'Brand',
             'description' => 'The brand of the product sold',
-            'options' => null
         ],
         'sku' => [
             'type' => CustomAttributeTypes::TEXT,
             'label' => 'SKU',
             'description' => 'The SKU of the product sold',
-            'options' => null
         ],
         'quantity' => [
             'type' => CustomAttributeTypes::NUMBER,
             'label' => 'Quantity',
             'description' => 'The quantity of the order item',
-            'options' => null
         ],
         'row_total' => [
             'type' => CustomAttributeTypes::NUMBER,
             'label' => 'Row Total',
             'description' => 'Row total of the order item',
-            'options' => null
+        ],
+        'transaction_hash' => [
+            'type' => CustomAttributeTypes::TEXT,
+            'label' => 'Transaction Hash',
+            'description' => 'The hash of the transaction',
+        ],
+        'transaction_note' => [
+            'type' => CustomAttributeTypes::TEXT,
+            'label' => 'Transaction Note',
+            'description' => 'Additional information about the transaction',
         ]
     ];
-
-    /**
-     * Reward attributes
-     */
-    private const array REWARD_ATTRIBUTES = [];
 
     /**
      * Sync all transaction attributes
@@ -96,9 +130,18 @@ class AttributeResource extends AbstractLeatResource
      * @return array
      * @throws LocalizedException
      */
-    public function syncRewardAttributes(?int $storeId = null): array
+    public function syncCustomAttributes(?int $storeId = null): array
     {
-        return $this->syncAttributes('reward', self::REWARD_ATTRIBUTES, $storeId);
+        $result = [];
+        foreach (self::CUSTOM_ATTRIBUTE_TYPES as $type) {
+            if (!isset(self::CUSTOM_ATTRIBUTES[$type])) {
+                continue;
+            }
+
+            $result[$type] = $this->syncAttributes($type, self::CUSTOM_ATTRIBUTES[$type], $storeId);
+        }
+
+        return $result;
     }
 
     /**
@@ -196,7 +239,7 @@ class AttributeResource extends AbstractLeatResource
                     $data['type'],
                     $data['options'] ?? null,
                     $data['description'] ?? null,
-                    $data['group_name'] ?? self::DEFAULT_GROUP_NAME
+                    $data['group_name'] ?? null
                 );
             },
             "Error creating attribute $attributeName for $entityCode"
@@ -226,7 +269,7 @@ class AttributeResource extends AbstractLeatResource
                     $data['label'],
                     $data['options'] ?? null,
                     $data['description'] ?? null,
-                    $data['group_name'] ?? self::DEFAULT_GROUP_NAME
+                    $data['group_name'] ?? null
                 );
             },
             "Error updating attribute $attributeName for $entityCode"
@@ -298,17 +341,17 @@ class AttributeResource extends AbstractLeatResource
     /**
      * Validate whether all required attributes exist
      *
-     * @param int $storeId
+     * @param int|null $storeId
      * @return array Returns validation result ['valid' => bool, 'missing' => array]
      * @throws LocalizedException
      */
-    public function validateAttributes(int $storeId): array
+    public function validateAttributes(?int $storeId = null): array
     {
         $result = [
             'valid' => true,
             'missing' => [
                 'transaction' => [],
-                'reward' => []
+                'custom' => []
             ]
         ];
 
@@ -321,11 +364,15 @@ class AttributeResource extends AbstractLeatResource
                 }
             }
 
-            $currentRewardAttributes = $this->getCurrentAttributes('reward', $storeId);
-            if (!empty(self::REWARD_ATTRIBUTES)) {
-                foreach (array_keys(self::REWARD_ATTRIBUTES) as $attrName) {
-                    if (!isset($currentRewardAttributes[$attrName])) {
-                        $result['missing']['reward'][] = $attrName;
+            foreach (self::CUSTOM_ATTRIBUTE_TYPES as $type) {
+                if (!isset(self::CUSTOM_ATTRIBUTES[$type])) {
+                    continue;
+                }
+
+                $currentAttributes = $this->getCurrentAttributes($type, $storeId);
+                foreach (array_keys(self::CUSTOM_ATTRIBUTES[$type]) as $attrName) {
+                    if (!isset($currentAttributes[$attrName])) {
+                        $result['missing']['custom'][] = $attrName;
                         $result['valid'] = false;
                     }
                 }

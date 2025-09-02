@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Leat\LoyaltyFrontend\Block;
 
-use Leat\AsyncQueue\Model\Queue\Request\GenericType;
 use Leat\AsyncQueue\Model\Queue\Request\RequestTypePool;
 use Leat\Loyalty\Model\Logger;
 use Leat\Loyalty\Model\Client;
 use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\ContactResource;
-use Leat\LoyaltyAsync\Model\Queue\Type\LoyaltyGenericType;
 use Leat\Loyalty\Model\Config;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Exception\AuthenticationException;

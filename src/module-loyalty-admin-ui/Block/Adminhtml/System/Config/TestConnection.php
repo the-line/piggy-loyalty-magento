@@ -8,12 +8,13 @@ use Leat\Loyalty\Model\Config;
 use Leat\Loyalty\Model\Connector;
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\FlagManager;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use Magento\Store\Model\StoreManagerInterface;
 
-class TestConnection extends Field
+class TestConnection extends GenericField
 {
     public const FLAG_CODE = 'leat_loyalty_ping_status';
     private const string FLAG_CODE_FORMAT = 'leat_loyalty_ping_status_%d';
@@ -22,13 +23,13 @@ class TestConnection extends Field
         protected Config                $config,
         protected Connector             $connector,
         protected FlagManager           $flagManager,
-        protected StoreManagerInterface $storeManager,
+        RequestInterface      $request,
+        StoreManagerInterface $storeManager,
         Context               $context,
         array                 $data = [],
         ?SecureHtmlRenderer   $secureRenderer = null
-    )
-    {
-        parent::__construct($context, $data, $secureRenderer);
+    ) {
+        parent::__construct($request, $storeManager, $context, $data, $secureRenderer);
     }
 
     /**
@@ -47,7 +48,7 @@ class TestConnection extends Field
             ->setOnClick('window.testLeatConnection(); return false;')
             ->toHtml();
 
-        $storeId = (int)$this->storeManager->getStore()->getId();
+        $storeId = (int) $this->getStoreId();
 
         // Add translated messages
         $testingMessage = __('Testing connection...');
