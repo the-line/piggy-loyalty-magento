@@ -117,7 +117,7 @@ abstract class GenericType extends DataObject implements TypeInterface
      * @return int
      * @throws NoSuchEntityException
      */
-    public function getStoreId(): int
+    public function getStoreId(): mixed
     {
         $jobStoreId = $this->getJob()?->getStoreId();
         $requestStoreId = $this->getData('store_id');
