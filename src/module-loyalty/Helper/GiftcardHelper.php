@@ -129,7 +129,11 @@ class GiftcardHelper
      */
     public function itemIsGiftcard(AbstractItem|AbstractModel $item): bool
     {
-        return $this->productIsGiftcard($item->getProduct()->getId());
+        $product = $item->getProduct();
+        if ($product === null) {
+            return false;
+        }
+        return $this->productIsGiftcard($product->getId());
     }
 
     /**
