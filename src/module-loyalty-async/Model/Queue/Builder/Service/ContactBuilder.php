@@ -91,19 +91,22 @@ class ContactBuilder
      * @return JobInterface
      * @throws LocalizedException
      */
-    public function updateContactAddress(Customer|CustomerInterface $customer): JobInterface
+    public function updateContactAddress(Customer|CustomerInterface $customer): ?JobInterface
     {
         $customerUpdate = $this->requestTypePool->getRequestType(ContactUpdate::getTypeCode());
         $address = $this->getCustomerAddress($customer);
 
-        $customerUpdate = $customerUpdate->setData('address', $address);
-        return $this->jobBuilder
-            ->newJob($customer->getId())
-            ->setStoreId((int) $customer->getStoreId())
-            ->addRequest(
-                $customerUpdate->getPayload(),
-                $customerUpdate::getTypeCode()
-            )->create();
+        if ($address !== null) {
+            $customerUpdate = $customerUpdate->setData('address', $address);
+            return $this->jobBuilder
+                ->newJob($customer->getId())
+                ->setStoreId((int) $customer->getStoreId())
+                ->addRequest(
+                    $customerUpdate->getPayload(),
+                    $customerUpdate::getTypeCode()
+                )->create();
+        }
+        return null;
     }
 
     /**
@@ -129,9 +132,9 @@ class ContactBuilder
     {
         $address = null;
         $defaultBillingId = $customer->getDefaultBilling();
-        foreach ($customer->getAddresses() as $address) {
-            if ($address->getId() === $defaultBillingId) {
-                $address = $address->__toArray();
+        foreach ($customer->getAddresses() as $customerAddress) {
+            if ($customerAddress->getId() === $defaultBillingId) {
+                $address = $customerAddress->__toArray();
                 break;
             }
         }
