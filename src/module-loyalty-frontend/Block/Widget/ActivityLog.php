@@ -139,7 +139,7 @@ class ActivityLog extends GenericWidgetBlock
             // Process each group into a single activity item
             $processedTransactions = [];
             foreach ($groupedTransactions as $groupId => $transactionGroup) {
-                $processedTransactions[] = $this->processTransactionGroup($groupId, $transactionGroup);
+                $processedTransactions[] = $this->processTransactionGroup((string)$groupId, $transactionGroup);
             }
 
             // Sort by date, newest first
