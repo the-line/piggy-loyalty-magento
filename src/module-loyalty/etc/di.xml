@@ -17,6 +17,15 @@
     <preference for="Leat\Loyalty\Api\RemoveGiftCardInterface" type="Leat\Loyalty\Model\RemoveGiftCard" />
     <preference for="Leat\Loyalty\Api\GetAppliedGiftCardsInterface" type="Leat\Loyalty\Model\GetAppliedGiftCards" />
 
+    <!-- CLI commands -->
+    <type name="Magento\Framework\Console\CommandList">
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="leat_sync_customers" xsi:type="object">Leat\Loyalty\Console\SyncCustomers</item>
+           </argument>
+       </arguments>
+   </type>
+
     <!-- Plugins for prepaid balance handling -->
     <type name="Magento\Sales\Api\OrderRepositoryInterface">
         <plugin name="leat_loyalty_load_balance_data" type="Leat\Loyalty\Plugin\OrderRepository\LoadLeatBalanceData" sortOrder="10" />
