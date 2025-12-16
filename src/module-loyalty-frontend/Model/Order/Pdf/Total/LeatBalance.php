@@ -113,7 +113,7 @@ class LeatBalance extends DefaultTotal
         return [
             [
                 'amount' => $amount,
-                'label' => __($this->getTitle() ?: 'Prepaid Balance') . ':',
+                'label' => __($this->config->getPrepaidBalanceSummaryTitle(((int)$this->getOrder()?->getStoreId())) ?: $this->getTitle()) . ':',
                 'font_size' => $fontSize
             ]
         ];

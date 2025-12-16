@@ -54,6 +54,7 @@ class Config
     // Prepaid Balance Configuration Constants
     protected const XML_PREPAID_BALANCE_ENABLED = 'leat/prepaid_balance/enabled';
     protected const XML_PREPAID_BALANCE_TITLE = 'leat/prepaid_balance/title';
+    protected const XML_PREPAID_BALANCE_SUMMARY_TITLE = 'leat/prepaid_balance/summary_title';
 
     // Giftcard Configuration Constants
     protected const XML_GIFTCARD_ENABLED = 'leat/giftcard/enabled';
@@ -523,7 +524,7 @@ class Config
      */
     public function isPrepaidBalanceEnabled(?int $storeId = null): bool
     {
-        return $this->getIsEnabled() && $this->scopeConfig->isSetFlag(
+        return $this->getIsEnabled($storeId) && $this->scopeConfig->isSetFlag(
             self::XML_PREPAID_BALANCE_ENABLED,
             ScopeInterface::SCOPE_STORE,
             $storeId
@@ -545,6 +546,23 @@ class Config
         );
 
         return (string) ($value ?: __('Use Your Prepaid Balance'));
+    }
+
+    /**
+     * Get prepaid balance checkout summary title
+     *
+     * @param int|null $storeId
+     * @return string
+     */
+    public function getPrepaidBalanceSummaryTitle(?int $storeId = null): string
+    {
+        $value = $this->scopeConfig->getValue(
+            self::XML_PREPAID_BALANCE_SUMMARY_TITLE,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        return (string) ($value ?: __('Prepaid Balance'));
     }
 
     /**
@@ -599,7 +617,7 @@ class Config
      */
     public function isGiftcardEnabled(?int $storeId = null): bool
     {
-        return $this->scopeConfig->isSetFlag(
+        return $this->getIsEnabled($storeId) && $this->scopeConfig->isSetFlag(
             self::XML_GIFTCARD_ENABLED,
             ScopeInterface::SCOPE_STORE,
             $storeId

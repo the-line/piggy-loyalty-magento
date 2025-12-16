@@ -14,6 +14,7 @@
             <prepaid_balance>
                 <enabled>1</enabled>
                 <title>Use Your Prepaid Balance</title>
+                <summary_title>Prepaid Balance</summary_title>
                 <refund_priority>balance_first</refund_priority>
             </prepaid_balance>
             <giftcard_form>

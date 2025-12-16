@@ -26,8 +26,7 @@ class SyncValidator
     public function validateSyncStatus(?int $storeId = null): ?Phrase
     {
         try {
-            $attributesValidation = $this->attributeResource->validateAttributes($storeId);
-
+            $attributesValidation = $this->attributeResource->validateAttributes($storeId ?? 0);
             if (!$attributesValidation['valid']) {
                 $missingCount = count($attributesValidation['missing']['transaction'] ?? [])
                               + count($attributesValidation['missing']['custom'] ?? []);

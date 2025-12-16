@@ -72,7 +72,7 @@ class OrderBuilder
             $transaction = $this->requestTypePool->getRequestType(OrderItemTransaction::getTypeCode());
             $transaction
                 ->setData(Transaction::DATA_SKU_KEY, $product->getSku())
-                ->setData(Transaction::DATA_ROW_TOTAL_KEY, $orderItem->getBaseRowTotal())
+                ->setData(Transaction::DATA_ROW_TOTAL_KEY, $orderItem->getBaseRowTotal() - $orderItem->getBaseDiscountAmount())
                 ->setData(Transaction::DATA_PRODUCT_NAME_KEY, $product->getName())
                 ->setData(Transaction::DATA_ORDER_ITEM_ID_KEY, $orderItem->getItemId())
                 ->setData(Transaction::DATA_INCREMENT_ID_KEY, $order->getIncrementId())

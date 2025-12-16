@@ -347,6 +347,9 @@ class AttributeResource extends AbstractLeatResource
      */
     public function validateAttributes(?int $storeId = null): array
     {
+        $logger = $this->getLogger('attribute_validation');
+        $logger->log('--Starting attribute validation--', false, ['store_id' => $storeId]);
+
         $result = [
             'valid' => true,
             'missing' => [
@@ -357,10 +360,19 @@ class AttributeResource extends AbstractLeatResource
 
         try {
             $currentTransactionAttributes = $this->getCurrentAttributes('transaction', $storeId);
+            $logger->log(
+                'Current transaction attributes',
+                false,
+                ['attributes' => $currentTransactionAttributes]
+            );
+
             foreach (array_keys(self::TRANSACTION_ATTRIBUTES) as $attrName) {
                 if (!isset($currentTransactionAttributes[$attrName])) {
+                    $logger->log('Missing transaction attribute', false, ['attribute' => $attrName]);
                     $result['missing']['transaction'][] = $attrName;
                     $result['valid'] = false;
+                } else {
+                    $logger->log("Transaction attribute $attrName exists");
                 }
             }
 
@@ -370,16 +382,32 @@ class AttributeResource extends AbstractLeatResource
                 }
 
                 $currentAttributes = $this->getCurrentAttributes($type, $storeId);
+                $logger->log(
+                    "Current custom attributes for type: {$type}",
+                    false,
+                    ['attributes' => $currentAttributes]
+                );
+
                 foreach (array_keys(self::CUSTOM_ATTRIBUTES[$type]) as $attrName) {
                     if (!isset($currentAttributes[$attrName])) {
+                        $logger->log(
+                            "Missing custom attribute for type: {$type}",
+                            false,
+                            ['attribute' => $attrName]
+                        );
                         $result['missing']['custom'][] = $attrName;
                         $result['valid'] = false;
+                    } else {
+                        $logger->log("Custom attribute $attrName for type $type exists");
                     }
                 }
             }
         } catch (\Exception $e) {
+            $logger->log('Error during attribute validation', true, ['exception' => 'Could not validate attributes: ' . $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             throw new LocalizedException(__('Error validating attributes: %1', $e->getMessage()));
         }
+
+        $logger->log('--Attribute validation finished--', false, ['result' => $result]);
 
         return $result;
     }

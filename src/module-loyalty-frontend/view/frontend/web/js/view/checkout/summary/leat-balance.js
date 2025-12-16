@@ -2,13 +2,15 @@ define([
     'Magento_Checkout/js/view/summary/abstract-total',
     'Magento_Checkout/js/model/quote',
     'Magento_Catalog/js/price-utils',
-    'Magento_Checkout/js/model/totals'
-], function (Component, quote, priceUtils, totals) {
+    'Magento_Checkout/js/model/totals',
+    'mage/translate'
+], function (Component, quote, priceUtils, totals, $t) {
     'use strict';
 
     return Component.extend({
         defaults: {
-            template: 'Leat_LoyaltyFrontend/checkout/summary/leat-balance'
+            template: 'Leat_LoyaltyFrontend/checkout/summary/leat-balance',
+            title: $t('Prepaid Balance')
         },
 
         /**

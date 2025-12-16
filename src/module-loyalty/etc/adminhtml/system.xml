@@ -106,14 +106,21 @@
             </group>
             <group id="prepaid_balance" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="60">
                 <label>Prepaid Balance</label>
-                <field id="enabled" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="enabled" type="select" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                     <label>Enable Prepaid Balance in Checkout</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Enable slider for applying prepaid balance during checkout</comment>
                 </field>
-                <field id="title" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="title" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
                     <label>Section Title</label>
                     <comment>Title to display for the prepaid balance section in checkout</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="summary_title" type="text" translate="label,comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                    <label>Summary Title</label>
+                    <comment>Title to display for the prepaid balance total in checkout summary</comment>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>

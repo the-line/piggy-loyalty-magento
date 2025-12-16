@@ -6,6 +6,7 @@ namespace Leat\LoyaltyFrontend\Block\Sales\Order\Totals;
 
 use Leat\Loyalty\Model\Config;
 use Leat\Loyalty\Api\OrderLeatBalanceRepositoryInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -63,12 +64,12 @@ class LeatBalance extends Template
             return $this;
         }
 
-        $total = new \Magento\Framework\DataObject([
+        $total = new DataObject([
             'code' => 'leat_loyalty_balance',
             'strong' => true,
             'value' => -$balanceAmount,
             'base_value' => -$balanceAmount,
-            'label' => __('Prepaid Balance'),
+            'label' => __($this->config->getPrepaidBalanceSummaryTitle((int) $order->getStoreId())),
             'sort_order' => 450,
             'is_formated' => false,
             'area' => 'footer'

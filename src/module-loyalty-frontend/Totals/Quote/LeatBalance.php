@@ -103,7 +103,7 @@ class LeatBalance extends AbstractTotal
 
         return [
             'code' => $this->getCode(),
-            'title' => __('Prepaid Balance'),
+            'title' => __($this->config->getPrepaidBalanceSummaryTitle((int) $quote->getStoreId())),
             'value' => -$amount
         ];
     }

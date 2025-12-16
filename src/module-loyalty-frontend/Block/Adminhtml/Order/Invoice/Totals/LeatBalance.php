@@ -75,7 +75,7 @@ class LeatBalance extends Template
             'strong' => true,
             'value' => -$balanceAmount,
             'base_value' => -$balanceAmount,
-            'label' => __('Prepaid Balance'),
+            'label' => __($this->config->getPrepaidBalanceSummaryTitle((int) $order->getStoreId())),
             'sort_order' => 750
         ]);
 

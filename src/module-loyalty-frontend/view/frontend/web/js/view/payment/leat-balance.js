@@ -25,6 +25,7 @@ define([
     return Component.extend({
         defaults: {
             template: 'Leat_LoyaltyFrontend/payment/leat-balance',
+            title: $t('Use Your Prepaid Balance'),
             isVisible: false,
             prepaidBalance: 0,
             appliedBalance: 0,
@@ -52,6 +53,7 @@ define([
         initObservable: function () {
             this._super()
                 .observe([
+                    'title',
                     'isVisible',
                     'prepaidBalance',
                     'appliedBalance',
@@ -234,7 +236,7 @@ define([
          * @returns {string}
          */
         getSectionTitle: function () {
-            return $t('Use Your Prepaid Balance');
+            return this.title();
         },
 
         /**

@@ -13,4 +13,12 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="leat_loyalty_checkout" xsi:type="object">Leat\LoyaltyFrontend\Model\Checkout\LayoutProcessor</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
