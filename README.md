@@ -82,6 +82,10 @@ bin/magento cache:flush
 
 - **Credits Display**: Configure under **Stores > Configuration > Leat Loyalty > Leat Loyalty > Credits Display**
 - **Order Configuration**: Configure under **Stores > Configuration > Leat Loyalty > Leat Loyalty > Order Configuration**
+  - Export mode: Disabled, Order API, or Legacy Transaction-based
+  - Order API options: include tax as charge, include shipping as charge, separate shipping tax
+- **Credit Memo Configuration**: Configure under **Stores > Configuration > Leat Loyalty > Leat Loyalty > Credit Memo Configuration**
+  - Export positive adjustment as return line items (Order API mode only)
 - **Prepaid Balance**: Configure under **Stores > Configuration > Leat Loyalty > Leat Loyalty > Prepaid Balance**
 - **Refer a Friend**: Configure under **Stores > Configuration > Leat Loyalty > Leat Loyalty > Refer a Friend**
 
@@ -115,7 +119,9 @@ Provides frontend components and widgets for customer interaction:
 
 Extends Magento's admin area with Leat-specific features:
 
-- Data synchronization interface
+- Data synchronization interface with live status blocks (connection ping, attribute, category, and product sync)
+- Connected Shop selector populated from the Leat API (BusinessProfiles)
+- Order export mode selector (Disabled / Order API / Legacy Transaction-based)
 - Connection testing system
 - Gift product cart price rule UI
 - Leat coupon type integration
@@ -128,7 +134,9 @@ Extends Magento's admin area with Leat-specific features:
 Handles asynchronous communication between Magento and Leat:
 
 - Specialized queue types for Leat API operations
-- Builder services for common integrations
+- `OrderApiBuilder` - builds full order payloads for the Leat Order API (line items, charges, discounts, payments)
+- `ReturnApiBuilder` - builds return payloads from Magento credit memos for the Leat Returns API
+- Builder services for common integrations (contact, giftcard, legacy transactions)
 - Retry logic and error reporting
 - Performance optimization
 
@@ -157,9 +165,10 @@ The integration automatically synchronizes customer data with Leat:
 
 ### Order Synchronization
 
-Orders are automatically synchronized to Leat:
+Orders are automatically synchronized to Leat. Two export modes are available:
 
-- Transactions created for each order item
+- **Order API mode**: Exports full order payloads (line items, discounts, charges, payments) via the Leat Order API. Supports configurable tax and shipping charge inclusion.
+- **Legacy Transaction mode**: Exports individual per-item credit transactions (original behaviour).
 
 ### Prepaid Balance
 
@@ -201,9 +210,13 @@ Rich set of frontend components:
 
 The integration sets up several cron jobs:
 
-- **Order Export**: Exports new orders to Leat (hourly)
+- **Order Export**: Exports new orders to Leat (every minute, self-throttled by status tracking)
+- **Return Export**: Exports credit memos as returns to Leat (every minute, 6-hour retrieval window)
+- **Data Export**: Orchestrates product and category export (every minute, runs at most weekly per shop)
+- **Product Export**: Exports catalog products to Leat in batches of 100
+- **Category Export**: Exports categories to Leat in batches of 250
 - **Contact Update**: Updates contact information (daily)
-- **Queue Processing**: Processes the async queue (every 15 minutes)
+- **Queue Processing**: Processes the async queue (every minute)
 - **Queue Alert**: Sends alerts for queue errors (Monday at 10 AM)
 - **Queue Cleanup**: Cleans up successful jobs (monthly)
 
