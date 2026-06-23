@@ -16,7 +16,7 @@ The package consists of five modules that work together to provide a complete lo
 
 - PHP 8.3 or higher
 - Magento 2.4.7+ (framework >=103.0.7) with the Magento repository (repo.magento.com) configured
-- [Piggy PHP SDK](https://github.com/Piggy-Loyalty/piggy-php-sdk) ^3.12
+- [Piggy PHP SDK](https://github.com/Piggy-Loyalty/piggy-php-sdk) 3.12.7
 - Composer
 
 ## Installation
