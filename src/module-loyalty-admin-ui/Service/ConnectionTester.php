@@ -25,16 +25,14 @@ class ConnectionTester
      * @param int $storeId
      * @return array
      */
-    public function testConnection(int $storeId): array
+    public function testConnection(?int $storeId): array
     {
         // Check if required configuration is set
         $personalAccessToken = $this->config->getPersonalAccessToken($storeId);
-        $shopUuid = $this->config->getShopUuid($storeId);
-
-        if (empty($personalAccessToken) || empty($shopUuid)) {
+        if (empty($personalAccessToken)) {
             return [
                 'success' => false,
-                'message' => __('Missing configuration: Please set Personal Access Token and Shop UUID')
+                'message' => __('Missing configuration: Please set Personal Access Token')
             ];
         }
 
@@ -46,9 +44,10 @@ class ConnectionTester
                 return [
                     'success' => true,
                     'message' => __(
-                        "Successfully connected to Leat API.\n Company: %1, ID: %2",
+                        "Successfully connected to Leat API.\n Company: %1, ID: %2, UUID: %3",
                         $response->getData()->company,
-                        $response->getData()->id
+                        $response->getData()->id,
+                        $response->getData()->uuid
                     ),
                     'datetime' => date('Y-m-d H:i:s')
                 ];

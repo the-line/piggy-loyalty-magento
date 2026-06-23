@@ -91,9 +91,10 @@ class ExtensionAttributesPlugin
         $extensionAttributes = $rule->getExtensionAttributes();
         $ruleId = (int)$rule->getRuleId();
 
+        if (method_exists($rule, 'getData')) {
+            $giftSkus =  $rule->getData('gift_skus');
+        }
         // Get gift_skus data
-        $giftSkus = $rule->getData('gift_skus');
-
         // If extension attributes exist and have gift_skus, they take precedence
         if ($extensionAttributes && $extensionAttributes->getGiftSkus() !== null) {
             $giftSkus = $extensionAttributes->getGiftSkus();

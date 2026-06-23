@@ -40,11 +40,27 @@ class AddGiftProducts extends AbstractDiscount
         $logger = $this->leatConnector->getLogger('reward');
         $discountData = $this->discountFactory->create();
 
-        // We're not providing a discount, just adding a gift
-        $discountData->setAmount(0);
-        $discountData->setBaseAmount(0);
-        $discountData->setOriginalAmount(0);
-        $discountData->setBaseOriginalAmount(0);
+        $extensionAttributes = $item->getExtensionAttributes();
+        $isGiftFromThisRule = $extensionAttributes
+            && $extensionAttributes->getIsGift()
+            && $extensionAttributes->getGiftRuleId() === (int)$rule->getId();
+
+        if ($isGiftFromThisRule) {
+            $originalPrice = $item->getOriginalPrice() ?: (float)$item->getProduct()->getFinalPrice();
+            $customPrice = $item->getCustomPrice();
+            $effectivePrice = ($customPrice !== null) ? (float)$customPrice : $originalPrice;
+            $discountAmount = ($originalPrice - $effectivePrice) * $qty;
+
+            $discountData->setAmount($discountAmount);
+            $discountData->setBaseAmount($discountAmount);
+            $discountData->setOriginalAmount($originalPrice * $qty);
+            $discountData->setBaseOriginalAmount($originalPrice * $qty);
+        } else {
+            $discountData->setAmount(0);
+            $discountData->setBaseAmount(0);
+            $discountData->setOriginalAmount(0);
+            $discountData->setBaseOriginalAmount(0);
+        }
 
         $logger->debug(sprintf(
             'AddGiftProducts discount action calculated for rule ID %d, item %s (SKU: %s), qty: %f',

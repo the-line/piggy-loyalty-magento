@@ -40,7 +40,7 @@ class GenericField extends Field {
         $scope = $this->getScope();
         $scopeId = $this->getScopeId();
         if ($scope === 'default') {
-            $store = null;
+            $store = 0;
         } elseif ($scope === 'website') {
             $store = (int) $this->storeManager->getWebsite($scopeId)?->getDefaultStore()->getId();
         } else {

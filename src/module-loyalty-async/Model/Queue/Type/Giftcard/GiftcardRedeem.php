@@ -13,6 +13,7 @@ use Leat\Loyalty\Model\Transaction\Giftcard\GiftcardTransactionHash;
 use Leat\Loyalty\Model\Transaction\LoyaltyTransactionHash;
 use Leat\Loyalty\Model\Transaction\LoyaltyTransactionOrderItems;
 use Leat\LoyaltyAsync\Model\Connector\AsyncConnector;
+use Magento\Sales\Api\OrderItemRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class GiftcardRedeem extends GiftcardTransaction
@@ -22,6 +23,7 @@ class GiftcardRedeem extends GiftcardTransaction
 
     protected const string TYPE_CODE = 'giftcard_redeem';
     public function __construct(
+        protected OrderItemRepositoryInterface $orderItemRepository,
         protected GiftcardResource $giftcardResource,
         protected GiftcardHelper $giftcardHelper,
         protected GiftcardTransactionHash $giftcardTransactionHash,
@@ -36,6 +38,7 @@ class GiftcardRedeem extends GiftcardTransaction
         array $data = []
     ) {
         parent::__construct(
+            $orderItemRepository,
             $giftcardResource,
             $giftcardHelper,
             $giftcardTransactionHash,

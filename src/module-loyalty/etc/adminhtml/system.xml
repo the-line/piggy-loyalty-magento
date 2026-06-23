@@ -7,7 +7,7 @@
         </tab>
         <section id="leat" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
-            <label>Leat Loyalty</label>
+            <label>Configuration</label>
             <tab>leat_loyalty</tab>
             <resource>Leat_Loyalty::config</resource>
             <group id="connection" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="0">
@@ -16,14 +16,17 @@
                     <label>Personal Access Token</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <comment>
-                        <![CDATA[Can be found under:</br><i>Navbar "Apps" > Integrations > Personal Access Token</i></br><b>Make sure to copy the token as it will not be shown again.</b></br><a href="https://docs.piggy.eu/v3/oauth/authorization">More Info about Personal Access Tokens</a>]]>
+                        <![CDATA[
+                        Install the "Magento (Adobe Commerce) integration under:
+                        <br/><i>Navbar "Apps" > Integrations > <a href="https://business.leat.com/apps/integrations/apps/marketplace">Marketplace</a> (Search for): <a href="https://business.leat.com/apps/integrations/apps/marketplace/magento">Magento (Adobe Commerce)</a> > Install. </i>
+                        <br/> The sidebar should now show 'Magento' under 'Installed'. Click on it, you can generate a Personal access token under the 'auth' tab.
+                        <br/><br/><b>Make sure to copy the token as it will not be shown again.</b>
+                    ]]>
                     </comment>
                 </field>
-                <field id="shop_uuid" translate="label,comment" type="text" showInDefault="1" sortOrder="10" showInWebsite="1" showInStore="1">
-                    <label>Shop Uuid</label>
-                    <comment>
-                        <![CDATA[Can be found under:</br><i>Settings > Management > Profiles > [Select Shop] > Information > Uuid</i>]]>
-                    </comment>
+                <field id="shop_uuid" translate="label,comment" type="select" showInDefault="1" sortOrder="10" showInWebsite="1" showInStore="1">
+                    <label>Connected Shop</label>
+                    <source_model>Leat\LoyaltyAdminUI\Model\Config\Source\BusinessProfiles</source_model>
                 </field>
                 <field id="test_connection" translate="label,comment" type="button" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Test Connection</label>
@@ -32,7 +35,7 @@
                 </field>
                 <field id="ping_state" translate="label" type="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Current state</label>
-                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\PingStatus</frontend_model>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\Status\Ping</frontend_model>
                 </field>
             </group>
             <group id="general" translate="label" type="text" showInDefault="1" sortOrder="10">
@@ -54,11 +57,19 @@
                 <field id="sync_data" translate="label,comment" type="button" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sync Leat Data</label>
                     <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\Sync</frontend_model>
-                    <comment>Synchronize data with Leat (attributes, etc.)</comment>
+                    <comment>Synchronize data with Leat (attributes, categories, products)</comment>
                 </field>
                 <field id="sync_status" translate="label,comment" type="label" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sync Status</label>
-                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\SyncStatus</frontend_model>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\Status\Attribute</frontend_model>
+                </field>
+                <field id="category_sync_status" translate="label" type="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Category Sync Status</label>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\Status\Category</frontend_model>
+                </field>
+                <field id="product_sync_status" translate="label" type="label" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Sync Status</label>
+                    <frontend_model>Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\Status\Product</frontend_model>
                 </field>
             </group>
             <group id="credits" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
@@ -79,10 +90,54 @@
             </group>
             <group id="order" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
                 <label>Order Configuration</label>
+                <field id="order_api_comment" translate="label,comment" type="label" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Note</label>
+                    <comment>
+                        <![CDATA[
+                            All prices are exported as excl. tax by default. Use the options below to include shipping and/or tax as charges.
+                            </br><b>Include shipping as charge</b>: adds shipping cost as a separate charge on the order.
+                            </br><b>Include tax as charge</b>: adds order tax as a separate charge on the order.
+                            </br><b>Separate shipping and tax</b>: when both options above are enabled, splits shipping tax into its own charge instead of bundling it with line-item tax.
+                            </br>
+                            </br><b>Please be forewarned</b> that orders are relatively project specific, and if you have a custom checkout-, order- or product-flow, it's crucial to test the order export functionality to ensure points are awarded correctly.
+                            </br>A basic implementation is provided that should work for most setups, but custom flows may require adjustments to the provided implementation.
+                        ]]>
+                    </comment>
+                </field>
                 <field id="order_export_enabled" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Order Export</label>
                     <comment>
-                        <![CDATA[<b>Enabling order export makes customers eligible to earn points.</b></br> If this option is disabled, customers will not earn points for their purchases.</br>Customers will still be added to Leat upon their first purchase.</br></br>]]></comment>
+                        <![CDATA[
+                            </br>If this option is disabled, customers will not earn points for their purchases.
+                            </br>Customers will still be added to Leat upon their first purchase.
+                            </br>
+                            </br>Use legacy transaction-based order export only as fallback on existing projects.
+                        ]]>
+                    </comment>
+                    <source_model>Leat\LoyaltyAdminUI\Model\Config\Source\OrderExport</source_model>
+                </field>
+                <field id="include_shipping_as_charge" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Include shipping as charge</label>
+                    <comment>Enabling this option will add shipping as a charge, includes tax, unless 'leat/order/shipping_tax_seperate' is enabled.</comment>
+                    <depends>
+                        <field id="order_export_enabled">2</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="include_tax_as_charge" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Include tax as charge</label>
+                    <comment>Enabling this option will add tax as a charge</comment>
+                    <depends>
+                        <field id="order_export_enabled">2</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="shipping_tax_seperate" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Separate shipping and tax</label>
+                    <comment>Enabling this option will add shipping tax as separate charge from line item tax</comment>
+                    <depends>
+                        <field id="order_export_enabled">2</field>
+                    </depends>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="allow_pending" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label,comment" type="multiselect">
@@ -90,6 +145,14 @@
                     <comment>
                         <![CDATA[<b>There are instances where payment method doesn't change the status of an order to processing.</b></br>For these circumstances, the payment method can be configured here and be marked as 'allowed for export to Leat'</br>despite being stuck on 'pending'.</br>]]></comment>
                     <source_model>Leat\Loyalty\Model\Config\Source\PaymentMethods</source_model>
+                </field>
+            </group>
+            <group id="creditmemo" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="45">
+                <label>Credit Memo Configuration</label>
+                <field id="adjustment_positive_export_enabled" translate="label,comment" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Export Positive Adjustment as Return Line Items</label>
+                    <comment>Order API Only | When enabled, a creditmemo's "Adjustment Refund" amount is distributed across order line items in the return export.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="queue" translate="label" type="text" showInDefault="1" sortOrder="50">

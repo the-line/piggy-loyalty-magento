@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config;
 
-use Leat\LoyaltyAdminUI\Service\SyncValidator;
+use Leat\Loyalty\Model\Connector;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\FlagManager;
 use Magento\Framework\View\Helper\SecureHtmlRenderer;
 use Magento\Store\Model\StoreManagerInterface;
 
-class SyncStatus extends GenericField
+abstract class AbstractStatus extends GenericField
 {
     /**
-     * @param SyncValidator $syncValidator
+     * @param FlagManager $flagManager
+     * @param Connector $leatConnector
      * @param RequestInterface $request
      * @param StoreManagerInterface $storeManager
      * @param Context $context
@@ -23,7 +25,8 @@ class SyncStatus extends GenericField
      * @param SecureHtmlRenderer|null $secureRenderer
      */
     public function __construct(
-        protected SyncValidator $syncValidator,
+        protected FlagManager $flagManager,
+        protected Connector $leatConnector,
         RequestInterface $request,
         StoreManagerInterface $storeManager,
         Context $context,
@@ -49,12 +52,16 @@ class SyncStatus extends GenericField
     protected function _getElementHtml(AbstractElement $element): string
     {
         $storeId = $this->getStoreId();
-        $validationMessage = $this->syncValidator->validateSyncStatus($storeId);
-        if ($validationMessage !== null) {
-            return '<span class="warning-msg">' . $validationMessage . '</span>';
-        }
+        return $this->getStatus($storeId);
+    }
 
-        return '<span class="success-msg">' . __('No synchronisation necessary, everything is up to date.') . '</span>';
+    /**
+     * @param int|null $storeId
+     * @return string
+     */
+    protected function getStatus(?int $storeId = null): string
+    {
+        return '<span>Sync Status Content Goes Here</span>';
     }
 
     /**
@@ -69,6 +76,7 @@ class SyncStatus extends GenericField
                     .error-msg { color: #e22626; font-weight: bold; }
                     .warning-msg { color: #eb5202; font-weight: bold; }
                     .notice-msg { color: #007bdb; font-weight: bold; }
+                    .neutral-msg { color: #6b7280; font-style: italic; font-weight: bold; }
                     .datetime-msg { color: #514943; font-style: italic; font-size: 0.9em; margin-top: 5px; }
                 </style>';
     }
@@ -82,5 +90,17 @@ class SyncStatus extends GenericField
     public function render(AbstractElement $element): string
     {
         return parent::render($element) . $this->_renderCss();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getNoFlagDataMessage()
+    {
+        return sprintf("<span>%s<br/>%s<br/>%s</span>",
+            '<span class="neutral-msg">' . __("Awaiting first sync...") . '</span>',
+            '<span class="datetime-msg">' . __("Crontab might not be correctly configured.") . '</span>',
+            '<span class="datetime-msg">' . __("Otherwise, run `bin/magento sys:cron:run leat_loyalty_sync_categories_and_products` manually.") . '</span>'
+        );
     }
 }

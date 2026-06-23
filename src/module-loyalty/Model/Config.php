@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Leat\Loyalty\Model;
 
+use Leat\LoyaltyAdminUI\Model\Config\Source\OrderExport;
+use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
@@ -11,6 +13,10 @@ class Config
 {
     protected const string XML_PATH_PIGGY_IS_ENABLED = 'leat/general/is_enabled';
     protected const string XML_PATH_PIGGY_ORDER_EXPORT_ENABLED = 'leat/order/order_export_enabled';
+    protected const string XML_PATH_PIGGY_LEGACY_ORDER_EXPORT_ENABLED = 'leat/order/legacy_order_export_enabled';
+    protected const string XML_PATH_PIGGY_INCLUDE_TAX_AS_CHARGE = 'leat/order/include_tax_as_charge';
+    protected const string XML_PATH_PIGGY_INCLUDE_SHIPPING_AS_CHARGE = 'leat/order/include_shipping_as_charge';
+    protected const string XML_PATH_PIGGY_SHIPPING_TAX_SEPARATE = 'leat/order/shipping_tax_seperate';
     protected const string XML_PATH_PIGGY_PENDING_PAYMENT_EXPORT = 'leat/order/allow_pending';
 
     protected const string XML_PATH_PIGGY_CUSTOMER_GROUP_MAPPING = 'leat/general/customer_group_mapping';
@@ -56,6 +62,9 @@ class Config
     protected const XML_PREPAID_BALANCE_TITLE = 'leat/prepaid_balance/title';
     protected const XML_PREPAID_BALANCE_SUMMARY_TITLE = 'leat/prepaid_balance/summary_title';
 
+    // Creditmemo Configuration Constants
+    protected const XML_PATH_CREDITMEMO_ADJUSTMENT_POSITIVE_EXPORT = 'leat/creditmemo/adjustment_positive_export_enabled';
+
     // Giftcard Configuration Constants
     protected const XML_GIFTCARD_ENABLED = 'leat/giftcard/enabled';
     protected const XML_GIFTCARD_PROGRAM_UUID = 'leat/giftcard/program_uuid';
@@ -87,6 +96,7 @@ class Config
      */
     public function __construct(
         protected ScopeConfigInterface $scopeConfig,
+        protected ConfigInterface $configResource
     ) {
     }
 
@@ -111,8 +121,68 @@ class Config
      */
     public function getIsOrderExportEnabled(?int $storeId = null): bool
     {
-        return $this->scopeConfig->isSetFlag(
+        $value = (int) $this->scopeConfig->getValue(
             self::XML_PATH_PIGGY_ORDER_EXPORT_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ) ?? 0;
+
+        return $value === OrderExport::ENABLED || $value === OrderExport::ENABLED_LEGACY;
+    }
+
+    /**
+     * Get if orders should be exported to Leat by legacy transaction system instead of order export.
+     *
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function getIsLegacyOrderExportEnabled(?int $storeId = null): bool
+    {
+        $value = (int) $this->scopeConfig->getValue(
+            self::XML_PATH_PIGGY_ORDER_EXPORT_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        ) ?? 0;
+
+        return $value === OrderExport::ENABLED_LEGACY;
+    }
+
+    /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function getIncludeTaxAsCharge(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_PIGGY_INCLUDE_TAX_AS_CHARGE,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+
+    public function getIncludeShippingAsCharge(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_PIGGY_INCLUDE_SHIPPING_AS_CHARGE,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    public function getShippingTaxSeparate(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_PIGGY_SHIPPING_TAX_SEPARATE,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    public function getAdjustmentPositiveExportEnabled(?int $storeId = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_CREDITMEMO_ADJUSTMENT_POSITIVE_EXPORT,
             ScopeInterface::SCOPE_STORE,
             $storeId
         );

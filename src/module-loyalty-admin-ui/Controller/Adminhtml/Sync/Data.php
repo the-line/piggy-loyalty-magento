@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Leat\LoyaltyAdminUI\Controller\Adminhtml\Sync;
 
+use Leat\Loyalty\Model\Connector;
 use Leat\Loyalty\Model\ResourceModel\Loyalty\AttributeResource;
-use Leat\LoyaltyAdminUI\Block\Adminhtml\System\Config\Sync;
 use Leat\LoyaltyAdminUI\Service\SyncValidator;
+use Leat\LoyaltyAsync\Cron\Data\CategoryExport;
+use Leat\LoyaltyAsync\Cron\Data\ProductExport;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
@@ -16,7 +18,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\FlagManager;
 
 class Data extends Action implements HttpPostActionInterface, CsrfAwareActionInterface
 {
@@ -29,7 +31,9 @@ class Data extends Action implements HttpPostActionInterface, CsrfAwareActionInt
         Context $context,
         protected JsonFactory $resultJsonFactory,
         protected AttributeResource $attributeResource,
-        protected SyncValidator $syncValidator
+        protected SyncValidator $syncValidator,
+        protected Connector $leatConnector,
+        protected FlagManager $flagManager
     ) {
         parent::__construct($context);
     }
@@ -46,13 +50,20 @@ class Data extends Action implements HttpPostActionInterface, CsrfAwareActionInt
         try {
             $storeId = (int) $this->getRequest()->getParam('store', 0);
 
+            // trigger exporters
+            $this->triggerDataExport($storeId, CategoryExport::LAST_RUN_FLAG);
+            $this->triggerDataExport($storeId, ProductExport::LAST_RUN_FLAG);
+
             // Use the existing AttributeResource to sync attributes
             $this->attributeResource->syncTransactionAttributes($storeId);
             $this->attributeResource->syncCustomAttributes($storeId);
 
             $syncResult = [
                 'success' => true,
-                'message' => __('Successfully synchronized data with Leat')
+                'message' => __(
+                    "Successfully synchronized attribute data with Leat." .
+                    "<br/> <span class=\"datetime-msg\">Category and product export in progress, refresh page to see status.</span>"
+                )
             ];
 
             // Run validation to confirm everything is ready
@@ -74,6 +85,18 @@ class Data extends Action implements HttpPostActionInterface, CsrfAwareActionInt
                 'message' => __('An unexpected error occurred: %1', $e->getMessage())
             ]);
         }
+    }
+
+    /**
+     * @param int $storeId
+     * @return void
+     */
+    protected function triggerDataExport(int $storeId, string $flag): void {
+        $shopUUID = $this->leatConnector->getConfig()->getShopUuid($storeId);
+        $this->flagManager->saveFlag(sprintf($flag, $shopUUID), [
+            'time' => 0,
+            'success' => -1
+        ]);
     }
 
     /**

@@ -28,6 +28,11 @@
                 <!-- Transaction -->
                 <item name="order_item_transaction" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Contact\Order\Balance\Transaction\OrderItemTransaction</item>
 
+                <!-- Order API -->
+                <item name="create_and_process" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Contact\Order\CreateAndProcess</item>
+                <item name="return_create_and_process" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Contact\Order\Return\CreateAndProcess</item>
+
+                <!-- Giftcard -->
                 <item name="giftcard_create" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Giftcard\GiftcardCreate</item>
                 <item name="giftcard_transaction" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Giftcard\GiftcardTransaction</item>
                 <item name="giftcard_redeem" xsi:type="object">Leat\LoyaltyAsync\Model\Queue\Type\Giftcard\GiftcardRedeem</item>

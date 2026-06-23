@@ -73,4 +73,59 @@ abstract class AbstractCron
 
         return $collection;
     }
+
+    /**
+     * Split a dataset into JSON payload batches that stay under a byte limit.
+     * Accepts both arrays and Generators, yielding batches dynamically.
+     *
+     * @param iterable $dataset Array or Generator containing the items
+     * @param int $maxItems Maximum items per batch.
+     * @param int $maxBytes Maximum allowed JSON payload size in bytes.
+     *
+     * @return \Generator<int, array> Yields individual calculated batches
+     *
+     * @throws \InvalidArgumentException When a single item exceeds the limit.
+     * @throws \RuntimeException When json_encode() fails.
+     */
+    function buildBatches(iterable $dataset, int $maxItems = 250, int $maxBytes = 972800): \Generator
+    {
+        $batch = [];
+        $batchBytes = 2; // Account for structural brackets "[]"
+
+        foreach ($dataset as $item) {
+            $json = json_encode($item, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            if ($json === false) {
+                throw new \RuntimeException('Failed to encode item as JSON: ' . json_last_error_msg());
+            }
+
+            $itemBytes = strlen($json);
+
+            if ($itemBytes > $maxBytes) {
+                throw new \InvalidArgumentException(
+                    "A single item exceeds the maximum allowed payload size of {$maxBytes} bytes."
+                );
+            }
+
+            $separatorBytes = empty($batch) ? 0 : 1; // comma between elements
+            $nextBytes = $batchBytes + $separatorBytes + $itemBytes;
+
+            if (!empty($batch) && (count($batch) >= $maxItems || $nextBytes > $maxBytes)) {
+                yield $batch;
+
+                // Reset for the next batch
+                $batch = [];
+                $batchBytes = 2;
+                $separatorBytes = 0;
+                $nextBytes = $batchBytes + $itemBytes;
+            }
+
+            $batch[] = $item;
+            $batchBytes = $nextBytes;
+        }
+
+        // Don't forget the leftover items at the end
+        if (!empty($batch)) {
+            yield $batch;
+        }
+    }
 }

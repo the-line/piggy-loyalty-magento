@@ -6,6 +6,9 @@
                   instance="Leat\Loyalty\Observer\AddLeatBalanceToOrder"/>
         <observer name="leat_loyalty_verify_giftcard_balance"
                   instance="Leat\Loyalty\Observer\CheckGiftcardBeforeQuoteSubmit" />
+
+        <!--    split discount    -->
+        <observer name="add_splitdiscount_data_to_order" instance="Leat\Loyalty\Observer\Discount\AddDataToOrder" />
     </event>
     <event name="sales_order_place_after">
         <observer name="leat_loyalty_create_prepaid_transaction"
@@ -43,5 +46,13 @@
     </event>
     <event name="checkout_submit_all_after">
         <observer name="leet-loyalty-process-rewards" instance="Leat\Loyalty\Observer\ProcessRewards"/>
+    </event>
+
+    <!--  Split discount  -->
+    <event name="sales_quote_collect_totals_before">
+        <observer name="reset_split_discounts" instance="Leat\Loyalty\Observer\Discount\ResetDiscounts"/>
+    </event>
+    <event name="salesrule_validator_process">
+        <observer name="proces_split_discount" instance="Leat\Loyalty\Observer\Discount\ProcessDiscount"/>
     </event>
 </config>

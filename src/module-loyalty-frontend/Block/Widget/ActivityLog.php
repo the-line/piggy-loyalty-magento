@@ -139,7 +139,7 @@ class ActivityLog extends GenericWidgetBlock
             // Process each group into a single activity item
             $processedTransactions = [];
             foreach ($groupedTransactions as $groupId => $transactionGroup) {
-                $processedTransactions[] = $this->processTransactionGroup((string)$groupId, $transactionGroup);
+                $processedTransactions[] = $this->processTransactionGroup((string) $groupId, $transactionGroup);
             }
 
             // Sort by date, newest first
@@ -219,7 +219,7 @@ class ActivityLog extends GenericWidgetBlock
                         return (string) __('Lucky~ %1 granted via Loyalty Dashboard', $this->getCreditName());
                     }
 
-                    return (string) __('Prepaid Balance Reception');
+                    return (string) __('Credit Reception');
                 default:
                     return (string) __('%1 Transaction', $this->getCreditName());
             }

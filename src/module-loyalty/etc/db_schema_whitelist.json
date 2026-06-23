@@ -7,12 +7,19 @@
             "leat_loyalty_prepaid_transaction_uuid": true,
             "leat_loyalty_balance_refunded": true,
             "leat_loyalty_refunded": true,
-            "leat_loyalty_giftcard_refunded": true
+            "leat_loyalty_giftcard_refunded": true,
+            "leat_loyalty_applied_coupons": true,
+            "discount_description_array": true,
+            "discount_amount_array": true,
+            "base_discount_amount_array": true
         }
     },
     "quote": {
         "column": {
-            "leat_loyalty_balance_amount": true
+            "leat_loyalty_balance_amount": true,
+            "discount_description_array": true,
+            "discount_amount_array": true,
+            "base_discount_amount_array": true
         }
     },
     "sales_creditmemo": {
@@ -81,7 +88,8 @@
     "sales_order_item": {
         "column": {
             "giftcard_exported_to_leat": true,
-            "giftcard_exported_to_leat_at": true
+            "giftcard_exported_to_leat_at": true,
+            "leat_giftcard_object_uuid": true
         }
     }
 }

@@ -60,24 +60,41 @@ It does this based on the following events:
 - customer_address_save_commit_after - Address details edited
 
 
-## Order Sync  
-For each item in an order, a transaction will be sent to Leat containing the following fields per item:
-- Increment id  
-- SKU  
-- Product name  
-- Brand  
-- Row total (product price * qty) (excl. tax/shipping)  
-- Credits based on a credit distributing algorithm that ensures no points are lost.  
+## Order Export
 
-### When  
-- An hourly cron that collects any order for any orders placed within the configured stores. These orders do follow
-  The VoorKappers standard for a valid order before being exported. Where orders with paid with adyen are not exported
-  if the status is not atleast processing.  
+The module supports two order export modes configured under **Stores > Configuration > Leat Loyalty > Order**:
 
-### Customer condition 
+- **Disabled** – No order export.
+- **Enabled | Order API** – Exports orders via the Leat Order API (full order payload including line items, charges,
+  discounts, and payments). Handled by `LoyaltyAsync\Cron\Order\OrderExport` using `OrderApiBuilder`.
+- **Enabled | Legacy Transaction-based** – Exports individual order item transactions using the older per-item
+  transaction system.
+
+### Order API Export Payload Options
+
+When using Order API mode, the following can be included in the payload via admin config:
+
+- **Include Tax as Charge** – Adds order tax as a separate charge entry.
+- **Include Shipping as Charge** – Adds shipping cost as a separate charge entry.
+- **Shipping Tax Separate** – Reports shipping tax independently rather than bundled into the shipping charge.
+
+### Discount Breakdown Observers
+
+Three observers work together to capture a per-rule, per-tax-rate discount breakdown on the quote and propagate
+it to the order. This data is used by the Order API export to include accurate discount entries:
+
+- **ProcessDiscount** (`Observer/Discount/ProcessDiscount`) – Fires on `salesrule_validator_process`. Intercepts
+  each rule application and accumulates discount amounts keyed by tax rate into `discount_amount_array`,
+  `base_discount_amount_array`, and `discount_description_array` on the quote.
+- **ResetDiscounts** (`Observer/Discount/ResetDiscounts`) – Fires when the quote is recalculated. Clears previous
+  discount arrays so stale data is never carried forward.
+- **AddDataToOrder** (`Observer/Discount/AddDataToOrder`) – Fires on order placement. Copies the accumulated
+  discount arrays from the quote to the order for later pickup by the export cron.
+
+### Customer condition
 It might happen a customer from one of the configured stores has remained dormant for a long time. If this is the case,
-they might not have a Leat contact assigned to them. In this case, a create request will be sent for this customer 
-before the order items are inserted.
+they might not have a Leat contact assigned to them. In this case, a create request will be sent for this customer
+before the order is exported.
 
 ## Widget:
 It is added by using the following block on the desired page/block:

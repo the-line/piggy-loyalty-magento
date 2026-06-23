@@ -6,6 +6,8 @@ namespace Leat\Loyalty\Model;
 
 use Leat\Loyalty\Model\ResourceModel\Loyalty\RewardResource;
 use Leat\Loyalty\Model\SalesRule\EmptyCartGiftManager;
+use Leat\Loyalty\Model\QuoteItem\ExtensionAttributesRepository as QuoteItemExtensionRepository;
+use Leat\Loyalty\Model\SalesRule\ExtensionAttributesRepository as SalesRuleExtensionRepository;
 use Leat\Loyalty\Model\SalesRule\LoyaltyTransactionRelatedGiftRemover;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Customer\Model\Session as CustomerSession;
@@ -15,6 +17,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\Quote;
+use Magento\SalesRule\Api\RuleRepositoryInterface;
 use Piggy\Api\Models\Loyalty\Receptions\DigitalRewardReception;
 use Piggy\Api\Models\Loyalty\Receptions\PhysicalRewardReception;
 
@@ -27,16 +30,20 @@ class AppliedCouponsManager
     protected array $collectableRewardsCache = [];
 
     public function __construct(
-        protected CustomerSession $customerSession,
-        protected CheckoutSession $checkoutSession,
-        protected CartRepositoryInterface $cartRepository,
-        protected Json $json,
-        protected Connector $connector,
-        protected RewardResource $rewardResource,
-        protected ManagerInterface $eventManager,
+        protected CustomerSession                      $customerSession,
+        protected CheckoutSession                      $checkoutSession,
+        protected CartRepositoryInterface              $cartRepository,
+        protected Json                                 $json,
+        protected Connector                            $connector,
+        protected RewardResource                       $rewardResource,
+        protected ManagerInterface                     $eventManager,
         protected LoyaltyTransactionRelatedGiftRemover $couponRelatedGiftRemover,
-        protected EmptyCartGiftManager $emptyCartGiftManager
-    ) {
+        protected EmptyCartGiftManager                 $emptyCartGiftManager,
+        protected SalesRuleExtensionRepository         $salesRuleExtensionRepository,
+        protected QuoteItemExtensionRepository         $quoteItemExtensionRepository,
+        protected RuleRepositoryInterface              $ruleRepository,
+    )
+    {
     }
 
     /**
@@ -61,7 +68,7 @@ class AppliedCouponsManager
             }
 
             // TODO: REMOVE TO ALLOW MULTIPLE COUPONS
-            unset($appliedCoupons[$rewardUUID]);
+            $appliedCoupons = [];
 
             // Add the new coupon
             $appliedCoupons[$rewardUUID][] = $loyaltyTransactionUUID;
@@ -84,6 +91,136 @@ class AppliedCouponsManager
                 sprintf('Error adding coupon: %s', $e->getMessage()),
             );
             throw new LocalizedException(__('Could not apply coupon: %1', $e->getMessage()));
+        }
+    }
+
+    /**
+     * Get the current active quote
+     *
+     * @return Quote|null
+     * @throws NoSuchEntityException
+     */
+    protected function getQuote(): ?Quote
+    {
+        try {
+            if (!$this->customerSession->isLoggedIn()) {
+                return null;
+            }
+
+            return $this->checkoutSession->getQuote();
+        } catch (NoSuchEntityException $e) {
+            $this->rewardResource->getLogger()->log(
+                sprintf('Error getting quote: %s', $e->getMessage())
+            );
+            return null;
+        }
+    }
+
+    /**
+     * Get applied coupons (loyalty transaction UUIDs) from quote
+     *
+     * @param Quote $quote
+     * @return array
+     */
+    protected function getAppliedCoupons(Quote $quote): array
+    {
+        $appliedCouponsString = $quote->getData('leat_loyalty_applied_coupons');
+        if (!$appliedCouponsString) {
+            return [];
+        }
+
+        try {
+            $appliedCoupons = $this->json->unserialize($appliedCouponsString);
+            if (!is_array($appliedCoupons)) {
+                return [];
+            }
+
+            return $appliedCoupons;
+        } catch (\Exception $e) {
+            $this->rewardResource->getLogger()->log(
+                sprintf('Error unserializing applied coupons: %s', $e->getMessage())
+            );
+            return [];
+        }
+    }
+
+    /**
+     * @param $loyaltyTransactionUUID
+     * @param Quote|null $quote
+     * @return string|null
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function getRewardUUIDForLoyaltyTransactionUUID($loyaltyTransactionUUID, ?Quote $quote = null): ?string
+    {
+        $collectableRewardUUIDs = $this->getSortedCollectableRewardUUIDs($quote ?? $this->getQuote());
+        foreach ($collectableRewardUUIDs as $rewardUUID => $loyaltyTransactionUUIDs) {
+            if (in_array($loyaltyTransactionUUID, $loyaltyTransactionUUIDs)) {
+                return $rewardUUID;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns an array of collectable reward UUIDs for the current customer
+     *
+     * @param Quote|null $quote
+     * @param bool $hasBeenCollectedStatus
+     * @return array
+     * @throws LocalizedException
+     */
+    public function getSortedCollectableRewardUUIDs(?Quote $quote = null, bool $hasBeenCollectedStatus = false): array
+    {
+        $quote = $quote ?? $this->getQuote();
+        if (!$quote->getCustomerId()) {
+            return [];
+        }
+
+        $customerId = $quote->getCustomerId();
+        if (!isset($this->collectableRewardsCache[$customerId])) {
+            /** @var DigitalRewardReception|PhysicalRewardReception[] $collectableRewards */
+            $collectableRewards = $this->rewardResource->getCollectableRewards($quote->getCustomerId());
+            $result = [];
+            foreach ($collectableRewards as $collectableReward) {
+                if ($collectableReward->hasBeenCollected() !== $hasBeenCollectedStatus) {
+                    continue;
+                }
+
+                $result[$collectableReward->getReward()->getUuid()][] = $collectableReward->getUuid();
+            }
+
+            $this->collectableRewardsCache[$customerId] = $result;
+        }
+
+
+        return $this->collectableRewardsCache[$customerId];
+    }
+
+    /**
+     * Save applied coupons to quote
+     *
+     * @param Quote $quote
+     * @param array $appliedCoupons
+     * @throws \Exception
+     */
+    protected function saveAppliedCoupons(Quote $quote, array $appliedCoupons): void
+    {
+        try {
+            $appliedCouponsString = $this->json->serialize($appliedCoupons);
+            $quote->setData('leat_loyalty_applied_coupons', $appliedCouponsString);
+
+            if (empty($quote->getItems())) {
+                $this->emptyCartGiftManager->checkForApplicableGifts($quote);
+            }
+
+            $this->cartRepository->save($quote);
+        } catch (\Exception $e) {
+            $this->rewardResource->getLogger()->log(
+                sprintf('Error saving applied coupons: %s', $e->getMessage()),
+            );
+            throw $e;
         }
     }
 
@@ -201,103 +338,28 @@ class AppliedCouponsManager
         }
     }
 
-
-    /**
-     * Get applied coupons (loyalty transaction UUIDs) from quote
-     *
-     * @param Quote $quote
-     * @return array
-     */
-    protected function getAppliedCoupons(Quote $quote): array
-    {
-        $appliedCouponsString = $quote->getData('leat_loyalty_applied_coupons');
-        if (!$appliedCouponsString) {
-            return [];
-        }
-
-        try {
-            $appliedCoupons = $this->json->unserialize($appliedCouponsString);
-            if (!is_array($appliedCoupons)) {
-                return [];
-            }
-
-            return $appliedCoupons;
-        } catch (\Exception $e) {
-            $this->rewardResource->getLogger()->log(
-                sprintf('Error unserializing applied coupons: %s', $e->getMessage())
-            );
-            return [];
-        }
-    }
-
-
-    /**
-     * Get the current active quote
-     *
-     * @return Quote|null
-     * @throws NoSuchEntityException
-     */
-    protected function getQuote(): ?Quote
-    {
-        try {
-            if (!$this->customerSession->isLoggedIn()) {
-                return null;
-            }
-
-            return $this->checkoutSession->getQuote();
-        } catch (NoSuchEntityException $e) {
-            $this->rewardResource->getLogger()->log(
-                sprintf('Error getting quote: %s', $e->getMessage())
-            );
-            return null;
-        }
-    }
-
-    /**
-     * Save applied coupons to quote
-     *
-     * @param Quote $quote
-     * @param array $appliedCoupons
-     * @throws \Exception
-     */
-    protected function saveAppliedCoupons(Quote $quote, array $appliedCoupons): void
-    {
-        try {
-            $appliedCouponsString = $this->json->serialize($appliedCoupons);
-            $quote->setData('leat_loyalty_applied_coupons', $appliedCouponsString);
-
-            if (empty($quote->getItems())) {
-                $this->emptyCartGiftManager->checkForApplicableGifts($quote);
-            }
-
-            $this->cartRepository->save($quote);
-        } catch (\Exception $e) {
-            $this->rewardResource->getLogger()->log(
-                sprintf('Error saving applied coupons: %s', $e->getMessage()),
-            );
-            throw $e;
-        }
-    }
-
     /**
      * Process the applied coupons as collected
      *
      * @param Quote $quote
      * @return void
      */
-    public function markCouponsAsCollected(Quote $quote): void
+    public function markCouponsAsCollected(Quote $quote): array
     {
         $appliedCoupons = $this->getAppliedCoupons($quote);
+        $result = [];
         foreach ($appliedCoupons as $rewardUUID => $loyaltyTransactions) {
             foreach ($loyaltyTransactions as $appliedCoupon) {
                 try {
-                    $this->rewardResource->collectCollectableReward($appliedCoupon);
+                    $response = $this->rewardResource->collectCollectableReward($appliedCoupon);
                     $this->rewardResource->getLogger()->log(sprintf(
-                        'Marked coupon (Loyalty Transaction UUID: %s) as used, for customer with id: %s',
+                        'Marked coupon (Loyalty Transaction UUID: %s) as used, for customer with id: %s. Response UUID: %s',
                         $appliedCoupon,
-                        (string) $quote->getCustomerId()
+                        (string)$quote->getCustomerId(),
+                        $response->getUuid()
                     ));
-                } catch (\Exception $e) {
+                    $result[$rewardUUID][] = $response->getUuid();
+                } catch (\Throwable $e) {
                     $this->rewardResource->getLogger('reward_error')->log(sprintf(
                         'Error marking coupon (Loyalty Transaction UUID: %s) as used: %s',
                         $appliedCoupon,
@@ -306,59 +368,7 @@ class AppliedCouponsManager
                 }
             }
         }
-    }
 
-    /**
-     * Returns an array of collectable reward UUIDs for the current customer
-     *
-     * @param Quote|null $quote
-     * @param bool $hasBeenCollectedStatus
-     * @return array
-     * @throws LocalizedException
-     */
-    public function getSortedCollectableRewardUUIDs(Quote $quote = null, bool $hasBeenCollectedStatus = false): array
-    {
-        $quote = $quote ?? $this->getQuote();
-        if (!$quote->getCustomerId()) {
-            return [];
-        }
-
-        $customerId = $quote->getCustomerId();
-        if (!isset($this->collectableRewardsCache[$customerId])) {
-            /** @var DigitalRewardReception|PhysicalRewardReception[] $collectableRewards */
-            $collectableRewards = $this->rewardResource->getCollectableRewards($quote->getCustomerId());
-            $result = [];
-            foreach ($collectableRewards as $collectableReward) {
-                if ($collectableReward->hasBeenCollected() !== $hasBeenCollectedStatus) {
-                    continue;
-                }
-
-                $result[$collectableReward->getReward()->getUuid()][] = $collectableReward->getUuid();
-            }
-
-            $this->collectableRewardsCache[$customerId] = $result;
-        }
-
-
-        return $this->collectableRewardsCache[$customerId];
-    }
-
-    /**
-     * @param $loyaltyTransactionUUID
-     * @param Quote|null $quote
-     * @return string|null
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
-     */
-    public function getRewardUUIDForLoyaltyTransactionUUID($loyaltyTransactionUUID, Quote $quote = null): ?string
-    {
-        $collectableRewardUUIDs = $this->getSortedCollectableRewardUUIDs($quote ?? $this->getQuote());
-        foreach ($collectableRewardUUIDs as $rewardUUID => $loyaltyTransactionUUIDs) {
-            if (in_array($loyaltyTransactionUUID, $loyaltyTransactionUUIDs)) {
-                return $rewardUUID;
-            }
-        }
-
-        return null;
+        return $result;
     }
 }

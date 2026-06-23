@@ -235,7 +235,7 @@ class GiftcardResource extends AbstractLeatResource
     public function sendGiftcardEmail(
         string $giftcardUUID,
         string $contactUUID,
-        string $emailUUID = null,
+        ?string $emailUUID = null,
         array $mergeTags = [],
         ?int $storeId = null
     ) {

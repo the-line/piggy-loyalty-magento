@@ -78,7 +78,7 @@ class ContactResource extends AbstractLeatResource
      * @return Contact
      * @throws LocalizedException
      */
-    public function createOrFindContact(string $email, int $customerId = null, ?int $storeId = null): Contact
+    public function createOrFindContact(string $email, ?int $customerId = null, ?int $storeId = null): Contact
     {
         return $this->executeApiRequest(
             function () use ($email, $customerId, $storeId) {

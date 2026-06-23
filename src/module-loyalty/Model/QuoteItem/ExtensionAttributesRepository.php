@@ -76,6 +76,27 @@ class ExtensionAttributesRepository
     }
 
     /**
+     * Retrieve extension attributes list by quote ID
+     *
+     * @param int $quoteId
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getListByQuoteId(int $quoteId): array
+    {
+        $extensionAttributesList = [];
+        $dataList = $this->resource->getByQuoteId($quoteId);
+
+        foreach ($dataList as $data) {
+            $extensionAttributes = $this->extensionAttributesFactory->create();
+            $extensionAttributes->setData($data);
+            $extensionAttributesList[] = $extensionAttributes;
+        }
+
+        return $extensionAttributesList;
+    }
+
+    /**
      * Delete extension attributes
      *
      * @param ExtensionAttributes $extensionAttributes

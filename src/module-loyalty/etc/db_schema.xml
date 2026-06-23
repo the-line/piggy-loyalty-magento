@@ -8,15 +8,29 @@
         <column xsi:type="decimal" name="leat_loyalty_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount refunded"/>
         <column xsi:type="varchar" name="leat_loyalty_prepaid_transaction_uuid" length="36" nullable="true" comment="Leat prepaid transaction UUID"/>
         <column xsi:type="decimal" name="leat_loyalty_giftcard_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat giftcard amount refunded"/>
+        <column xsi:type="text" name="leat_loyalty_applied_coupons" nullable="true" comment="Leat applied loyalty coupons JSON"/>
+
+        <!--    Split Discount columns    -->
+        <column xsi:type="text" name="discount_description_array" nullable="true" comment="applied discount descriptions"/>
+        <column xsi:type="text" name="discount_amount_array" nullable="true" comment="applied discount amounts"/>
+        <column xsi:type="text" name="base_discount_amount_array" nullable="true" comment="applied base discount amounts"/>
     </table>
     <table name="sales_order_item">
         <column xsi:type="boolean" name="giftcard_exported_to_leat" nullable="false" default="0" comment="Giftcard has been exported to leat"/>
         <column xsi:type="timestamp" name="giftcard_exported_to_leat_at" nullable="true" comment="Giftcard has been exported to leat at"/>
+        <column xsi:type="varchar" name="leat_giftcard_object_uuid" length="36" nullable="true" comment="Leat giftcard transaction UUID"/>
     </table>
     <table name="quote">
         <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount used"/>
+
+        <!--    Split Discount columns    -->
+        <column xsi:type="text" name="discount_description_array" nullable="true" comment="applied discount descriptions"/>
+        <column xsi:type="text" name="discount_amount_array" nullable="true" comment="applied discount amounts"/>
+        <column xsi:type="text" name="base_discount_amount_array" nullable="true" comment="applied base discount amounts"/>
     </table>
     <table name="sales_creditmemo">
+        <column xsi:type="boolean" name="exported_to_leat" nullable="false" default="0" comment="Return has been exported to Leat"/>
+        <column xsi:type="timestamp" name="exported_to_leat_at" nullable="true" comment="Return has been exported to Leat at"/>
         <column xsi:type="decimal" name="leat_loyalty_balance_amount" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount to refund"/>
         <column xsi:type="decimal" name="leat_loyalty_balance_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat prepaid balance amount refunded"/>
         <column xsi:type="decimal" name="leat_loyalty_giftcard_refunded" scale="4" precision="12" nullable="true" default="0" comment="Leat giftcard amount refunded"/>

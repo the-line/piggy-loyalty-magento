@@ -57,7 +57,7 @@ class Connector extends AbstractConnector
      * @throws AuthenticationException
      * @throws NoSuchEntityException
      */
-    public function getConnection(int $storeId = null, bool $test = false): Client
+    public function getConnection(?int $storeId = null, bool $test = false): Client
     {
         $storeId = $storeId ?? $this->getCurrentStoreId();
         if (!isset($this->clients[$storeId])) {

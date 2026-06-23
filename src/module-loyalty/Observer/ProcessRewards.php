@@ -7,28 +7,27 @@ namespace Leat\Loyalty\Observer;
 use Leat\Loyalty\Model\AppliedCouponsManager;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
+use Magento\Sales\Api\OrderRepositoryInterface;
 
 class ProcessRewards implements ObserverInterface
 {
-    /**
-     * @param AppliedCouponsManager $appliedCouponsManager
-     */
     public function __construct(
-        protected AppliedCouponsManager $appliedCouponsManager
+        protected AppliedCouponsManager $appliedCouponsManager,
+        protected OrderRepositoryInterface $orderRepository
     ) {
     }
 
-    /**
-     * Observer for checkout_submit_all_after
-     *
-     * @param Observer $observer
-     * @return void
-     */
     public function execute(Observer $observer)
     {
         $event = $observer->getEvent();
         $quote = $event->getData('quote');
+        $order = $event->getData('order');
 
-        $this->appliedCouponsManager->markCouponsAsCollected($quote);
+        $response = $this->appliedCouponsManager->markCouponsAsCollected($quote);
+
+        if ($response && !empty($response)) {
+            $order->setData('leat_loyalty_applied_coupons', json_encode($response));
+            $this->orderRepository->save($order);
+        }
     }
 }

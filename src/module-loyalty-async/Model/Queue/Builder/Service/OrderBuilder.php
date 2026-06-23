@@ -18,6 +18,9 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
 
+/**
+ * @deprecated - see Leat\LoyaltyAsync\Model\Queue\Builder\Service\OrderApiBuilder.
+ */
 class OrderBuilder
 {
     public function __construct(

@@ -52,9 +52,12 @@ class RuleSavePlugin
 
             // Get gift_skus value from model and extension attributes
             $giftSkus = $result->getData('gift_skus');
+            $conditions = $result->getConditions()->asArray();
+            $rewardUUID = $this->getConditionsRewardUUID($conditions);
 
             // Set value on extension attributes
             $extensionAttributes->setGiftSkus($giftSkus);
+            $extensionAttributes->setRewardUUID($rewardUUID);
 
             $this->extensionRepository->save($extensionAttributes);
         } catch (\Exception $e) {
@@ -62,5 +65,29 @@ class RuleSavePlugin
         }
 
         return $result;
+    }
+
+    /**
+     * Recursively search for the reward UUID in the conditions array
+     *
+     * @param array $conditions
+     * @return string|null
+     */
+    protected function getConditionsRewardUUID(array $conditions): ?string
+    {
+        $rewardUUID = null;
+        foreach ($conditions['conditions'] as $subCondition) {
+            if (isset($subCondition['conditions']) && is_array($subCondition['conditions'])) {
+                return $this->getConditionsRewardUUID($subCondition);
+            }
+
+            if ($subCondition['type'] !== \Leat\LoyaltyAdminUI\Model\Rule\Condition\Reward::class) {
+                continue;
+            }
+
+            $rewardUUID = implode(',', $subCondition['value']);
+        }
+
+        return $rewardUUID;
     }
 }

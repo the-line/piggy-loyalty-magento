@@ -31,6 +31,31 @@ The LeatAdminUI module provides admin interfaces and backend functionality for t
 - Clear status reporting with appropriate styling based on connection state
 - Store-specific configuration support
 
+### Config Source: OrderExport
+`Model/Config/Source/OrderExport` provides the order export mode dropdown:
+
+| Value | Label | Constant |
+|-------|-------|----------|
+| `0` | Disabled | `DISABLED` |
+| `2` | Enabled \| Order API | `ENABLED` |
+| `1` | Enabled \| Legacy Transaction-based | `ENABLED_LEGACY` |
+
+Used by `Leat\Loyalty\Model\Config::getIsOrderExportEnabled()` and `getIsLegacyOrderExportEnabled()`.
+
+### Data Export Status Blocks
+
+Sync status widgets rendered in the admin system config panel via `AbstractStatus`:
+
+- **Ping** (`Status/Ping`) - Live API connection check
+- **Attribute** (`Status/Attribute`) - Validates required Leat attributes exist
+- **Category** (`Status/Category`) - Shows last category export run time and result, sourced from the
+  `leat_category_export_last_run_{shopUUID}` flag written by `LoyaltyAsync\Cron\Data\CategoryExport`
+- **Product** (`Status/Product`) - Shows last product export run time and result, sourced from the
+  `leat_product_export_last_run_{shopUUID}` flag written by `LoyaltyAsync\Cron\Data\ProductExport`
+
+All status blocks display a neutral "Awaiting first sync..." message before the first cron run, a "Sync in progress..."
+notice during active execution, and either a timestamped success or error message afterwards.
+
 ### Coupon Usage Plugin
 
 #### UsagePlugin for SalesRule Coupon

@@ -68,6 +68,26 @@ class ExtensionAttributes extends AbstractDb
     }
 
     /**
+     * @param int $quoteId
+     * @return array|null
+     * @throws LocalizedException
+     */
+    public function getByQuoteId(int $quoteId): ?array
+    {
+        $connection = $this->getConnection();
+        $select = $connection->select()
+            ->from(['main_table' => $this->getMainTable()])
+            ->joinInner(
+                ['qi' => $this->getTable('quote_item')],
+                'main_table.item_id = qi.item_id',
+                []
+            )
+            ->where('qi.quote_id = ?', $quoteId);
+
+        return $connection->fetchAll($select);
+    }
+
+    /**
      * Delete extension attributes by item ID
      *
      * @param int $itemId

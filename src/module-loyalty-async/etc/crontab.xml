@@ -8,11 +8,23 @@
             <!--      Every minute      -->
             <schedule>*/1 * * * *</schedule>
         </job>
+        <job name="leat_loyalty_sync_returns" instance="Leat\LoyaltyAsync\Cron\Order\ReturnExport"
+             method="execute">
+            <!--      Every minute      -->
+            <schedule>*/1 * * * *</schedule>
+        </job>
         <job name="leat_loyalty_sync_giftcard_purchase" instance="Leat\LoyaltyAsync\Cron\Order\GiftcardProductExport"
              method="execute">
             <!--      Every five minutes      -->
             <schedule>*/5 * * * *</schedule>
         </job>
+        <job name="leat_loyalty_sync_categories_and_products" instance="Leat\LoyaltyAsync\Cron\Data\DataExport" method="execute">
+            <!--      Every minute - Restricted to once every week in code, or upon sync in admin      -->
+            <schedule>*/1 * * * *</schedule>
+        </job>
+
+        <job name="leat_loyalty_sync_products" instance="Leat\LoyaltyAsync\Cron\Data\ProductExport" method="execute"/>
+        <job name="leat_loyalty_sync_categories" instance="Leat\LoyaltyAsync\Cron\Data\CategoryExport" method="execute"/>
     </group>
     <group id="leat_async_queue">
         <job name="leat_loyalty_queue_alert" instance="Leat\LoyaltyAsync\Cron\QueueAlert"

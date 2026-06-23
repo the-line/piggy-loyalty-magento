@@ -96,7 +96,9 @@ All interactions with the Leat API should follow a layered architecture:
 - Credit
   - Transaction - Records credit transactions
 - Order
-  - OrderItemTransaction - Processes order items credit calculations
+  - `Contact\Order\CreateAndProcess` - Submits a full order payload to the Leat Order API
+  - `Contact\Order\Return\CreateAndProcess` - Submits a return (credit memo) payload to the Leat Returns API
+  - OrderItemTransaction - Processes order items credit calculations (legacy mode)
 
 ## Service Layer
 
@@ -111,14 +113,29 @@ All interactions with the Leat API should follow a layered architecture:
 ### Builder Services
 
 - ContactBuilder - Handles contact creation and updates
-- OrderBuilder - Manages order synchronization
+- OrderBuilder - Manages order synchronization (legacy transaction mode)
+- **OrderApiBuilder** (`Builder/Service/OrderApiBuilder`) - Builds full order payloads for the Leat Order API.
+  Resolves customer contact UUID, shop UUID, line items, discounts, charges, payments, and timestamps.
+  Used by `Cron/Order/OrderExport` when Order API mode is enabled.
+- **ReturnApiBuilder** (`Builder/Service/ReturnApiBuilder`) - Extends `OrderApiBuilder`. Builds return payloads from
+  Magento credit memos, including return line items, positive adjustments, return-level discounts, and
+  shipping/tax charges. Used by `Cron/Order/ReturnExport`.
 - RewardBuilder - Handles reward operations (redeeming, crediting)
 
 ## Cron Jobs
 
 The module provides several scheduled tasks:
-- OrderExport - Exports new orders to Leat
+- **OrderExport** (`Cron/Order/OrderExport`) - Exports new orders to Leat. When Order API mode is enabled, uses
+  `OrderApiBuilder` to submit full order payloads. Falls back to legacy per-item transactions when legacy mode is on.
+- **ReturnExport** (`Cron/Order/ReturnExport`) - Exports credit memos as returns to Leat. Processes credit memos
+  created within a 6-hour window (`CREDITMEMO_RETRIEVAL_CUTOFF`), skips memos whose parent order was not exported
+  to Leat, and marks each processed memo with `exported_to_leat = true`. Uses `ReturnApiBuilder`.
 - ContactUpdate - Updates contact information
 - CreditFalloff - Manages credit expiration logic
+- CategoryExport (`Cron/Data/CategoryExport`) - Exports Magento categories to Leat in batches of 250. Tracks last
+  successful run per shop UUID via `FlagManager` (`leat_category_export_last_run_{shopUUID}`). Full re-export once per
+  week; incremental updates on subsequent runs.
+- ProductExport (`Cron/Data/ProductExport`) - Exports Magento catalog products to Leat in batches of 100. Same
+  flag-based tracking pattern as CategoryExport (`leat_product_export_last_run_{shopUUID}`).
 
 Following these guidelines ensures consistent implementation, proper error handling, and traceable operations throughout the Leat integration.

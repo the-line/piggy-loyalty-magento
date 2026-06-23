@@ -22,6 +22,7 @@ use Leat\Loyalty\Model\Transaction\LoyaltyTransactionHash;
 use Leat\Loyalty\Model\Transaction\LoyaltyTransactionOrderItems;
 use Leat\LoyaltyAsync\Model\Connector\AsyncConnector;
 use Leat\LoyaltyAsync\Model\Queue\Type\Contact\Credit\Transaction;
+use Magento\Sales\Api\OrderItemRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class GiftcardTransaction extends Transaction
@@ -35,6 +36,7 @@ class GiftcardTransaction extends Transaction
     public const string GIFTCARD_IS_NOT_UPGRADEABLE_ERROR = 'giftcard is not upgradeable';
 
     public function __construct(
+        protected OrderItemRepositoryInterface $orderItemRepository,
         protected GiftcardResource $giftcardResource,
         protected GiftcardHelper $giftcardHelper,
         protected GiftcardTransactionHash $giftcardTransactionHash,
@@ -83,6 +85,8 @@ class GiftcardTransaction extends Transaction
             return null;
         }
 
+        $this->saveGiftcardObjectUuid($this->getData(self::DATA_ORDER_ITEM_ID_KEY));
+
         $result = null;
         try {
             $result = $this->giftcardResource->createGiftcardTransaction(
@@ -95,6 +99,12 @@ class GiftcardTransaction extends Transaction
                 ],
                 $this->getData($this->getStoreId())
             );
+            $this->getLogger('giftcard-transaction')->log(sprintf(
+                'Created giftcard transaction | giftcard uuid: %s | amount: %s | transaction hash: %s',
+                $this->getData(self::DATA_GIFTCARD_UUID_KEY),
+                $this->getData(self::DATA_AMOUNT_KEY),
+                $this->getRequest()->getTransactionHash()
+            ));
         } catch (\Exception $e) {
             $this->getLogger('giftcard-transaction')->log(sprintf(
                 'Error creating giftcard transaction | %s | %s',
@@ -109,6 +119,31 @@ class GiftcardTransaction extends Transaction
         }
 
         return $result;
+    }
+
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    protected function saveGiftcardObjectUuid($orderItemId): void
+    {
+        try {
+            if ($orderItemId) {
+                $orderItem = $this->orderItemRepository->get($orderItemId);
+                $orderItem->setData('leat_giftcard_object_uuid', $this->getData(self::DATA_GIFTCARD_UUID_KEY));
+                $this->orderItemRepository->save($orderItem);
+
+                if ($orderItem->getParentItemId()) {
+                    $this->saveGiftcardObjectUuid($orderItem->getParentItemId());
+                }
+            }
+        } catch (\Exception $e) {
+            $this->getLogger('giftcard-transaction')->log(sprintf(
+                'Error saving giftcard UUID to order item | %s | %s',
+                $e->getMessage(),
+                $e->getTraceAsString()
+            ));
+        }
     }
 
     /**

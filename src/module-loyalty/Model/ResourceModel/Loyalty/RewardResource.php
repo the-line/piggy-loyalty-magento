@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Leat\Loyalty\Model\ResourceModel\Loyalty;
 
 use Magento\Framework\Exception\LocalizedException;
+use Piggy\Api\Models\Loyalty\Rewards\CollectableRewardRedemption;
 use Piggy\Api\Models\Loyalty\Rewards\Reward;
 use Piggy\Api\Models\Loyalty\Rewards\CollectableReward;
 
@@ -135,10 +136,10 @@ class RewardResource extends AbstractLeatResource
      *
      * @param string $loyaltyTransactionUUID
      * @param int|null $storeId
-     * @return CollectableReward
+     * @return CollectableRewardRedemption
      * @throws LocalizedException
      */
-    public function collectCollectableReward(string $loyaltyTransactionUUID, ?int $storeId = null): CollectableReward
+    public function collectCollectableReward(string $loyaltyTransactionUUID, ?int $storeId = null): CollectableRewardRedemption
     {
         return $this->executeApiRequest(
             function () use ($loyaltyTransactionUUID, $storeId) {

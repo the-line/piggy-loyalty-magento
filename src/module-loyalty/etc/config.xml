@@ -11,6 +11,11 @@
             <credits>
                 <label>Credits</label>
             </credits>
+            <order>
+                <order_export_enabled>0</order_export_enabled>
+                <include_tax_as_charge>1</include_tax_as_charge>
+                <include_shipping_as_charge>1</include_shipping_as_charge>
+            </order>
             <prepaid_balance>
                 <enabled>1</enabled>
                 <title>Use Your Prepaid Balance</title>

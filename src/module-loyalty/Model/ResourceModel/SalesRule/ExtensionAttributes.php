@@ -43,7 +43,7 @@ class ExtensionAttributes extends AbstractDb
         $connection = $this->getConnection();
         $select = $connection->select()
             ->from($this->getMainTable(), ['rule_id'])
-            ->where('reward_uuid = ?', $rewardUuid);
+            ->where('reward_uuid LIKE ?', "%{$rewardUuid}%");
 
         $ruleId = $connection->fetchOne($select);
         return $ruleId ? (int)$ruleId : null;

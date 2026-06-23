@@ -49,6 +49,11 @@ abstract class AbstractLeatResource
      */
     protected ?int $currentCustomerId = null;
 
+    /**
+     * @var array<string, Contact|null>
+     */
+    private array $customerContacts = [];
+
     public function __construct(
         protected Config $config,
         protected Connector $connector,
@@ -78,7 +83,7 @@ abstract class AbstractLeatResource
      * @param string|null $purpose
      * @return Logger
      */
-    public function getLogger(string $purpose = null): Logger
+    public function getLogger(?string $purpose = null): Logger
     {
         return $this->connector->getLogger($purpose ?? static::LOGGER_PURPOSE);
     }
@@ -132,10 +137,19 @@ abstract class AbstractLeatResource
                 return null;
             }
 
-            $contactUuid = $this->getContactUuid((int) $customer->getId());
-            $storeId = $storeId ?? (int) $customer->getStoreId();
+            $resolvedStoreId = $storeId ?? (int) $customer->getStoreId();
+            $cacheKey = $customer->getId() . '_' . $resolvedStoreId;
 
-            return $this->getClient($storeId)->contacts->get($contactUuid);
+            if (array_key_exists($cacheKey, $this->customerContacts)) {
+                return $this->customerContacts[$cacheKey];
+            }
+
+            $contactUuid = $this->getContactUuid((int) $customer->getId());
+            $contact = $this->getClient($resolvedStoreId)->contacts->get($contactUuid);
+
+            $this->customerContacts[$cacheKey] = $contact;
+
+            return $contact;
         } catch (\Throwable $exception) {
             $this->getLogger()->debug(
                 $exception->getMessage() . PHP_EOL . $exception->getTraceAsString()
