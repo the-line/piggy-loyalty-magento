@@ -74,7 +74,7 @@ class GiftcardItemOrderOptions
      * @param string|null $code The option code to retrieve
      * @return mixed The result of the original method
      */
-    public function aroundGetProductOptionByCode(Item $subject, callable $proceed, string $code = null): mixed
+    public function aroundGetProductOptionByCode(Item $subject, callable $proceed, ?string $code = null): mixed
     {
         // Set flag to prevent our afterGetProductOptions from processing during this call
         $this->isProcessing = true;

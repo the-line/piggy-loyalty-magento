@@ -31,7 +31,7 @@ class LoyaltyTransactionOrderItems extends AbstractTransactions
      * @throws AuthenticationException
      * @throws PiggyRequestException
      */
-    public function getTransactions(array $data = [], callable $callback = null): array
+    public function getTransactions(array $data = [], ?callable $callback = null): array
     {
         return parent::getTransactions($data, $callback ?? static::getTransactionFilter());
     }

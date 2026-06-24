@@ -77,7 +77,7 @@ class JobBuilder
      * @param string|null $relationId
      * @return $this
      */
-    public function newJob(string $relationId = null, int $storeId = null, string $sourceId = null): self
+    public function newJob(?string $relationId = null, ?int $storeId = null, ?string $sourceId = null): self
     {
         $this->reset();
 

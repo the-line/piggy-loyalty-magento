@@ -63,7 +63,7 @@ abstract class GenericType extends DataObject implements TypeInterface
      * @param Request|null $request
      * @return $this
      */
-    public function beforeExecute(?Job $job = null, Request $request = null): static
+    public function beforeExecute(?Job $job = null, ?Request $request = null): static
     {
         $this->setData('job', $job);
         $this->setData('request', $request);

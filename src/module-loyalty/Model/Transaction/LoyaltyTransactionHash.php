@@ -26,7 +26,7 @@ class LoyaltyTransactionHash extends LoyaltyTransactionOrderItems
      * @throws \Magento\Framework\Exception\AuthenticationException
      * @throws \Piggy\Api\Exceptions\PiggyRequestException
      */
-    public function getTransactions(array $data = [], callable $callback = null, $transactionType = null): array
+    public function getTransactions(array $data = [], ?callable $callback = null, $transactionType = null): array
     {
         return parent::getTransactions($data, $callback ?? static::getTransactionFilter());
     }

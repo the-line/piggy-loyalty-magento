@@ -11,7 +11,7 @@ interface ConnectorInterface
      *
      * @return mixed
      */
-    public function getConnection(int $storeId = null): mixed;
+    public function getConnection(?int $storeId = null): mixed;
 
     /**
      * Retrieve a logger instance to use for logging when using this connector

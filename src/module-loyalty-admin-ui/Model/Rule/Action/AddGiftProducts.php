@@ -25,7 +25,7 @@ class AddGiftProducts extends AbstractAction
     public function __construct(
         Repository $assetRepo,
         LayoutInterface $layout,
-        \Magento\Catalog\Model\ProductRepository $productRepository = null,
+        ?\Magento\Catalog\Model\ProductRepository $productRepository = null,
         array $data = []
     ) {
         parent::__construct($assetRepo, $layout, $data);

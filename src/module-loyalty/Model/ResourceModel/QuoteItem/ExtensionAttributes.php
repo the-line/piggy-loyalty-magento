@@ -21,7 +21,7 @@ class ExtensionAttributes extends AbstractDb
     public function __construct(
         private Connector $leatConnector,
         \Magento\Framework\Model\ResourceModel\Db\Context $context,
-        string $connectionName = null
+        ?string $connectionName = null
     ) {
         parent::__construct($context, $connectionName);
     }

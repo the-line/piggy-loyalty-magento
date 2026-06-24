@@ -78,7 +78,7 @@ abstract class AbstractConnector implements ConnectorInterface
      * @return mixed
      * @throws AuthenticationException
      */
-    abstract public function getConnection(int $storeId = null): mixed;
+    abstract public function getConnection(?int $storeId = null): mixed;
 
     /**
      * Get a logger for a specific purpose.

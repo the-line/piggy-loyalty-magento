@@ -65,7 +65,7 @@ abstract class LeatGenericType extends GenericType
      * @return Logger
      * @throws Exception
      */
-    protected function getLogger(string $purpose = null): Logger
+    protected function getLogger(?string $purpose = null): Logger
     {
         return $this->getConnector()->getLogger(($purpose ?? static::LOGGER_PURPOSE) ?? null);
     }

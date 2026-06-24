@@ -47,8 +47,8 @@ class Job extends AbstractModel implements JobInterface
         Registry $registry,
         RequestCollectionFactory $requestCollectionFactory,
         CustomerRepositoryInterface $customerRepository,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
+        ?AbstractResource $resource = null,
+        ?AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(

@@ -43,7 +43,7 @@ class GiftcardTransactionHash extends GiftcardProgramTransactionHash
      * @throws PiggyRequestException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getTransactions(array $data = [], callable $callback = null): array
+    public function getTransactions(array $data = [], ?callable $callback = null): array
     {
         $giftcardUuid = $data[GiftcardTransaction::DATA_GIFTCARD_UUID_KEY] ?? null;
         $giftcardHash = $data[GiftcardTransaction::DATA_GIFTCARD_HASH_KEY] ?? null;

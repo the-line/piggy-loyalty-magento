@@ -78,7 +78,7 @@ abstract class AbstractTransactions
      * @throws \Magento\Framework\Exception\AuthenticationException
      * @throws \Loyalty\Api\Exceptions\LoyaltyRequestException
      */
-    public function getTransactions(array $data = [], callable $callback = null): array
+    public function getTransactions(array $data = [], ?callable $callback = null): array
     {
         $page = 1;
         $transactions = [];

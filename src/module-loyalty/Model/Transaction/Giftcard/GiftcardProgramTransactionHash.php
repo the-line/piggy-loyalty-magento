@@ -40,7 +40,7 @@ class GiftcardProgramTransactionHash extends AbstractTransactions
      * @throws \Magento\Framework\Exception\AuthenticationException
      * @throws \Piggy\Api\Exceptions\PiggyRequestException
      */
-    public function getTransactions(array $data = [], callable $callback = null): array
+    public function getTransactions(array $data = [], ?callable $callback = null): array
     {
         try {
             return parent::getTransactions($data, $callback ?? static::getTransactionFilter());
@@ -61,7 +61,7 @@ class GiftcardProgramTransactionHash extends AbstractTransactions
      * @param string|null $giftcardUUID - For filtering transactions by giftcard hash
      * @return callable
      */
-    protected static function getTransactionFilter(string $giftcardUUID = null): callable
+    protected static function getTransactionFilter(?string $giftcardUUID = null): callable
     {
         return function (array $transactions) use ($giftcardUUID) {
             $mappedTransactions = [];

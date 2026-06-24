@@ -32,8 +32,8 @@ class Request extends AbstractModel implements RequestInterface
         Context $context,
         Registry $registry,
         Json $jsonSerialzer,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
+        ?AbstractResource $resource = null,
+        ?AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct(

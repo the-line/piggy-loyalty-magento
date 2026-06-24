@@ -31,7 +31,7 @@ abstract class ContactType extends LeatGenericType
      * @throws LocalizedException
      * @throws NoContactException
      */
-    public function beforeExecute(Job $job = null, Request $request = null): static
+    public function beforeExecute(?Job $job = null, ?Request $request = null): static
     {
         if (isset($job) && !$this->isRequestCustomerValid($job, $request)) {
             throw new LocalizedException(__("Customer id Contact UUID or is missing"));

@@ -20,7 +20,7 @@ interface TypeInterface
      * @param Request|null $request
      * @return $this
      */
-    public function beforeExecute(Job $job = null, Request $request = null): static;
+    public function beforeExecute(?Job $job = null, ?Request $request = null): static;
 
     /**
      * @return $this
